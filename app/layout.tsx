@@ -14,14 +14,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="flex min-h-screen flex-col bg-white text-slate-900 antialiased">
+    <html lang="en" suppressHydrationWarning>
+      <body style={{ margin: 0, padding: 0, height: '100%' }} className="antialiased">
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          
           <Header />
+          
           <main style={{ flex: '1 0 auto' }}>
             {children}
           </main>
+          
           <Footer />
+          
         </div>
       </body>
     </html>

@@ -41,7 +41,7 @@ export default function Header() {
         <div className="wrap bar">
           <Link href="/" className="brand">
           <img 
-          src={isScrolled || !isHomePage ? 'image/Asset 2.png' : 'image/Asset 4.png'} 
+          src={isScrolled || !isHomePage ? 'image/ginnva-logo-red.webp' : 'image/ginnva-logo-white.webp'} 
           alt="Ginnva Logo" className="logo-main" 
           />
           </Link>

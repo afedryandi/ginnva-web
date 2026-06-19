@@ -1,6 +1,6 @@
 // config/site.ts
 
-export const MALL_URL = 'https://m.tb.cn/h.SA26AsFscKLjh8b';
+export const MALL_URL = '';
 
 export interface ProductItem {
   id: string;
@@ -15,7 +15,7 @@ export interface ProductItem {
 export const GINNVA_PRODUCTS: ProductItem[] = [
   {
     id: '1',
-    name: 'Kaca Film Insulasi',
+    name: 'Car Window Film',
     sub: 'WINDOW INSULATION FILM',
     text: 'Penolak panas tinggi dengan kejernihan optimal. Seri Ziwei 70 efektif menahan inframerah dan ultraviolet, menjaga visibilitas sekaligus privasi dan kenyamanan kabin.',
     long: 'Seri kaca film insulasi Ziwei 70 menggunakan proses magnetron sputtering berlapis. Lapisan komposit logam dan keramik memberikan penolakan inframerah yang unggul serta tingkat tembus cahaya yang tinggi, menahan ultraviolet secara jangka panjang, melindungi penumpang, sekaligus menjaga visibilitas jernih dan sinyal yang stabil.',
@@ -40,7 +40,7 @@ export const GINNVA_PRODUCTS: ProductItem[] = [
   },
   {
     id: '3',
-    name: 'Film Ubah Warna Bodi',
+    name: 'Color Change Film',
     sub: 'COLOR CHANGE FILM',
     text: 'Pilihan warna kaya dengan beragam tekstur (doff, gloss, metalik), mudah diaplikasikan dan dirawat, mewujudkan tampilan bodi yang personal dan menyegarkan gaya kendaraan.',
     long: 'Pilihan warna kaya dengan beragam tekstur (doff, gloss, metalik, electroplating), pemasangan menempel sempurna dan mudah dirawat, mewujudkan ubah warna bodi yang personal dan menyegarkan gaya kendaraan, menonjolkan selera unik Anda.',
@@ -52,7 +52,7 @@ export const GINNVA_PRODUCTS: ProductItem[] = [
   },
   {
     id: '4',
-    name: 'Film Bangunan & Rumah',
+    name: 'Architectural Window Film',
     sub: 'ARCHITECTURAL FILM',
     text: 'Solusi menyeluruh berupa insulasi panas, perlindungan UV, dan privasi untuk gedung maupun hunian, meningkatkan kenyamanan dan efisiensi energi.',
     long: 'Solusi menyeluruh berupa insulasi panas, perlindungan UV, keamanan anti-pecah, dan privasi untuk gedung maupun hunian, menurunkan konsumsi pendingin udara secara efektif serta meningkatkan kenyamanan tempat tinggal dan kerja.',
