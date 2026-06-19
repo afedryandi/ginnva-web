@@ -1,41 +1,76 @@
+// components/layout/Footer.tsx
+'use client';
+
+import React from 'react';
 import Link from 'next/link';
+import { GINNVA_PRODUCTS, MALL_URL } from '@/config/site';
 
 export default function Footer() {
+  const SOCIAL_ITEMS = [
+    { img: 'https://www.ginnvafilm.com/uploads/pic/31/3b644b07fc722368f5751c445b883f.png', label: 'Weibo' },
+    { img: 'https://www.ginnvafilm.com/uploads/pic/9c/f9a3aacc7481e18167d8da81d3d918.png', label: 'WeChat' },
+    { img: 'https://www.ginnvafilm.com/uploads/pic/ac/040796a2b1e7e0a95dd3399bfe75ba.png', label: 'Mini Program' },
+    { img: 'https://www.ginnvafilm.com/uploads/pic/e9/0d9d7f0596a95ce19eb6a8773f3d44.png', label: 'Douyin' },
+  ];
+
   return (
-    <footer className="w-full border-t bg-slate-50 text-slate-600">
-      <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-10 md:grid-cols-3">
-        {/* Info PT & Alamat */}
-        <div className="flex flex-col gap-3">
-          <h3 className="text-lg font-bold text-slate-900">PT Ginnva Shield Indonesia</h3>
-          <p className="text-sm leading-relaxed">
-            Grand Slipi Tower, Lantai 5<br />
-            Jl. Letjen S. Parman, Palmerah,<br />
-            Jakarta Barat, DKI Jakarta 11480
-          </p>
+    <footer className="footer" id="site-footer"> {/* .footer dari styles.css */}
+      <div className="wrap">
+        <div className="flink"> {/* .flink dari styles.css */}
+          <span>Tautan mitra:</span>
+          <a href="https://www.smithcn.com/" target="_blank" rel="noopener noreferrer">Jinghua New Material</a>
         </div>
 
-        {/* Navigasi Link Ringkas */}
-        <div className="flex flex-col gap-3">
-          <h4 className="text-sm font-semibold uppercase tracking-wider text-slate-900">Navigation</h4>
-          <nav className="flex flex-col gap-2 text-sm">
-            <Link href="/" className="hover:text-slate-900">Home</Link>
-            <Link href="/warranty" className="hover:text-slate-900">Warranty Check</Link>
-            <Link href="/privacy" className="hover:text-slate-900">Privacy Policy</Link>
-          </nav>
-        </div>
+        <div className="foot-main"> {/* .foot-main dari styles.css */}
+          <div className="foot-col"> {/* .foot-col dari styles.css */}
+            <h5><Link href="/brand">Tentang</Link></h5>
+            <Link href="/brand">Profil Brand</Link>
+            <Link href="/news">Berita</Link>
+            <Link href="/contact">Kontak</Link>
+          </div>
 
-        {/* Sosial Media */}
-        <div className="flex flex-col gap-3">
-          <h4 className="text-sm font-semibold uppercase tracking-wider text-slate-900">Connect With Us</h4>
-          <div className="flex gap-4">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-slate-900">Instagram</a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-slate-900">LinkedIn</a>
+          <div className="foot-col">
+            <h5>Produk</h5>
+            {GINNVA_PRODUCTS.map((p) => (
+              <Link key={p.id} href={`/product?id=${p.id}`}>{p.name}</Link>
+            ))}
+          </div>
+
+          <div className="foot-col">
+            <h5>Layanan</h5>
+            <Link href="/warranty">Cek Garansi</Link>
+            <Link href="/dealers">Lokasi Dealer</Link>
+            <Link href="../ginnva-web/index.html">Sistem Toko</Link>
+            <Link href="/quote">Estimasi Harga</Link>
+          </div>
+
+          <div className="foot-col">
+            <h5>Toko Online</h5>
+            <a href={MALL_URL} target="_blank" rel="noopener noreferrer">Tmall Official Store</a>
+          </div>
+
+          <div className="foot-hot"> {/* .foot-hot dari styles.css */}
+            <div className="l">Hotline Layanan:</div>
+            <div className="n">400-116-1165</div>
+            <div className="foot-social"> {/* .foot-social dari styles.css */}
+              {SOCIAL_ITEMS.map((item, idx) => (
+                <div key={idx} className="qr"> {/* .qr dari styles.css */}
+                  <img src={item.img} alt={item.label} loading="lazy" />
+                  {item.label}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="border-t py-4 text-center text-xs text-slate-400">
-        &copy; {new Date().getFullYear()} PT Ginnva Shield Indonesia. All rights reserved.
+        <div className="foot-bottom"> {/* .foot-bottom dari styles.css */}
+          <span>©2023 Shanghai Jinghua Hengye New Material Co., Ltd.</span>
+          <div className="links"> {/* .links dari styles.css */}
+            <Link href="/contact">Kontak</Link>
+            <Link href="/legal">Pernyataan Hukum</Link>
+            <Link href="/privacy">Kebijakan Privasi</Link>
+          </div>
+        </div>
       </div>
     </footer>
   );

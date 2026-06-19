@@ -1,6 +1,9 @@
+// components/layout/MobileDrawer.tsx
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
+import { NAV_ITEMS } from '@/config/site';
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -9,32 +12,50 @@ interface MobileDrawerProps {
 
 export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
   return (
-    <>
-      {/* Backdrop Overlay */}
-      <div 
-        className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-        onClick={onClose}
-      />
-      
-      {/* Drawer Panel */}
-      <div className={`fixed top-0 right-0 h-full w-64 bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="p-5 flex justify-between items-center border-b">
-          <span className="font-bold text-lg text-slate-800">Menu</span>
-          <button onClick={onClose} className="p-2 text-slate-600 hover:text-slate-900">
-            {/* Icon Close (X) */}
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        
-        <nav className="p-5 flex flex-col gap-4">
-          <Link href="/" onClick={onClose} className="text-slate-700 hover:text-primary font-medium">Home</Link>
-          <Link href="/warranty" onClick={onClose} className="text-slate-700 hover:text-primary font-medium">Warranty Check</Link>
-          <Link href="/services" onClick={onClose} className="text-slate-700 hover:text-primary font-medium">Services</Link>
-          <Link href="/contact" onClick={onClose} className="text-slate-700 hover:text-primary font-medium">Contact</Link>
-        </nav>
+    <div className={`mobile-menu ${isOpen ? 'open' : ''}`} id="mobileMenu"> {/* .mobile-menu & .open dari styles.css */}
+      <div className="mm-top"> {/* .mm-top dari styles.css */}
+        <Link href="/" className="brand" onClick={onClose}>
+          <img src="image/Asset 2.png" alt="Ginnva" className="logo-main" />
+        </Link>
+        <button className="mm-close" onClick={onClose} aria-label="Tutup"> {/* .mm-close dari styles.css */}
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
       </div>
-    </>
+
+      <nav className="mm-nav"> {/* .mm-nav dari styles.css */}
+        {NAV_ITEMS.map((item) => (
+          <div key={item.label} className="mm-item"> {/* .mm-item dari styles.css */}
+            <Link 
+              href={item.href} 
+              target={item.blank ? '_blank' : undefined}
+              rel={item.blank ? 'noopener noreferrer' : undefined}
+              onClick={onClose}
+            >
+              {item.label}
+            </Link>
+            {item.sub && (
+              <div className="mm-sub"> {/* .mm-sub dari styles.css */}
+                {item.sub.map((subItem) => (
+                  <Link key={subItem.label} href={subItem.href} onClick={onClose}>
+                    {subItem.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </nav>
+
+      <div className="mm-footer"> {/* .mm-footer dari styles.css */}
+        <a href="tel:400-116-1165" className="mm-hotline"> {/* .mm-hotline dari styles.css */}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3-8.59A2 2 0 0 1 3.67 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+          </svg>
+          {' '}400-116-1165
+        </a>
+      </div>
+    </div>
   );
 }
