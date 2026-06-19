@@ -17,12 +17,8 @@ export const GINNVA_PRODUCTS: ProductItem[] = [
     id: '1',
     name: 'Kaca Film Insulasi',
     sub: 'WINDOW INSULATION FILM',
-    text: 'Penolak panas tinggi dengan kejernihan optimal. Seri Ziwei 70 efektif menahan inframerah 
-dan ultraviolet, menjaga visibilitas sekaligus privasi dan kenyamanan kabin.',
-    long: 'Seri kaca film insulasi Ziwei 70 menggunakan proses magnetron sputtering berlapis. Lapisan 
-komposit logam dan keramik memberikan penolakan inframerah yang unggul serta tingkat tembus cahaya 
-yang tinggi, menahan ultraviolet secara jangka panjang, melindungi penumpang, sekaligus menjaga 
-visibilitas jernih dan sinyal yang stabil.',
+    text: 'Penolak panas tinggi dengan kejernihan optimal. Seri Ziwei 70 efektif menahan inframerah dan ultraviolet, menjaga visibilitas sekaligus privasi dan kenyamanan kabin.',
+    long: 'Seri kaca film insulasi Ziwei 70 menggunakan proses magnetron sputtering berlapis. Lapisan komposit logam dan keramik memberikan penolakan inframerah yang unggul serta tingkat tembus cahaya yang tinggi, menahan ultraviolet secara jangka panjang, melindungi penumpang, sekaligus menjaga visibilitas jernih dan sinyal yang stabil.',
     img: 'https://www.ginnvafilm.com/uploads/pic/e4/5ad92bf02161255577560bb31dfe87.jpg',
     gallery: [
       'https://www.ginnvafilm.com/uploads/pic/e4/5ad92bf02161255577560bb31dfe87.jpg',
@@ -34,12 +30,8 @@ visibilitas jernih dan sinyal yang stabil.',
     id: '2',
     name: 'Paint Protection Film',
     sub: 'PAINT PROTECTION FILM',
-    text: 'Dengan struktur jaringan tiga dimensi (3D) dan rasio polimer molekul kecil yang presisi, 
-terbentuk lapisan padat bermolekul besar yang sangat bening dan mengkilap, sekaligus anti-noda dan 
-mampu memperbaiki diri (self-healing).',
-    long: 'Dengan struktur jaringan tiga dimensi (3D) dan rasio polimer molekul kecil yang presisi, 
-terbentuk lapisan padat bermolekul besar yang sangat bening dan mengkilap, sekaligus anti-noda dan 
-mampu memperbaiki diri (self-healing), melindungi kilau cat kendaraan Anda dalam jangka panjang.',
+    text: 'Dengan struktur jaringan tiga dimensi (3D) dan rasio polimer molekul kecil yang presisi, terbentuk lapisan padat bermolekul besar yang sangat bening dan mengkilap, sekaligus anti-noda dan mampu memperbaiki diri (self-healing).',
+    long: 'Dengan struktur jaringan tiga dimensi (3D) dan rasio polimer molekul kecil yang presisi, terbentuk lapisan padat bermolekul besar yang sangat bening dan mengkilap, sekaligus anti-noda dan mampu memperbaiki diri (self-healing), melindungi kilau cat kendaraan Anda dalam jangka panjang.',
     img: 'https://www.ginnvafilm.com/static/home/images/indexProduct.jpg',
     gallery: [
       'https://www.ginnvafilm.com/static/home/images/indexProduct.jpg',
@@ -50,11 +42,8 @@ mampu memperbaiki diri (self-healing), melindungi kilau cat kendaraan Anda dalam
     id: '3',
     name: 'Film Ubah Warna Bodi',
     sub: 'COLOR CHANGE FILM',
-    text: 'Pilihan warna kaya dengan beragam tekstur (doff, gloss, metalik), mudah diaplikasikan dan 
-dirawat, mewujudkan tampilan bodi yang personal dan menyegarkan gaya kendaraan.',
-    long: 'Pilihan warna kaya dengan beragam tekstur (doff, gloss, metalik, electroplating), 
-pemasangan menempel sempurna dan mudah dirawat, mewujudkan ubah warna bodi yang personal dan 
-menyegarkan gaya kendaraan, menonjolkan selera unik Anda.',
+    text: 'Pilihan warna kaya dengan beragam tekstur (doff, gloss, metalik), mudah diaplikasikan dan dirawat, mewujudkan tampilan bodi yang personal dan menyegarkan gaya kendaraan.',
+    long: 'Pilihan warna kaya dengan beragam tekstur (doff, gloss, metalik, electroplating), pemasangan menempel sempurna dan mudah dirawat, mewujudkan ubah warna bodi yang personal dan menyegarkan gaya kendaraan, menonjolkan selera unik Anda.',
     img: 'https://www.ginnvafilm.com/uploads/pic/52/956f5d286e473e75392de4623e3feb.jpg',
     gallery: [
       'https://www.ginnvafilm.com/uploads/pic/52/956f5d286e473e75392de4623e3feb.jpg',
@@ -65,11 +54,8 @@ menyegarkan gaya kendaraan, menonjolkan selera unik Anda.',
     id: '4',
     name: 'Film Bangunan & Rumah',
     sub: 'ARCHITECTURAL FILM',
-    text: 'Solusi menyeluruh berupa insulasi panas, perlindungan UV, dan privasi untuk gedung maupun 
-hunian, meningkatkan kenyamanan dan efisiensi energi.',
-    long: 'Solusi menyeluruh berupa insulasi panas, perlindungan UV, keamanan anti-pecah, dan privasi 
-untuk gedung maupun hunian, menurunkan konsumsi pendingin udara secara efektif serta meningkatkan 
-kenyamanan tempat tinggal dan kerja.',
+    text: 'Solusi menyeluruh berupa insulasi panas, perlindungan UV, dan privasi untuk gedung maupun hunian, meningkatkan kenyamanan dan efisiensi energi.',
+    long: 'Solusi menyeluruh berupa insulasi panas, perlindungan UV, keamanan anti-pecah, dan privasi untuk gedung maupun hunian, menurunkan konsumsi pendingin udara secara efektif serta meningkatkan kenyamanan tempat tinggal dan kerja.',
     img: 'https://www.ginnvafilm.com/uploads/pic/c6/34e0b0d58b508c81a04fcd611e9e62.jpg',
     gallery: [
       'https://www.ginnvafilm.com/uploads/pic/c6/34e0b0d58b508c81a04fcd611e9e62.jpg',
