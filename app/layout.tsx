@@ -16,9 +16,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex min-h-screen flex-col bg-white text-slate-900 antialiased">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <Header />
+          <main style={{ flex: '1 0 auto' }}>
+            {children}
+          </main>
+          <Footer />
+        </div>
       </body>
     </html>
   );
