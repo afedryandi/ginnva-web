@@ -15,8 +15,8 @@ export interface ProductItem {
 export const GINNVA_PRODUCTS: ProductItem[] = [
   {
     id: '1',
-    name: 'Car Window Film',
-    sub: 'WINDOW INSULATION FILM',
+    name: 'Film Kaca Mobil',
+    sub: 'CAR WINDOW FILM',
     text: 'Penolak panas tinggi dengan kejernihan optimal. Seri Ziwei 70 efektif menahan inframerah dan ultraviolet, menjaga visibilitas sekaligus privasi dan kenyamanan kabin.',
     long: 'Seri kaca film insulasi Ziwei 70 menggunakan proses magnetron sputtering berlapis. Lapisan komposit logam dan keramik memberikan penolakan inframerah yang unggul serta tingkat tembus cahaya yang tinggi, menahan ultraviolet secara jangka panjang, melindungi penumpang, sekaligus menjaga visibilitas jernih dan sinyal yang stabil.',
     img: 'https://www.ginnvafilm.com/uploads/pic/e4/5ad92bf02161255577560bb31dfe87.jpg',
@@ -28,7 +28,7 @@ export const GINNVA_PRODUCTS: ProductItem[] = [
   },
   {
     id: '2',
-    name: 'Paint Protection Film',
+    name: 'Film Perlindungan Cat',
     sub: 'PAINT PROTECTION FILM',
     text: 'Dengan struktur jaringan tiga dimensi (3D) dan rasio polimer molekul kecil yang presisi, terbentuk lapisan padat bermolekul besar yang sangat bening dan mengkilap, sekaligus anti-noda dan mampu memperbaiki diri (self-healing).',
     long: 'Dengan struktur jaringan tiga dimensi (3D) dan rasio polimer molekul kecil yang presisi, terbentuk lapisan padat bermolekul besar yang sangat bening dan mengkilap, sekaligus anti-noda dan mampu memperbaiki diri (self-healing), melindungi kilau cat kendaraan Anda dalam jangka panjang.',
@@ -40,7 +40,7 @@ export const GINNVA_PRODUCTS: ProductItem[] = [
   },
   {
     id: '3',
-    name: 'Color Change Film',
+    name: 'Film Pengubah Warna',
     sub: 'COLOR CHANGE FILM',
     text: 'Pilihan warna kaya dengan beragam tekstur (doff, gloss, metalik), mudah diaplikasikan dan dirawat, mewujudkan tampilan bodi yang personal dan menyegarkan gaya kendaraan.',
     long: 'Pilihan warna kaya dengan beragam tekstur (doff, gloss, metalik, electroplating), pemasangan menempel sempurna dan mudah dirawat, mewujudkan ubah warna bodi yang personal dan menyegarkan gaya kendaraan, menonjolkan selera unik Anda.',
@@ -52,7 +52,7 @@ export const GINNVA_PRODUCTS: ProductItem[] = [
   },
   {
     id: '4',
-    name: 'Architectural Window Film',
+    name: 'Film Kaca Bangunan',
     sub: 'ARCHITECTURAL FILM',
     text: 'Solusi menyeluruh berupa insulasi panas, perlindungan UV, dan privasi untuk gedung maupun hunian, meningkatkan kenyamanan dan efisiensi energi.',
     long: 'Solusi menyeluruh berupa insulasi panas, perlindungan UV, keamanan anti-pecah, dan privasi untuk gedung maupun hunian, menurunkan konsumsi pendingin udara secara efektif serta meningkatkan kenyamanan tempat tinggal dan kerja.',
