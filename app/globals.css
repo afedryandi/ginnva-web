@@ -494,6 +494,11 @@ h4 {
   line-height: 1;
 }
 
+.counter-display {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
 .numList .num .v small {
   font-size: 22px;
   font-weight: 500;
@@ -820,10 +825,6 @@ h4 {
 
 .case .thumb:hover img {
   transform: scale(1.06);
-}
-
-.case .thumb.active {
-  border-color: var(--accent);
 }
 
 .case .nameBox {
@@ -1296,6 +1297,32 @@ h4 {
   }
 }
 
+@media (max-width: 1024px) {
+  .tabs-floating {
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    transform: none;
+    width: auto;
+    max-width: none;
+    padding: 14px 20px;
+    gap: 12px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+  }
+
+  .tabs-floating .tab {
+    height: 42px;
+    padding: 0 16px;
+    font-size: 13px;
+    flex-shrink: 0;
+    min-width: fit-content;
+    white-space: nowrap;
+  }
+}
+
 @media (max-width: 720px) {
   .wrap {
     padding: 0 22px;
@@ -1313,6 +1340,36 @@ h4 {
 
   .case .thumbs {
     grid-template-columns: 1fr;
+  }
+
+  .product {
+    height: auto;
+    flex-direction: column;
+    padding: 40px 0;
+  }
+
+  .tabs-floating {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    transform: none;
+    width: auto;
+    max-width: none;
+    padding: 12px 16px;
+    gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+  }
+
+  .tabs-floating .tab {
+    height: 40px;
+    padding: 0 14px;
+    font-size: 12px;
+    flex-shrink: 0;
+    min-width: fit-content;
+    white-space: nowrap;
   }
 
   .product .tabs {
@@ -1335,12 +1392,8 @@ h4 {
   }
 
   .foot-social .qr img {
-    width: 100px;
-    height: 100px;
-  }
-
-  .sec-title-box .pill {
-    display: none;
+    width: 70px;
+    height: 70px;
   }
 }
 
@@ -2130,6 +2183,11 @@ h4 {
 
   .dealer-map {
     position: static;
+  }
+
+  .foot-social .qr img {
+    width: 90px;
+    height: 90px;
   }
 }
 
