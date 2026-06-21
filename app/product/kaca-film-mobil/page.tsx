@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import ProductBanner from '@/components/product/ProductBanner';
 import KacaFilmIntro from '@/components/product/KacaFilmIntro';
@@ -14,8 +14,10 @@ export const metadata: Metadata = {
 export default function KacaFilmPage() {
   return (
     <main data-page="product" data-nav="product">
-      <ProductBanner />
-      <KacaFilmIntro />
+      <Suspense fallback={<div className="loading-state">Memuat Produk...</div>}>
+        <ProductBanner />
+        <KacaFilmIntro />
+      </Suspense>
       <KacaFilmSpecs />
       <KacaFilmGallery />
     </main>
