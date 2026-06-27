@@ -37,7 +37,7 @@ export default function Footer() {
             <Link href="/warranty">Cek Garansi</Link>
             <Link href="/dealers">Lokasi Dealer</Link>
             <Link href="../ginnva-web/index.html">Sistem Toko</Link>
-            <Link href="/quote">Estimasi Harga</Link>
+            <Link href="/quote">Minta Penawaran</Link>
           </div>
 
           <div className="foot-col">

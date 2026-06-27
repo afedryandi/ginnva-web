@@ -4,6 +4,7 @@ export const MALL_URL = '';
 
 export interface ProductItem {
   id: string;
+  slug: string;
   name: string;
   sub: string;
   text: string;
@@ -15,6 +16,7 @@ export interface ProductItem {
 export const GINNVA_PRODUCTS: ProductItem[] = [
   {
     id: '1',
+    slug: 'kaca-film-mobil',
     name: 'Film Kaca Mobil',
     sub: 'CAR WINDOW FILM',
     text: 'Penolak panas tinggi dengan kejernihan optimal. Seri Ziwei 70 efektif menahan inframerah dan ultraviolet, menjaga visibilitas sekaligus privasi dan kenyamanan kabin.',
@@ -28,6 +30,7 @@ export const GINNVA_PRODUCTS: ProductItem[] = [
   },
   {
     id: '2',
+    slug: 'film-pelindung-cat',
     name: 'Film Perlindungan Cat',
     sub: 'PAINT PROTECTION FILM',
     text: 'Dengan struktur jaringan tiga dimensi (3D) dan rasio polimer molekul kecil yang presisi, terbentuk lapisan padat bermolekul besar yang sangat bening dan mengkilap, sekaligus anti-noda dan mampu memperbaiki diri (self-healing).',
@@ -40,6 +43,7 @@ export const GINNVA_PRODUCTS: ProductItem[] = [
   },
   {
     id: '3',
+    slug: 'film-pengubah-warna',
     name: 'Film Pengubah Warna',
     sub: 'COLOR CHANGE FILM',
     text: 'Pilihan warna kaya dengan beragam tekstur (doff, gloss, metalik), mudah diaplikasikan dan dirawat, mewujudkan tampilan bodi yang personal dan menyegarkan gaya kendaraan.',
@@ -52,6 +56,7 @@ export const GINNVA_PRODUCTS: ProductItem[] = [
   },
   {
     id: '4',
+    slug: 'film-kaca-bangunan',
     name: 'Film Kaca Bangunan',
     sub: 'ARCHITECTURAL FILM',
     text: 'Solusi menyeluruh berupa insulasi panas, perlindungan UV, dan privasi untuk gedung maupun hunian, meningkatkan kenyamanan dan efisiensi energi.',
@@ -77,8 +82,10 @@ export const NAV_ITEMS = [
   },
   {
     label: 'Produk',
-    href: '/product?id=1',
-    sub: GINNVA_PRODUCTS.map(p => ({ label: p.name, href: `/product?id=${p.id}` }))
+    href: '/product/kaca-film-mobil',
+    // Mengarah ke slug route langsung (/product/[slug]), bukan query string,
+    // karena setiap produk punya halaman dan data lengkap sendiri di app/product/[slug]/page.tsx
+    sub: GINNVA_PRODUCTS.map(p => ({ label: p.name, href: `/product/${p.slug}` }))
   },
   {
     label: 'Layanan',
@@ -86,7 +93,7 @@ export const NAV_ITEMS = [
     sub: [
       { label: 'Cek Garansi', href: '/warranty' },
       { label: 'Lokasi Dealer', href: '/dealers' },
-      { label: 'Estimasi Harga', href: '/quote' }
+      { label: 'Minta Penawaran', href: '/quote' }
     ]
   },
   { label: 'Toko Online', href: MALL_URL, blank: true }
