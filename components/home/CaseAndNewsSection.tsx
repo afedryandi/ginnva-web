@@ -1,18 +1,92 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const CASE_DATA = [
-  { id: 1, title: 'Kaca Film · Zeekr 9X — Ginnva Ziwei 70', short: 'Zeekr 9X · Ziwei 70', img: '/image/image-coming-soon.webp' },
-  { id: 2, title: 'Kaca Film · AITO M8 — Ginnva Ziwei 70', short: 'AITO M8 · Ziwei 70', img: '/image/image-coming-soon.webp' },
-  { id: 3, title: 'Kaca Film · Mercedes-Benz E300L — Ginnva Ziwei 70', short: 'Mercedes E300L · Ziwei 70', img: '/image/image-coming-soon.webp' },
-  { id: 4, title: 'Kaca Film · Tank 500 — Ginnva Ziwei 70', short: 'Tank 500 · Ziwei 70', img: '/image/image-coming-soon.webp' },
-];
+interface CaseStudyItem {
+  id: number;
+  title: string;
+  short_title: string;
+  image: string | null;
+}
+
+interface NewsItem {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  cover_image: string | null;
+  source_url: string | null;
+  published_at: string | null;
+}
+
+const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const FALLBACK_IMAGE = '/image/image-coming-soon.webp';
+
+function formatDate(dateString: string | null): string {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return date.toLocaleDateString('id-ID', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+}
 
 export default function CaseAndNewsSection() {
-  const [activeCase, setActiveCase] = useState(CASE_DATA[0]);
+  const [cases, setCases] = useState<CaseStudyItem[]>([]);
+  const [activeCaseId, setActiveCaseId] = useState<number | null>(null);
+  const [news, setNews] = useState<NewsItem[]>([]);
+
+  // Galeri pemasangan — diurutkan sesuai sort_order yang diatur admin
+  // lewat drag-reorder di Filament (CaseStudyResource).
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch(`${baseUrl}/api/case-studies`, { headers: { Accept: 'application/json' } })
+      .then(async (res) => {
+        const json = await res.json();
+        if (res.ok && json.success && !cancelled) {
+          const items = json.data as CaseStudyItem[];
+          setCases(items);
+          if (items.length > 0) setActiveCaseId(items[0].id);
+        }
+      })
+      .catch(() => {
+        // Dibiarkan kosong kalau API gagal — tidak fallback ke data
+        // dummy lagi, sama seperti pola yang sudah dipakai untuk News.
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Hanya butuh 5 berita terbaru: 1 jadi sorotan besar (.media), 4
+  // sisanya jadi list ringkas di sampingnya — sesuai layout yang sudah
+  // ada di CSS (.news .media + .news .list).
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch(`${baseUrl}/api/news?limit=5`, { headers: { Accept: 'application/json' } })
+      .then(async (res) => {
+        const json = await res.json();
+        if (res.ok && json.success && !cancelled) {
+          setNews(json.data as NewsItem[]);
+        }
+      })
+      .catch(() => {
+        // Sama seperti di atas — sengaja dibiarkan kosong, bukan dummy.
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const activeCase = cases.find((c) => c.id === activeCaseId) || cases[0];
+  const [featuredNews, ...restNews] = news;
 
   return (
     <>
@@ -24,28 +98,44 @@ export default function CaseAndNewsSection() {
               <div className="sec-title">Galeri Pemasangan</div>
               <div className="sec-sub">Case Show</div>
             </div>
-            <a className="pill pill--outline" href="https://www.ginnvafilm.com/case.html" target="_blank" rel="noopener noreferrer">
+            <Link href="/case" className="pill pill--outline">
               Selengkapnya
-            </a>
+            </Link>
           </div>
-          <div className="case-main">
-            <div className="bigPic">
-              <Image src={activeCase.img} alt={activeCase.title} width={800} height={500} style={{ width: '100%', height: 'auto' }} />
-              <div className="nameBox"><h3>{activeCase.title}</h3></div>
+
+          {cases.length === 0 ? (
+            <p style={{ color: 'var(--muted)', fontSize: '14px' }}>Belum ada galeri pemasangan yang ditambahkan.</p>
+          ) : (
+            <div className="case-main">
+              <div className="bigPic">
+                <Image
+                  src={activeCase.image || FALLBACK_IMAGE}
+                  alt={activeCase.title}
+                  width={800}
+                  height={500}
+                  style={{ width: '100%', height: 'auto' }}
+                />
+                <div className="nameBox"><h3>{activeCase.title}</h3></div>
+              </div>
+              <div className="thumbs">
+                {cases.map((item) => (
+                  <div
+                    key={item.id}
+                    className={`thumb ${activeCase.id === item.id ? 'active' : ''}`}
+                    onClick={() => setActiveCaseId(item.id)}
+                  >
+                    <Image
+                      src={item.image || FALLBACK_IMAGE}
+                      alt={item.short_title}
+                      width={180}
+                      height={120}
+                    />
+                    <div className="nameBox">{item.short_title}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="thumbs">
-              {CASE_DATA.map((item) => (
-                <div 
-                  key={item.id} 
-                  className={`thumb ${activeCase.id === item.id ? 'active' : ''}`}
-                  onClick={() => setActiveCase(item)}
-                >
-                  <Image src={item.img} alt={item.short} width={180} height={120} />
-                  <div className="nameBox">{item.short}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
@@ -59,23 +149,53 @@ export default function CaseAndNewsSection() {
             </div>
             <Link href="/news" className="pill pill--outline">Selengkapnya</Link>
           </div>
-          <div className="news-con">
-            <Link href="/news" className="media">
-              <div className="pic">
-                <Image src="/image/image-coming-soon.webp" alt="Berita" width={500} height={300} style={{ width: '100%', height: 'auto' }} />
+
+          {news.length === 0 ? (
+            <p style={{ color: 'var(--muted)', fontSize: '14px' }}>Belum ada berita yang dipublikasikan.</p>
+          ) : (
+            <div className="news-con">
+              {featuredNews && (
+                <Link
+                  href={featuredNews.source_url || `/news/${featuredNews.slug}`}
+                  className="media"
+                  target={featuredNews.source_url ? '_blank' : undefined}
+                  rel={featuredNews.source_url ? 'noopener noreferrer' : undefined}
+                >
+                  <div className="pic">
+                    <Image
+                      src={featuredNews.cover_image || FALLBACK_IMAGE}
+                      alt={featuredNews.title}
+                      width={500}
+                      height={300}
+                      style={{ width: '100%', height: 'auto' }}
+                    />
+                  </div>
+                  <div className="nm">{featuredNews.title}</div>
+                  <div className="date">{formatDate(featuredNews.published_at)}</div>
+                </Link>
+              )}
+
+              <div className="list">
+                <ul>
+                  {restNews.map((item) => (
+                    <li key={item.id}>
+                      <Link
+                        href={item.source_url || `/news/${item.slug}`}
+                        target={item.source_url ? '_blank' : undefined}
+                        rel={item.source_url ? 'noopener noreferrer' : undefined}
+                      >
+                        <div className="nm">{item.title}</div>
+                        <div className="meta">
+                          <span>Berita</span>
+                          <span>{formatDate(item.published_at)}</span>
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div className="nm">Bersama Cahaya — Pameran Jiuzhou Shenzhen sukses digelar</div>
-              <div className="date">25 Mar 2026</div>
-            </Link>
-            <div className="list">
-              <ul>
-                <li><Link href="/news"><div className="nm">Pameran AAITF Beijing ditutup — sorotan momen gemilang Ginnva</div><div className="meta"><span>Kabar Brand</span><span>25 Mar 2026</span></div></Link></li>
-                <li><Link href="/news"><div className="nm">Rapat tahunan dealer nasional film mobil Ginnva 2026 sukses digelar</div><div className="meta"><span>Kabar Brand</span><span>25 Mar 2026</span></div></Link></li>
-                <li><Link href="/news"><div className="nm">Peluncuran produk baru Ginnva & kunjungan pabrik bersama kreator</div><div className="meta"><span>Kabar Brand</span><span>25 Mar 2026</span></div></Link></li>
-                <li><Link href="/news"><div className="nm">Program edukasi Douyin Ginnva — menjangkau arus baru industri</div><div className="meta"><span>Kabar Brand</span><span>05 Feb 2026</span></div></Link></li>
-              </ul>
             </div>
-          </div>
+          )}
         </div>
       </section>
     </>

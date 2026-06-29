@@ -1414,7 +1414,7 @@ h4 {
 /* Banner halaman dalam */
 .page-banner {
   position: relative;
-  height: 460px;
+  height: 360px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1428,7 +1428,7 @@ h4 {
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center;
+  background-position: top;
 }
 
 .page-banner::after {
@@ -1441,6 +1441,7 @@ h4 {
 .page-banner .inner {
   position: relative;
   z-index: 2;
+  margin-top: 40px;
 }
 
 .page-banner h1 {

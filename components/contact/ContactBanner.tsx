@@ -5,7 +5,7 @@ export default function ContactBanner() {
     <section className="page-banner">
       <div 
         className="bg" 
-        style={{ backgroundImage: `url('/image/image-coming-soon.webp')` }}
+        style={{ backgroundImage: `url('/image/contact-us-banner.webp')` }}
       />
       <div className="inner">
         <h1>Kontak</h1>

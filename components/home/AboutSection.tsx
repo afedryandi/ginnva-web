@@ -10,7 +10,7 @@ export default function AboutSection() {
       <section className="brand-sec on-dark" id="brand">
         <div 
           className="bg" 
-          style={{ backgroundImage: `url('image/image-coming-soon.webp')` }}
+          style={{ backgroundImage: `url('image/building-image.webp')` }}
         />
         <div className="wrap">
           <div className="sec-title">Profil Perusahaan</div>

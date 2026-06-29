@@ -20,15 +20,15 @@ const specsRows = [
 export default function FilmPerlindunganCatPage() {
   return (
     <main data-page="product" data-nav="product">
-      <ProductBanner currentId="2" title="Paint Protection Film" enTitle="Film Pelindung Cat" bgUrl="/image/product/ppf-banner.webp" />
+      <ProductBanner currentId="2" title="Paint Protection Film" enTitle="Film Pelindung Cat" bgUrl="/image/product/paint-protection-film.webp" />
       <ProductIntro 
         title="Ginnva Paint Protection Film" 
         subTitle="ULTIMATE PAINT PROTECTION" 
         description="Lapisan film TPU transparan elastisitas tinggi yang memberikan perlindungan fisik maksimal dari benturan kerikil, goresan halus, dan oksidasi kimia luar dengan fitur pemulihan mandiri (self-healing)." 
-        imgUrl="/image/product/ppf-hero.webp" 
+        imgUrl="/image/product/paint-protection-film.webp" 
       />
       <ProductSpecs columns={columnsData} rows={specsRows} />
-      <ProductGallery images={['/image/product/ppf-g1.webp']} faqs={[]} />
+      <ProductGallery images={['/image/product/paint-protection-film.webp']} faqs={[]} />
     </main>
   );
 }

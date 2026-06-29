@@ -19,15 +19,15 @@ const specsRows = [
 export default function FilmPengubahWarnaPage() {
   return (
     <main data-page="product" data-nav="product">
-      <ProductBanner currentId="3" title="Film Pengubah Warna" enTitle="Color Changing Film" bgUrl="/image/product/color-banner.webp" />
+      <ProductBanner currentId="3" title="Film Pengubah Warna" enTitle="Color Changing Film" bgUrl="/image/product/color-change-film.webp" />
       <ProductIntro 
         title="Ginnva Color Changing Film" 
         subTitle="PREMIUM VINYL WRAPPING SOLUTIONS" 
         description="Ubah estetika gaya mobil Anda secara instan dengan ratusan pilihan warna eksklusif matt, satin, maupun high-gloss tanpa proses pengecatan ulang yang menurunkan nilai jual kendaraan." 
-        imgUrl="/image/product/color-hero.webp" 
+        imgUrl="/image/product/color-change-film.webp" 
       />
       <ProductSpecs columns={columnsData} rows={specsRows} />
-      <ProductGallery images={['/image/product/color-g1.webp', '/image/product/color-g2.webp']} faqs={[]} />
+      <ProductGallery images={['/image/product/color-color-change.webp', '/image/product/color-g2.webp']} faqs={[]} />
     </main>
   );
 }

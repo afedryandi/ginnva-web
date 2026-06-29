@@ -7,7 +7,7 @@ export default function BrandIntro() {
       <section className="page-banner">
         <div 
           className="bg" 
-          style={{ backgroundImage: `url('/image/image-coming-soon.webp')` }}
+          style={{ backgroundImage: `url('/image/building-image.webp')` }}
         />
         <div className="inner">
           <h1>Profil Brand</h1>
