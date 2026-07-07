@@ -21,7 +21,7 @@ export default function HeroSection() {
         poster="/image/hero-banner.webp"
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
       >
-        <source src="/video/ginnva-hero.mp4" type="video/mp4" />
+        <source src="https://pub-83dd07bf59f14f50a2f4a0eab76393e4.r2.dev/ginnva-hero.mp4" type="video/mp4" />
         {/* Fallback: browser yang tidak support video akan tampil poster image */}
       </video>
       <div className="cap">
