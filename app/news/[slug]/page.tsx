@@ -1,5 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
+import { seoDefaults, SITE_URL } from '@/config/seo';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import NewsDetailBanner from '@/components/news/NewsDetailBanner';
@@ -57,14 +58,32 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const news = await getNews(slug);
 
   if (!news) {
-    return {
-      title: 'Berita Tidak Ditemukan | Ginnva Shield Indonesia',
-    };
+    return { title: 'Berita Tidak Ditemukan | Ginnva Shield Indonesia' };
   }
 
+  const url = `${SITE_URL}/news/${slug}`;
+  const image = news.cover_image || undefined;
+  const description = news.excerpt || news.title;
+
   return {
-    title: `${news.title} | Ginnva Shield Indonesia`,
-    description: news.excerpt || news.title,
+    ...seoDefaults,
+    title: news.title,
+    description,
+    openGraph: {
+      ...seoDefaults.openGraph,
+      type: 'article',
+      title: news.title,
+      description,
+      url,
+      ...(image && { images: [{ url: image, width: 1200, height: 630, alt: news.title }] }),
+      ...(news.published_at && { publishedTime: news.published_at }),
+    },
+    twitter: {
+      ...seoDefaults.twitter,
+      title: news.title,
+      description,
+      ...(image && { images: [image] }),
+    },
   };
 }
 
@@ -88,7 +107,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
   return (
     <main data-page="news-detail" data-nav="brand">
-      <NewsDetailBanner title={news.title} />
+      <NewsDetailBanner title={news.title} coverImage={news.cover_image} />
 
       <div className="crumb-bar">
         <div className="wrap">
@@ -102,6 +121,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
         title={news.title}
         publishedAt={news.published_at}
         coverImage={news.cover_image}
+        excerpt={news.excerpt}
         content={news.content}
       />
     </main>

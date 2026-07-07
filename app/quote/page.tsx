@@ -1,23 +1,34 @@
 import React from 'react';
 import { Metadata } from 'next';
+import { seoDefaults } from '@/config/seo';
 import QuoteForm from './QuoteForm';
 
 export const metadata: Metadata = {
-  title: 'Minta Penawaran | Ginnva Shield Indonesia',
-  description:
-    'Minta penawaran harga pemasangan Kaca Film & Paint Protection Film Ginnva sesuai tipe kendaraan Anda, atau tanyakan ketersediaan Color Change dan Architectural Film.',
+  ...seoDefaults,
+  title: 'Minta Penawaran Harga PPF & Kaca Film — Ginnva Shield Indonesia',
+  description: 'Ajukan permintaan penawaran harga pemasangan Paint Protection Film atau Kaca Film Ginnva untuk kendaraan Anda. Gratis konsultasi.',
+  openGraph: {
+    ...seoDefaults.openGraph,
+    title: 'Minta Penawaran Harga PPF & Kaca Film — Ginnva Shield Indonesia',
+    description: 'Ajukan permintaan penawaran harga pemasangan Paint Protection Film atau Kaca Film Ginnva untuk kendaraan Anda. Gratis konsultasi.',
+    url: 'https://ginnva.id/quote',
+  },
+  twitter: {
+    ...seoDefaults.twitter,
+    title: 'Minta Penawaran Harga PPF & Kaca Film — Ginnva Shield Indonesia',
+    description: 'Ajukan permintaan penawaran harga pemasangan Paint Protection Film atau Kaca Film Ginnva untuk kendaraan Anda. Gratis konsultasi.',
+  },
 };
 
 export default function QuotePage() {
   return (
     <main data-page="quote" data-nav="services" style={{ minHeight: '80vh', backgroundColor: 'var(--alt)' }}>
       {/* Banner Atas — pola sama dengan /warranty */}
-      <section className="page-banner" style={{ backgroundColor: '#111', color: '#fff', padding: '60px 0', textAlign: 'center' }}>
+      <section className="page-banner">
+        <div className="bg" style={{ backgroundImage: `url('/image/price-navbar.webp')` }} />
         <div className="inner">
-          <h1 style={{ fontSize: '32px', fontWeight: 'bold', margin: '0 0 8px 0' }}>Minta Penawaran</h1>
-          <div className="en" style={{ color: '#aaa', fontSize: '14px', letterSpacing: '1px' }}>
-            PENAWARAN HARGA PRODUK GINNVA
-          </div>
+          <h1>Minta Penawaran</h1>
+          <div className="en">PENAWARAN HARGA PRODUK GINNVA</div>
         </div>
       </section>
 

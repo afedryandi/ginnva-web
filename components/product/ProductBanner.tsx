@@ -30,10 +30,10 @@ export default function ProductBanner({ currentId, title, enTitle, bgUrl }: Bann
       {/* PILIH PRODUK TABBAR */}
       <div className="pd-tabbar">
         <div className="wrap">
-          <Link href="/product/kaca-film-mobil" className={currentId === '1' ? 'active' : ''}>Film Kaca Mobil</Link>
-          <Link href="/product/film-pelindung-cat" className={currentId === '2' ? 'active' : ''}>Film Pelindung Cat</Link>
-          <Link href="/product/film-pengubah-warna" className={currentId === '3' ? 'active' : ''}>Film Pengubah Warna</Link>
-          <Link href="/product/film-kaca-bangunan" className={currentId === '4' ? 'active' : ''}>Film Kaca Bangunan</Link>
+          <Link href="/product/kaca-film-mobil" className={currentId === '1' ? 'active' : ''}>Car Window Film</Link>
+          <Link href="/product/film-pelindung-cat" className={currentId === '2' ? 'active' : ''}>Paint Protection Film</Link>
+          <Link href="/product/film-pengubah-warna" className={currentId === '3' ? 'active' : ''}>Color Change Film</Link>
+          <Link href="/product/film-kaca-bangunan" className={currentId === '4' ? 'active' : ''}>Architectural Film</Link>
         </div>
       </div>
     </>

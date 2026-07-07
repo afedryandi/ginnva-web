@@ -1,6 +1,7 @@
 // components/layout/Footer.tsx
 'use client';
 
+import Image from 'next/image';
 import React from 'react';
 import Link from 'next/link';
 import { GINNVA_PRODUCTS, MALL_URL } from '@/config/site';
@@ -28,7 +29,7 @@ export default function Footer() {
           <div className="foot-col">
             <h5>Produk</h5>
             {GINNVA_PRODUCTS.map((p) => (
-              <Link key={p.id} href={`/product?id=${p.id}`}>{p.name}</Link>
+              <Link key={p.id} href={`/product/${p.slug}`}>{p.name}</Link>
             ))}
           </div>
 
@@ -36,20 +37,28 @@ export default function Footer() {
             <h5>Layanan</h5>
             <Link href="/warranty">Cek Garansi</Link>
             <Link href="/dealers">Lokasi Dealer</Link>
-            <Link href="../ginnva-web/index.html">Sistem Toko</Link>
             <Link href="/quote">Minta Penawaran</Link>
+            <Link href="/kemitraan">Kemitraan</Link>
           </div>
 
           <div className="foot-col">
             <h5>Toko Online</h5>
-            <a href={MALL_URL} target="_blank" rel="noopener noreferrer">Coming Soon</a>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', opacity: 0.5, cursor: 'default' }}>
+              Toko Online
+              <span style={{
+                fontSize: '9px', fontWeight: '700', letterSpacing: '.06em',
+                background: 'var(--accent)', color: '#fff',
+                padding: '2px 6px', borderRadius: '4px',
+                lineHeight: '1.4', textTransform: 'uppercase',
+              }}>Soon</span>
+            </span>
           </div>
 
           <div className="foot-hot"> 
             <div className="l">Hotline Layanan:</div>
             <div className="n">
               <a href="https://wa.me/628118681678" target="_blank" rel="noopener noreferrer" className="whatsapp-link">
-                <img src="/image/contact/whatsapp.png" alt="WhatsApp" loading="lazy" /> 
+                <Image src="/image/contact/whatsapp.png" alt="WhatsApp" width={32} height={32} loading="lazy" /> 
               </a>
               <a href="https://wa.me/628118681678" target="_blank" rel="noopener noreferrer" className="phone-link">
                 0811 8681 678
@@ -58,7 +67,7 @@ export default function Footer() {
             <div className="foot-social">
               {SOCIAL_ITEMS.map((item, idx) => (
                 <a key={idx} href={item.url} target="_blank" rel="noopener noreferrer" className="qr">
-                  <img src={item.img} alt={item.label} loading="lazy" />
+                  <Image src={item.img} alt={item.label} width={80} height={80} loading="lazy" />
                   {item.label}
                 </a>
               ))}

@@ -24,7 +24,11 @@ export default function ProductSpecs({ columns, rows }: SpecsProps) {
             <thead>
               <tr style={{ backgroundColor: '#111', color: '#fff', textAlign: 'left' }}>
                 {columns.map((col, idx) => (
-                  <th key={idx} style={{ padding: '12px' }}>{col}</th>
+                  <th key={idx} style={{ padding: '12px', whiteSpace: 'pre-line', textAlign: 'center', verticalAlign: 'middle', lineHeight: '1.4' }}>
+                    {col.split('\n').map((line, i) => (
+                      <span key={i} style={{ display: 'block' }}>{line}</span>
+                    ))}
+                  </th>
                 ))}
               </tr>
             </thead>
@@ -34,7 +38,11 @@ export default function ProductSpecs({ columns, rows }: SpecsProps) {
                   <td style={{ padding: '12px', fontWeight: 'bold' }}>{row.label}</td>
                   {/* Perbaikan: Map nilai di dalam array values secara dinamis */}
                   {row.values?.map((val, vIdx) => (
-                    <td key={vIdx} style={{ padding: '12px' }}>{val}</td>
+                    <td key={vIdx} style={{ padding: '12px', textAlign: 'center', verticalAlign: 'middle', lineHeight: '1.4' }}>
+                      {val.split('\n').map((line: string, i: number) => (
+                        <span key={i} style={{ display: 'block' }}>{line}</span>
+                      ))}
+                    </td>
                   ))}
                 </tr>
               ))}

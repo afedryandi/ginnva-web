@@ -7,11 +7,13 @@ interface IntroProps {
   subTitle: string;
   description: string;
   imgUrl: string;
+  ctaLabel?: string;
+  comingSoon?: boolean;
 }
 
-export default function ProductIntro({ title, subTitle, description, imgUrl }: IntroProps) {
-  // Gunakan gambar fallback jika string kosong, atau setel null agar Next.js tidak mengeksekusinya
+export default function ProductIntro({ title, subTitle, description, imgUrl, ctaLabel, comingSoon }: IntroProps) {
   const imageSource = imgUrl && imgUrl.trim() !== "" ? imgUrl : '/image/image-coming-soon.webp';
+  const buttonLabel = ctaLabel ?? 'Minta Penawaran';
 
   return (
     <section className="psec">
@@ -33,9 +35,32 @@ export default function ProductIntro({ title, subTitle, description, imgUrl }: I
             <div className="name">{title}</div>
             <div className="sub">{subTitle}</div>
             <p className="txt">{description}</p>
+
+            {comingSoon && (
+              <div className="coming-soon-badge" style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                backgroundColor: '#f2f5fa',
+                border: '1.5px dashed #ccd5e0',
+                borderRadius: '8px',
+                padding: '12px 18px',
+                marginTop: '16px',
+                marginBottom: '4px',
+              }}>
+                <span style={{ fontSize: '18px' }}>🔔</span>
+                <div>
+                  <div style={{ fontWeight: '700', fontSize: '14px', color: '#333' }}>Segera Hadir</div>
+                  <div style={{ fontSize: '13px', color: '#666', marginTop: '2px' }}>
+                    Produk ini sedang dalam persiapan. Hubungi kami untuk info ketersediaan.
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div style={{ marginTop: '20px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
               <Link href="/quote" className="pill pill--accent">
-                Dapatkan Quotation Gratis
+                {buttonLabel}
               </Link>
             </div>
           </div>

@@ -1,33 +1,38 @@
 import React from 'react';
 import { Metadata } from 'next';
+import { seoDefaults } from '@/config/seo';
 import ProductBanner from '@/components/product/ProductBanner';
 import ProductIntro from '@/components/product/ProductIntro';
-import ProductSpecs from '@/components/product/ProductSpecs';
-import ProductGallery from '@/components/product/ProductGallery';
 
 export const metadata: Metadata = {
-  title: 'Premium Vinyl Wrap & Color Changing Film | Ginnva Shield Indonesia',
+  ...seoDefaults,
+  title: 'Color Change Film Ginnva — Ubah Warna Kendaraan Tanpa Cat Ulang',
+  description: 'Ganti tampilan kendaraan dengan Color Change Film Ginnva. Tersedia matte, satin, ultra-gloss dalam ratusan pilihan warna. Tanpa cat ulang.',
+  openGraph: {
+    ...seoDefaults.openGraph,
+    title: 'Color Change Film Ginnva — Ubah Warna Kendaraan Tanpa Cat Ulang',
+    description: 'Ganti tampilan kendaraan dengan Color Change Film Ginnva. Tersedia matte, satin, ultra-gloss dalam ratusan pilihan warna. Tanpa cat ulang.',
+    url: 'https://ginnva.id/product/film-pengubah-warna',
+  },
+  twitter: {
+    ...seoDefaults.twitter,
+    title: 'Color Change Film Ginnva — Ubah Warna Kendaraan Tanpa Cat Ulang',
+    description: 'Ganti tampilan kendaraan dengan Color Change Film Ginnva. Tersedia matte, satin, ultra-gloss dalam ratusan pilihan warna. Tanpa cat ulang.',
+  },
 };
-
-const columnsData = ['Seri Warna', 'Daya Tahan', 'Finishing Tekstur', 'Material Dasar', 'Perlindungan'];
-
-const specsRows = [
-  { label: 'Satin Series', values: ['3-5 Tahun', 'Satin Matte', 'Premium PVC', 'Anti-Scratch'] },
-  { label: 'Glossy Series', values: ['3-5 Tahun', 'Ultra Gloss', 'Premium PVC', 'Anti-Scratch'] }
-];
 
 export default function FilmPengubahWarnaPage() {
   return (
     <main data-page="product" data-nav="product">
       <ProductBanner currentId="3" title="Film Pengubah Warna" enTitle="Color Changing Film" bgUrl="/image/product/color-change-film.webp" />
-      <ProductIntro 
-        title="Ginnva Color Changing Film" 
-        subTitle="PREMIUM VINYL WRAPPING SOLUTIONS" 
-        description="Ubah estetika gaya mobil Anda secara instan dengan ratusan pilihan warna eksklusif matt, satin, maupun high-gloss tanpa proses pengecatan ulang yang menurunkan nilai jual kendaraan." 
-        imgUrl="/image/product/color-change-film.webp" 
+      <ProductIntro
+        title="Ginnva Color Change Film"
+        subTitle="FILM PENGUBAH WARNA KENDARAAN"
+        description="Ginnva Color Change Film hadir dalam berbagai pilihan warna dan finishing tekstur premium — matte, satin, hingga ultra-gloss — berbasis material PVC berkualitas tinggi. Dipasang presisi menggunakan pola digital cutting sesuai tipe kendaraan, tampilan baru bisa dinikmati tanpa mengorbankan nilai jual kendaraan."
+        imgUrl="/image/product/color-change-film.webp"
+        ctaLabel="Tanya Ketersediaan"
+        comingSoon
       />
-      <ProductSpecs columns={columnsData} rows={specsRows} />
-      <ProductGallery images={['/image/product/color-color-change.webp', '/image/product/color-g2.webp']} faqs={[]} />
     </main>
   );
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import NumberCounter from './NumberCounter';
 
 export default function AboutSection() {
   return (
@@ -16,7 +15,7 @@ export default function AboutSection() {
           <div className="sec-title">Profil Perusahaan</div>
           <div className="sec-sub">Enterprise Introduction</div>
           <p className="text">
-            <strong>PT. Ginnva Shield Indonesia</strong> adalah mitra resmi dan perwakilan dari teknologi advanced functional film Ginnva asal China. Kami menghadirkan solusi <strong>Premium Paint Protection Film (PPF)</strong> dan <strong>Kaca Film Mobil</strong> performa tinggi yang dirancang khusus untuk menghadapi tantangan iklim tropis Indonesia.
+            <strong>PT. Ginnva Shield Indonesia</strong> adalah distributor resmi dan perwakilan eksklusif brand Ginnva di Indonesia. Kami menghadirkan solusi <strong>Paint Protection Film (PPF)</strong> dan <strong>Kaca Film Mobil</strong> premium berstandar internasional yang dirancang khusus untuk menghadapi tantangan iklim tropis Indonesia.
           </p>
           <p className="text">
             Menggabungkan material canggih, manufaktur presisi, dan pemahaman mendalam akan pasar lokal, kami berkomitmen menjaga estetika, kenyamanan, serta nilai investasi kendaraan premium Anda.
@@ -24,13 +23,6 @@ export default function AboutSection() {
           <Link href="/brand" className="pill pill--accent">
             Selengkapnya
           </Link>
-          
-          <div className="numList">
-            <NumberCounter value={4} label="Pusat R&D" />
-            <NumberCounter value={4} label="Basis Produksi" />
-            <NumberCounter value="10+" label="Anak/Cabang Perusahaan" />
-            <NumberCounter value="20+" label="Pusat Layanan" />
-          </div>
         </div>
       </section>
 

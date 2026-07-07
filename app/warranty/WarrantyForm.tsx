@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 interface WarrantyData {
   id: number;
@@ -10,6 +11,15 @@ interface WarrantyData {
   car_plate: string;
   car_type: string;
   product_series: string;
+  product_category: string | null;
+  vin: string | null;
+  installation_position: string | null;
+  installation_position_detail: string | null;
+  roll_number: string | null;
+  roll_number_front: string | null;
+  roll_number_side_rear: string | null;
+  film_model_front: string | null;
+  film_model_side_rear: string | null;
   installation_date: string;
   expiry_date: string;
   dealer_name: string;
@@ -17,7 +27,14 @@ interface WarrantyData {
 }
 
 export default function WarrantyForm() {
-  const [searchQuery, setSearchQuery] = useState('');
+  // Baca query param ?code= dari URL — ini dipakai saat customer scan QR
+  // fisik di stiker pemasangan (QR berisi link ke halaman ini dengan
+  // kode terlampir), supaya kode otomatis terisi & langsung dicari,
+  // bukan customer harus ketik ulang manual.
+  const searchParams = useSearchParams();
+  const codeFromUrl = searchParams.get('code');
+
+  const [searchQuery, setSearchQuery] = useState(codeFromUrl || '');
   const [result, setResult] = useState<WarrantyData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,42 +43,59 @@ export default function WarrantyForm() {
   // Jalur pemanggilan API
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
+  const runSearch = useCallback(
+    async (rawCode: string) => {
+      const trimmed = rawCode.trim();
+      if (!trimmed) return;
+
+      setLoading(true);
+      setError(null);
+      setResult(null);
+      setHasSearched(true);
+
+      try {
+        const response = await fetch(`${baseUrl}/api/warranty/check?code=${encodeURIComponent(trimmed)}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Kode garansi tidak terdaftar atau tidak valid.');
+        }
+
+        if (data && data.success && data.data) {
+          setResult(data.data);
+        } else if (data && data.warranty_code) {
+          setResult(data);
+        } else {
+          throw new Error('Format data yang diterima dari server tidak sesuai.');
+        }
+      } catch (err: any) {
+        setError(err.message || 'Terjadi kesalahan koneksi saat menghubungi server.');
+      } finally {
+        setLoading(false);
+      }
+    },
+    [baseUrl]
+  );
+
+  // Auto-cari begitu halaman dibuka kalau ada ?code= di URL (hasil scan
+  // QR). Hanya jalan sekali saat mount / saat nilai query param berubah.
+  useEffect(() => {
+    if (codeFromUrl) {
+      runSearch(codeFromUrl);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [codeFromUrl]);
+
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!searchQuery.trim()) return;
-
-    setLoading(true);
-    setError(null);
-    setResult(null);
-    setHasSearched(true);
-
-    try {
-      const response = await fetch(`${baseUrl}/api/warranty/check?code=${encodeURIComponent(searchQuery.trim())}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Kode garansi tidak terdaftar atau tidak valid.');
-      }
-
-      if (data && data.success && data.data) {
-        setResult(data.data);
-      } else if (data && data.warranty_code) {
-        setResult(data);
-      } else {
-        throw new Error('Format data yang diterima dari server tidak sesuai.');
-      }
-    } catch (err: any) {
-      setError(err.message || 'Terjadi kesalahan koneksi saat menghubungi server.');
-    } finally {
-      setLoading(false);
-    }
+    runSearch(searchQuery);
   };
 
   const handleDownloadPDF = () => {
@@ -172,6 +206,47 @@ export default function WarrantyForm() {
                   <span style={{ display: 'block', fontSize: '12px', color: '#718096', marginBottom: '2px' }}>Identitas Kendaraan</span>
                   <span style={{ fontWeight: '600' }}>{result.car_type} ({result.car_plate})</span>
                 </div>
+                {result.vin && (
+                  <div style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: '8px' }}>
+                    <span style={{ display: 'block', fontSize: '12px', color: '#718096', marginBottom: '2px' }}>VIN (Nomor Rangka)</span>
+                    <span style={{ fontWeight: '600' }}>{result.vin}</span>
+                  </div>
+                )}
+                {result.product_category === 'ppf' && result.installation_position && (
+                  <div style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: '8px' }}>
+                    <span style={{ display: 'block', fontSize: '12px', color: '#718096', marginBottom: '2px' }}>Posisi Pemasangan</span>
+                    <span style={{ fontWeight: '600' }}>
+                      {result.installation_position === 'full_body' ? 'Seluruh Bodi' : 'Parsial'}
+                      {result.installation_position === 'partial' && result.installation_position_detail
+                        ? ` (${result.installation_position_detail})`
+                        : ''}
+                    </span>
+                  </div>
+                )}
+                {result.product_category === 'ppf' && result.roll_number && (
+                  <div style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: '8px' }}>
+                    <span style={{ display: 'block', fontSize: '12px', color: '#718096', marginBottom: '2px' }}>Roll Number / ID Material</span>
+                    <span style={{ fontWeight: '600' }}>{result.roll_number}</span>
+                  </div>
+                )}
+                {result.product_category === 'window_film' && result.roll_number_front && (
+                  <div style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: '8px' }}>
+                    <span style={{ display: 'block', fontSize: '12px', color: '#718096', marginBottom: '2px' }}>Roll Number — Kaca Depan</span>
+                    <span style={{ fontWeight: '600' }}>
+                      {result.roll_number_front}
+                      {result.film_model_front ? ` (${result.film_model_front})` : ''}
+                    </span>
+                  </div>
+                )}
+                {result.product_category === 'window_film' && result.roll_number_side_rear && (
+                  <div style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: '8px' }}>
+                    <span style={{ display: 'block', fontSize: '12px', color: '#718096', marginBottom: '2px' }}>Roll Number — Samping &amp; Belakang</span>
+                    <span style={{ fontWeight: '600' }}>
+                      {result.roll_number_side_rear}
+                      {result.film_model_side_rear ? ` (${result.film_model_side_rear})` : ''}
+                    </span>
+                  </div>
+                )}
                 <div style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: '8px' }}>
                   <span style={{ display: 'block', fontSize: '12px', color: '#718096', marginBottom: '2px' }}>Dealer Pelaksana</span>
                   <span style={{ fontWeight: '600' }}>{result.dealer_name}</span>

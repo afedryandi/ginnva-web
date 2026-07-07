@@ -117,6 +117,7 @@ export default function NewsGrid() {
                   <div className="b">
                     <div className="d">{formatDate(item.published_at)}</div>
                     <div className="t">{item.title}</div>
+                    {item.excerpt && <p className="ncard-excerpt">{item.excerpt}</p>}
                   </div>
                 </a>
               );

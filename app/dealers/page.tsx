@@ -1,23 +1,34 @@
 import React from 'react';
 import { Metadata } from 'next';
+import { seoDefaults } from '@/config/seo';
 import DealersList from './DealersList';
 
 export const metadata: Metadata = {
-  title: 'Lokasi Dealer | Ginnva Shield Indonesia',
-  description:
-    'Temukan dealer resmi Ginnva terdekat di kota Anda untuk pemasangan Kaca Film, Paint Protection Film, dan produk Ginnva lainnya.',
+  ...seoDefaults,
+  title: 'Dealer Resmi Ginnva — Lokasi Instalasi di Seluruh Indonesia',
+  description: 'Temukan dealer dan pusat instalasi resmi Ginnva terdekat di kota Anda. Pemasangan oleh teknisi bersertifikat dengan garansi resmi.',
+  openGraph: {
+    ...seoDefaults.openGraph,
+    title: 'Dealer Resmi Ginnva — Lokasi Instalasi di Seluruh Indonesia',
+    description: 'Temukan dealer dan pusat instalasi resmi Ginnva terdekat di kota Anda. Pemasangan oleh teknisi bersertifikat dengan garansi resmi.',
+    url: 'https://ginnva.id/dealers',
+  },
+  twitter: {
+    ...seoDefaults.twitter,
+    title: 'Dealer Resmi Ginnva — Lokasi Instalasi di Seluruh Indonesia',
+    description: 'Temukan dealer dan pusat instalasi resmi Ginnva terdekat di kota Anda. Pemasangan oleh teknisi bersertifikat dengan garansi resmi.',
+  },
 };
 
 export default function DealersPage() {
   return (
     <main data-page="dealers" data-nav="services" style={{ minHeight: '80vh', backgroundColor: 'var(--alt)' }}>
       {/* Banner Atas — pola sama dengan /warranty dan /quote */}
-      <section className="page-banner" style={{ backgroundColor: '#111', color: '#fff', padding: '60px 0', textAlign: 'center' }}>
+      <section className="page-banner">
+        <div className="bg" style={{ backgroundImage: `url('/image/building-image.webp')` }} />
         <div className="inner">
-          <h1 style={{ fontSize: '32px', fontWeight: 'bold', margin: '0 0 8px 0' }}>Lokasi Dealer</h1>
-          <div className="en" style={{ color: '#aaa', fontSize: '14px', letterSpacing: '1px' }}>
-            DEALER STORES
-          </div>
+          <h1>Lokasi Dealer</h1>
+          <div className="en">DEALER STORES</div>
         </div>
       </section>
 

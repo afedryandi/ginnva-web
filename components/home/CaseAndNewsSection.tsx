@@ -104,7 +104,16 @@ export default function CaseAndNewsSection() {
           </div>
 
           {cases.length === 0 ? (
-            <p style={{ color: 'var(--muted)', fontSize: '14px' }}>Belum ada galeri pemasangan yang ditambahkan.</p>
+            <div className="coming-soon-box">
+              <div className="coming-soon-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                  <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+                </svg>
+              </div>
+              <div className="coming-soon-title">Galeri Segera Hadir</div>
+              <p className="coming-soon-text">Kami sedang mengumpulkan dokumentasi hasil pemasangan terbaik. Pantau terus halaman ini.</p>
+            </div>
           ) : (
             <div className="case-main">
               <div className="bigPic">
@@ -151,7 +160,16 @@ export default function CaseAndNewsSection() {
           </div>
 
           {news.length === 0 ? (
-            <p style={{ color: 'var(--muted)', fontSize: '14px' }}>Belum ada berita yang dipublikasikan.</p>
+            <div className="coming-soon-box">
+              <div className="coming-soon-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M4 4h16v2.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4z"/><rect x="4" y="10" width="16" height="10" rx="2"/>
+                  <line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="17" x2="13" y2="17"/>
+                </svg>
+              </div>
+              <div className="coming-soon-title">Berita Segera Hadir</div>
+              <p className="coming-soon-text">Kami akan segera membagikan berita dan informasi terbaru seputar Ginnva Shield Indonesia.</p>
+            </div>
           ) : (
             <div className="news-con">
               {featuredNews && (
@@ -171,6 +189,7 @@ export default function CaseAndNewsSection() {
                     />
                   </div>
                   <div className="nm">{featuredNews.title}</div>
+                  {featuredNews.excerpt && <p className="news-excerpt">{featuredNews.excerpt}</p>}
                   <div className="date">{formatDate(featuredNews.published_at)}</div>
                 </Link>
               )}

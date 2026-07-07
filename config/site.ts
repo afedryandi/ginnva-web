@@ -17,55 +17,42 @@ export const GINNVA_PRODUCTS: ProductItem[] = [
   {
     id: '1',
     slug: 'kaca-film-mobil',
-    name: 'Film Kaca Mobil',
-    sub: 'CAR WINDOW FILM',
-    text: 'Penolak panas tinggi dengan kejernihan optimal. Seri Ziwei 70 efektif menahan inframerah dan ultraviolet, menjaga visibilitas sekaligus privasi dan kenyamanan kabin.',
-    long: 'Seri kaca film insulasi Ziwei 70 menggunakan proses magnetron sputtering berlapis. Lapisan komposit logam dan keramik memberikan penolakan inframerah yang unggul serta tingkat tembus cahaya yang tinggi, menahan ultraviolet secara jangka panjang, melindungi penumpang, sekaligus menjaga visibilitas jernih dan sinyal yang stabil.',
+    name: 'Car Window Film',
+    sub: 'KACA FILM MOBIL',
+    text: 'Teknologi Bi-silver Sputtering dan Nano-Ceramic Premium. Dapat memblokir Sinar Ultraviolet hingga 99%, tetap jernih dari dalam, anti silau, tanpa mengganggu sinyal GPS maupun e-Toll.',
+    long: 'Kaca Film Mobil Ginnva menggunakan teknologi pelapisan Magnetron Sputtering Multi-Layer dan Nano-Ceramic tingkat lanjut. Tersedia dalam berbagai seri mulai dari Bi-silver Sputtering (garansi 10 tahun) hingga Nano-Ceramic (garansi 8 tahun). Semua seri memberikan perlindungan UV hingga 99%, penolakan panas inframerah superior, dan kejernihan optik tinggi — tanpa mengganggu sinyal GPS maupun e-Toll.',
     img: '/image/product/car-window-film.webp',
-    gallery: [
-      'https://www.ginnvafilm.com/uploads/pic/e4/5ad92bf02161255577560bb31dfe87.jpg',
-      'https://www.ginnvafilm.com/uploads/pic/23/1b6e9f2d6a983b7b30290d9826d1c2.jpg',
-      'https://www.ginnvafilm.com/uploads/pic/15/74ecc81c6d95860a617accb549face.jpg'
-    ]
+    gallery: []
   },
   {
     id: '2',
     slug: 'film-pelindung-cat',
-    name: 'Film Perlindungan Cat',
-    sub: 'PAINT PROTECTION FILM',
-    text: 'Dengan struktur jaringan tiga dimensi (3D) dan rasio polimer molekul kecil yang presisi, terbentuk lapisan padat bermolekul besar yang sangat bening dan mengkilap, sekaligus anti-noda dan mampu memperbaiki diri (self-healing).',
-    long: 'Dengan struktur jaringan tiga dimensi (3D) dan rasio polimer molekul kecil yang presisi, terbentuk lapisan padat bermolekul besar yang sangat bening dan mengkilap, sekaligus anti-noda dan mampu memperbaiki diri (self-healing), melindungi kilau cat kendaraan Anda dalam jangka panjang.',
+    name: 'Paint Protection Film',
+    sub: 'FILM PELINDUNG CAT',
+    text: '100% Polycaprolactone TPU Generasi 3 dengan Crystal-Shield Coating. Self-Healing, Anti-Yellowing Superior, dan Super Hydrophobic — perlindungan cat tahan hingga 10 tahun.',
+    long: 'Ginnva PPF menggunakan bahan 100% Polycaprolactone TPU Generasi 3 dengan lapisan Crystal-Shield dan adhesive berkinerja tinggi. Tersedia dalam seri Black Crystal, Orange Crystal, dan Green Crystal. Melindungi cat dari goresan, benturan kerikil, dan korosi, dilengkapi kemampuan self-healing, ketahanan anti-yellowing superior, dan efek Super Hydrophobic yang membuat permukaan selalu bersih.',
     img: '/image/product/paint-protection-film.webp',
-    gallery: [
-      'https://www.ginnvafilm.com/static/home/images/indexProduct.jpg',
-      'https://www.ginnvafilm.com/uploads/pic/34/7dad16f6240f15bbd9be88d1f29262.jpg'
-    ]
+    gallery: []
   },
   {
     id: '3',
     slug: 'film-pengubah-warna',
-    name: 'Film Pengubah Warna',
-    sub: 'COLOR CHANGE FILM',
-    text: 'Pilihan warna kaya dengan beragam tekstur (doff, gloss, metalik), mudah diaplikasikan dan dirawat, mewujudkan tampilan bodi yang personal dan menyegarkan gaya kendaraan.',
-    long: 'Pilihan warna kaya dengan beragam tekstur (doff, gloss, metalik, electroplating), pemasangan menempel sempurna dan mudah dirawat, mewujudkan ubah warna bodi yang personal dan menyegarkan gaya kendaraan, menonjolkan selera unik Anda.',
+    name: 'Color Change Film',
+    sub: 'FILM PENGUBAH WARNA',
+    text: 'Ubah tampilan eksterior kendaraan secara instan dengan beragam pilihan warna dan tekstur: matte, satin, glossy (tanpa pengecatan ulang yang menurunkan nilai jual).',
+    long: 'Ginnva Color Change Film hadir dalam berbagai pilihan warna dan finishing tekstur premium — matte, satin, hingga ultra-gloss — berbasis material PVC berkualitas tinggi. Dipasang presisi menggunakan pola digital cutting sesuai tipe kendaraan, tampilan baru bisa dinikmati tanpa mengorbankan nilai jual kendaraan.',
     img: '/image/product/color-change-film.webp',
-    gallery: [
-      'https://www.ginnvafilm.com/uploads/pic/52/956f5d286e473e75392de4623e3feb.jpg',
-      'https://www.ginnvafilm.com/uploads/pic/c6/34e0b0d58b508c81a04fcd611e9e62.jpg'
-    ]
+    gallery: []
   },
   {
     id: '4',
     slug: 'film-kaca-bangunan',
-    name: 'Film Kaca Bangunan',
-    sub: 'ARCHITECTURAL FILM',
-    text: 'Solusi menyeluruh berupa insulasi panas, perlindungan UV, dan privasi untuk gedung maupun hunian, meningkatkan kenyamanan dan efisiensi energi.',
-    long: 'Solusi menyeluruh berupa insulasi panas, perlindungan UV, keamanan anti-pecah, dan privasi untuk gedung maupun hunian, menurunkan konsumsi pendingin udara secara efektif serta meningkatkan kenyamanan tempat tinggal dan kerja.',
+    name: 'Architectural Film',
+    sub: 'FILM KACA BANGUNAN',
+    text: 'Solusi efisiensi energi untuk gedung dan hunian. Menolak panas matahari secara signifikan, mengurangi beban kerja AC, memblokir paparan UV hingga 99% dan memberikan kenyamanan interior sepanjang hari.',
+    long: 'Ginnva Architectural Film dirancang untuk kaca gedung dan hunian: menolak panas secara signifikan, memblokir UV hingga 99%, meningkatkan privasi, serta memberikan perlindungan tambahan dari pecahan kaca. Hasilnya adalah interior yang lebih sejuk, nyaman, dan hemat energi sepanjang hari.',
     img: '/image/product/architectural-window-film.webp',
-    gallery: [
-      'https://www.ginnvafilm.com/uploads/pic/c6/34e0b0d58b508c81a04fcd611e9e62.jpg',
-      'https://www.ginnvafilm.com/uploads/pic/7b/19673c96eff1d8bc8772a3ea4dd706.jpg'
-    ]
+    gallery: []
   }
 ];
 
@@ -75,7 +62,7 @@ export const NAV_ITEMS = [
     label: 'Tentang',
     href: '/brand',
     sub: [
-      { label: 'Profil Brand', href: '/brand' },
+      { label: 'Profil Perusahaan', href: '/brand' },
       { label: 'Berita', href: '/news' },
       { label: 'Kontak', href: '/contact' }
     ]
@@ -93,8 +80,9 @@ export const NAV_ITEMS = [
     sub: [
       { label: 'Cek Garansi', href: '/warranty' },
       { label: 'Lokasi Dealer', href: '/dealers' },
-      { label: 'Minta Penawaran', href: '/quote' }
+      { label: 'Minta Penawaran', href: '/quote' },
+      { label: 'Kemitraan', href: '/kemitraan' }
     ]
   },
-  { label: 'Toko Online', href: MALL_URL, blank: true }
+  { label: 'Toko Online', href: MALL_URL, blank: true, comingSoon: true }
 ];

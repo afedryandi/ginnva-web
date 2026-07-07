@@ -11,6 +11,7 @@ interface VehicleOption {
   id: number;
   brand: string;
   model: string;
+  variant: string | null;
 }
 
 interface FilmProductOption {
@@ -20,6 +21,7 @@ interface FilmProductOption {
 }
 
 interface QuotationOptions {
+  brands: string[];
   vehicles: VehicleOption[];
   products: FilmProductOption[];
 }
@@ -45,13 +47,19 @@ export default function QuoteForm() {
   const [options, setOptions] = useState<QuotationOptions | null>(null);
   const [optionsLoading, setOptionsLoading] = useState(false);
   const [optionsError, setOptionsError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   const isAvailable = selected ? AVAILABLE_PRODUCT_IDS.includes(selected.id) : false;
+
+  const retryLoadOptions = () => {
+    setOptionsError(null);
+    setRetryCount((c) => c + 1);
+  };
 
   // Ambil data dropdown (vehicles & products) hanya saat dibutuhkan,
   // yaitu ketika customer memilih produk yang sudah dijual.
   useEffect(() => {
-    if (!selected || !isAvailable || options) return;
+    if (!selected || !isAvailable || options) return; // `options` is null on retry since we never set it on error
 
     let cancelled = false;
     setOptionsLoading(true);
@@ -78,7 +86,7 @@ export default function QuoteForm() {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected, isAvailable]);
+  }, [selected, isAvailable, retryCount]);
 
   return (
     <>
@@ -128,6 +136,7 @@ export default function QuoteForm() {
                 options={options}
                 loading={optionsLoading}
                 error={optionsError}
+                onRetry={retryLoadOptions}
                 onDone={() => setSelected(null)}
               />
             ) : (
@@ -148,17 +157,23 @@ function QuotationFormPanel({
   options,
   loading,
   error,
+  onRetry,
   onDone,
 }: {
   product: ProductItem;
   options: QuotationOptions | null;
   loading: boolean;
   error: string | null;
+  onRetry: () => void;
   onDone: () => void;
 }) {
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const [selectedModel, setSelectedModel] = useState('');
+  const [selectedVariant, setSelectedVariant] = useState('');
   const [vehicleId, setVehicleId] = useState('');
   const [filmProductId, setFilmProductId] = useState('');
   const [customerName, setCustomerName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [licensePlate, setLicensePlate] = useState('');
   const [message, setMessage] = useState('');
@@ -170,11 +185,54 @@ function QuotationFormPanel({
   const filmType = PRODUCT_ID_TO_TYPE[product.id];
   const filteredProducts = options?.products.filter((p) => p.product_type === filmType) ?? [];
 
-  const sortedVehicles = options
-    ? [...options.vehicles].sort((a, b) =>
-        `${a.brand} ${a.model}`.localeCompare(`${b.brand} ${b.model}`)
-      )
+  // Cascading vehicle helpers
+  const modelsForBrand = options
+    ? [...new Set(options.vehicles.filter((v) => v.brand === selectedBrand).map((v) => v.model))]
     : [];
+
+  const variantsForModel = options
+    ? options.vehicles
+        .filter((v) => v.brand === selectedBrand && v.model === selectedModel && v.variant)
+        .map((v) => v.variant as string)
+    : [];
+
+  const hasVariants = variantsForModel.length > 0;
+
+  const handleBrandChange = (brand: string) => {
+    setSelectedBrand(brand);
+    setSelectedModel('');
+    setSelectedVariant('');
+    setVehicleId('');
+  };
+
+  const handleModelChange = (model: string) => {
+    setSelectedModel(model);
+    setSelectedVariant('');
+    // Jika tidak ada varian, langsung resolve vehicle id
+    if (options) {
+      const variants = options.vehicles.filter(
+        (v) => v.brand === selectedBrand && v.model === model && v.variant
+      );
+      if (variants.length === 0) {
+        const match = options.vehicles.find(
+          (v) => v.brand === selectedBrand && v.model === model
+        );
+        setVehicleId(match ? String(match.id) : '');
+      } else {
+        setVehicleId('');
+      }
+    }
+  };
+
+  const handleVariantChange = (variant: string) => {
+    setSelectedVariant(variant);
+    if (options) {
+      const match = options.vehicles.find(
+        (v) => v.brand === selectedBrand && v.model === selectedModel && v.variant === variant
+      );
+      setVehicleId(match ? String(match.id) : '');
+    }
+  };
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -188,6 +246,7 @@ function QuotationFormPanel({
         body: JSON.stringify({
           vehicle_id: Number(vehicleId),
           customer_name: customerName,
+          customer_email: customerEmail,
           customer_phone: customerPhone,
           license_plate: licensePlate || undefined,
           message: message || undefined,
@@ -233,28 +292,75 @@ function QuotationFormPanel({
 
       {loading && <p style={{ color: 'var(--muted)', fontSize: '14px' }}>Memuat pilihan mobil & produk...</p>}
       {error && (
-        <div className="book-ok show" style={{ display: 'block', background: '#fff0f0', borderColor: 'rgba(229,62,62,.3)', color: '#c53030' }}>
+        <div className="book-ok show" style={{ display: 'block', background: '#fff0f0', borderColor: 'rgba(229,62,62,.3)', color: '#c53030', marginBottom: '16px' }}>
           {error}
+          <button
+            type="button"
+            onClick={onRetry}
+            style={{ display: 'block', marginTop: '8px', fontSize: '13px', color: '#c53030', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+          >
+            Coba lagi
+          </button>
         </div>
       )}
 
       {options && (
         <div className="grid">
+          {/* Cascade Level 1 — Merek */}
           <div className="fld">
-            <label htmlFor="vehicle">Kendaraan</label>
-            <select id="vehicle" required value={vehicleId} onChange={(e) => setVehicleId(e.target.value)}>
-              <option value="" disabled>
-                Pilih mobil Anda
-              </option>
-              {sortedVehicles.map((v) => (
-                <option key={v.id} value={v.id}>
-                  {v.brand} {v.model}
-                </option>
+            <label htmlFor="vehicle-brand">Merek Mobil</label>
+            <select
+              id="vehicle-brand"
+              required
+              value={selectedBrand}
+              onChange={(e) => handleBrandChange(e.target.value)}
+            >
+              <option value="" disabled>Pilih merek...</option>
+              {options.brands.map((b) => (
+                <option key={b} value={b}>{b}</option>
               ))}
             </select>
           </div>
 
+          {/* Cascade Level 2 — Tipe */}
           <div className="fld">
+            <label htmlFor="vehicle-model">Tipe Mobil</label>
+            <select
+              id="vehicle-model"
+              required
+              value={selectedModel}
+              onChange={(e) => handleModelChange(e.target.value)}
+              disabled={!selectedBrand}
+            >
+              <option value="" disabled>
+                {selectedBrand ? 'Pilih tipe...' : 'Pilih merek dulu'}
+              </option>
+              {modelsForBrand.map((m) => (
+                <option key={m} value={m}>{m}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Cascade Level 3 — Varian (hanya jika ada) */}
+          {selectedModel && hasVariants && (
+            <div className="fld full">
+              <label htmlFor="vehicle-variant">Varian</label>
+              <select
+                id="vehicle-variant"
+                required
+                value={selectedVariant}
+                onChange={(e) => handleVariantChange(e.target.value)}
+              >
+                <option value="" disabled>Pilih varian...</option>
+                {variantsForModel.map((v) => (
+                  <option key={v} value={v}>{v}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {/* Produk film */}
+          <div className="fld full">
             <label htmlFor="film-product">Varian {product.name}</label>
             <select
               id="film-product"
@@ -262,19 +368,16 @@ function QuotationFormPanel({
               value={filmProductId}
               onChange={(e) => setFilmProductId(e.target.value)}
             >
-              <option value="" disabled>
-                Pilih varian
-              </option>
+              <option value="" disabled>Pilih varian produk</option>
               {filteredProducts.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
+                <option key={p.id} value={p.id}>{p.name}</option>
               ))}
             </select>
           </div>
 
+          {/* Data kontak */}
           <div className="fld">
-            <label htmlFor="customer-name">Nama Lengkap</label>
+            <label htmlFor="customer-name">Nama Lengkap *</label>
             <input
               id="customer-name"
               type="text"
@@ -286,7 +389,19 @@ function QuotationFormPanel({
           </div>
 
           <div className="fld">
-            <label htmlFor="customer-phone">Nomor WhatsApp</label>
+            <label htmlFor="customer-email">Email *</label>
+            <input
+              id="customer-email"
+              type="email"
+              required
+              value={customerEmail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
+              placeholder="nama@email.com"
+            />
+          </div>
+
+          <div className="fld">
+            <label htmlFor="customer-phone">Nomor WhatsApp *</label>
             <input
               id="customer-phone"
               type="tel"
@@ -310,9 +425,9 @@ function QuotationFormPanel({
 
           <div className="fld full">
             <label htmlFor="message">Catatan (opsional)</label>
-            <input
+            <textarea
               id="message"
-              type="text"
+              rows={3}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Mis. mau tanya harga depan saja"
@@ -400,7 +515,7 @@ function AvailabilityInquiryPanel({ product, onDone }: { product: ProductItem; o
         Tanya Ketersediaan
       </h3>
       <p style={{ color: 'var(--muted)', fontSize: '14px', marginBottom: '24px' }}>
-        {product.name} belum tersedia di Indonesia. Tinggalkan kontak Anda dan kami akan menghubungi
+        {product.name} belum tersedia saat ini. Tinggalkan kontak Anda dan kami akan menghubungi
         begitu produk ini siap dipasarkan.
       </p>
 
@@ -431,9 +546,9 @@ function AvailabilityInquiryPanel({ product, onDone }: { product: ProductItem; o
 
         <div className="fld full">
           <label htmlFor="inq-message">Catatan (opsional)</label>
-          <input
+          <textarea
             id="inq-message"
-            type="text"
+            rows={3}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Mis. tertarik warna apa, untuk mobil apa, dsb."

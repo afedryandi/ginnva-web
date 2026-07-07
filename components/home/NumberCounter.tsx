@@ -3,21 +3,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 interface NumberCounterProps {
-  value: number | string;
+  value: number;
   label: string;
+  hasPlus?: boolean;
 }
 
-export default function NumberCounter({ value, label }: NumberCounterProps) {
+export default function NumberCounter({ value, label, hasPlus = false }: NumberCounterProps) {
   const counterRef = useRef<HTMLDivElement>(null);
   const [displayValue, setDisplayValue] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-
-  // Extract numeric value
-  const numericValue = typeof value === 'string' 
-    ? parseInt(value.replace(/\D/g, ''), 10) 
-    : value;
-
-  const hasPlus = typeof value === 'string' && value.includes('+');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -44,11 +38,11 @@ export default function NumberCounter({ value, label }: NumberCounterProps) {
     if (!isVisible) return;
 
     let currentValue = 0;
-    const increment = Math.ceil(numericValue / 30); // 30 frames for animation
+    const increment = Math.ceil(value / 30); // 30 frames for animation
     const interval = setInterval(() => {
       currentValue += increment;
-      if (currentValue >= numericValue) {
-        setDisplayValue(numericValue);
+      if (currentValue >= value) {
+        setDisplayValue(value);
         clearInterval(interval);
       } else {
         setDisplayValue(currentValue);
@@ -56,7 +50,7 @@ export default function NumberCounter({ value, label }: NumberCounterProps) {
     }, 50); // ~1.5s total animation
 
     return () => clearInterval(interval);
-  }, [isVisible, numericValue]);
+  }, [isVisible, value]);
 
   return (
     <div ref={counterRef} className="num">
@@ -68,4 +62,3 @@ export default function NumberCounter({ value, label }: NumberCounterProps) {
     </div>
   );
 }
-

@@ -5,6 +5,7 @@ interface NewsDetailContentProps {
   title: string;
   publishedAt: string | null;
   coverImage: string | null;
+  excerpt: string | null;
   content: string | null;
 }
 
@@ -18,10 +19,21 @@ function formatDate(dateString: string | null): string {
   });
 }
 
+function sanitizeContent(html: string): string {
+  return html
+    // <p> with only a URL
+    .replace(/<p[^>]*>\s*https?:\/\/[^\s<"']+\s*<\/p>/gi, '')
+    // <figcaption> with only a URL
+    .replace(/<figcaption[^>]*>\s*https?:\/\/[^\s<"']+\s*<\/figcaption>/gi, '')
+    // bare URL text node immediately after <img ...>
+    .replace(/(<img[^>]*\/?>)\s*https?:\/\/[^\s<"']+/gi, '$1');
+}
+
 export default function NewsDetailContent({
   title,
   publishedAt,
   coverImage,
+  excerpt,
   content,
 }: NewsDetailContentProps) {
   return (
@@ -30,6 +42,7 @@ export default function NewsDetailContent({
         <article className="article">
           <h2>{title}</h2>
           <div className="upd">{formatDate(publishedAt)}</div>
+          {excerpt && <p className="article-excerpt">{excerpt}</p>}
 
           {coverImage && (
             <div style={{ margin: '0 0 28px', borderRadius: '14px', overflow: 'hidden' }}>
@@ -53,7 +66,7 @@ export default function NewsDetailContent({
             konsisten tanpa ikut menimpa elemen lain di luar konten.
           */}
           {content ? (
-            <div dangerouslySetInnerHTML={{ __html: content }} />
+            <div dangerouslySetInnerHTML={{ __html: sanitizeContent(content) }} />
           ) : (
             <p>Konten berita ini belum tersedia.</p>
           )}
