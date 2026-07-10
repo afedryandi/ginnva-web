@@ -5,7 +5,7 @@ export default function CaseBanner() {
     <section className="page-banner">
       <div
         className="bg"
-        style={{ backgroundImage: `url('/image/hero-banner.webp')` }}
+        style={{ backgroundImage: `url('/image/case-banner.webp')` }}
       />
       <div className="inner">
         <h1>Galeri Pemasangan</h1>

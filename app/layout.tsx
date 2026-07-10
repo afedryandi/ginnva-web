@@ -3,11 +3,12 @@ import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import ChatWidget from '@/components/chat/ChatWidget';
-import { seoDefaults, SITE_NAME, SITE_DESCRIPTION, SITE_URL } from '@/config/seo';
+import { seoDefaults, SITE_NAME, SITE_DESCRIPTION, SITE_URL, canonical } from '@/config/seo';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 
 export const metadata: Metadata = {
   ...seoDefaults,
+  ...canonical('/'),
   metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_NAME,
@@ -45,8 +46,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               '@type': 'Organization',
               name: 'PT Ginnva Shield Indonesia',
               url: SITE_URL,
-              logo: `${SITE_URL}/logo.png`,
-              sameAs: [],
+              logo: `${SITE_URL}/image/ginnva-logo-red.webp`,
+              sameAs: [
+                'https://www.instagram.com/ginnva.id',
+                'https://www.tiktok.com/@ginnva.id',
+                'https://www.facebook.com/ginnvaid',
+                'https://www.linkedin.com/company/ginnva-indonesia',
+              ],
               contactPoint: {
                 '@type': 'ContactPoint',
                 contactType: 'customer service',

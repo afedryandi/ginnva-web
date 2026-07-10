@@ -5,10 +5,11 @@ import BrandStrength from '@/components/brand/BrandStrength';
 import BrandHonor from '@/components/brand/BrandHonor';
 
 import type { Metadata } from 'next';
-import { seoDefaults } from '@/config/seo';
+import { seoDefaults, canonical } from '@/config/seo';
 
 export const metadata: Metadata = {
   ...seoDefaults,
+  ...canonical('/brand'),
   title: 'Tentang Ginnva — Brand PPF & Kaca Film Premium',
   description: 'PT. Ginnva Shield Indonesia adalah distributor resmi brand Ginnva di Indonesia. Menghadirkan Paint Protection Film dan Kaca Film Mobil premium berstandar internasional.',
   openGraph: {

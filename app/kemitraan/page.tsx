@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
-import { seoDefaults } from '@/config/seo';
+import { seoDefaults, canonical } from '@/config/seo';
 import PartnershipForm from './PartnershipForm';
 
 export const metadata: Metadata = {
   ...seoDefaults,
+  ...canonical('/kemitraan'),
   title: 'Kemitraan — Ginnva Shield Indonesia',
   description: 'Bergabunglah sebagai mitra resmi dealer Ginnva Shield Indonesia. Daftarkan kota Anda dan jadilah bagian dari jaringan distributor PPF & Kaca Film premium.',
   openGraph: {

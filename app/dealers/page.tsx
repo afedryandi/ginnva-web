@@ -1,10 +1,11 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { seoDefaults } from '@/config/seo';
+import { seoDefaults, canonical } from '@/config/seo';
 import DealersList from './DealersList';
 
 export const metadata: Metadata = {
   ...seoDefaults,
+  ...canonical('/dealers'),
   title: 'Dealer Resmi Ginnva — Lokasi Instalasi di Seluruh Indonesia',
   description: 'Temukan dealer dan pusat instalasi resmi Ginnva terdekat di kota Anda. Pemasangan oleh teknisi bersertifikat dengan garansi resmi.',
   openGraph: {

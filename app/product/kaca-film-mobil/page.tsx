@@ -1,6 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { seoDefaults } from '@/config/seo';
+import { seoDefaults, canonical } from '@/config/seo';
 import ProductBanner from '@/components/product/ProductBanner';
 import ProductIntro from '@/components/product/ProductIntro';
 import ProductSpecs from '@/components/product/ProductSpecs';
@@ -9,6 +9,7 @@ import ProductFaq from '@/components/product/ProductFaq';
 
 export const metadata: Metadata = {
   ...seoDefaults,
+  ...canonical('/product/kaca-film-mobil'),
   title: 'Kaca Film Mobil Premium Ginnva — Teknologi Bi-Silver & Nano-Ceramic',
   description: 'Kaca film mobil Ginnva dengan teknologi Bi-silver Sputtering dan Nano-Ceramic. Tolak panas hingga 93%, blokir UV 99%, garansi hingga 10 tahun.',
   openGraph: {

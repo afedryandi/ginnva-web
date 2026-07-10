@@ -2,6 +2,12 @@
 
 import React from 'react';
 
+// Video di-host di server API sendiri (public/video/ di project ginnva-api),
+// BUKAN di Cloudflare R2 (r2.dev) — domain r2.dev sering diblokir ISP
+// Indonesia karena reputasi domain publik bersama. api.ginnva.id sudah
+// terbukti stabil untuk seluruh trafik API, jadi dipakai juga untuk ini.
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://api.ginnva.id';
+
 export default function HeroSection() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -12,7 +18,6 @@ export default function HeroSection() {
 
   return (
     <section className="banner">
-      {/* Video background — ganti src ke path video setelah file tersedia */}
       <video
         autoPlay
         muted
@@ -21,13 +26,9 @@ export default function HeroSection() {
         poster="/image/hero-banner.webp"
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
       >
-        <source src="https://pub-83dd07bf59f14f50a2f4a0eab76393e4.r2.dev/ginnva-hero.mp4" type="video/mp4" />
+        <source src={`${API_BASE}/video/ginnva-hero.mp4`} type="video/mp4" />
         {/* Fallback: browser yang tidak support video akan tampil poster image */}
       </video>
-      <div className="cap">
-        <div className="en">GINNVA</div>
-        <div className="cn">WITH YOU ALL THE WAY</div>
-      </div>
       <a
         onClick={() => scrollToSection('brand')}
         className="scrolldown"

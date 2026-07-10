@@ -106,122 +106,67 @@ export default function ProductGalleryDynamic({ productType }: Props) {
         )}
 
         {!loading && !error && cases.length > 0 && (
-          <div
-            className="pd-gallery"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: '16px',
-              marginTop: '24px',
-            }}
-          >
+          <div className="pd-gallery">
             {cases.map((item, idx) => (
               <button
                 key={item.id}
                 type="button"
-                className="pic"
+                className="pd-shot"
                 onClick={() => setSelected(item)}
-                style={{
-                  overflow: 'hidden',
-                  borderRadius: '4px',
-                  cursor: 'zoom-in',
-                  border: 'none',
-                  padding: 0,
-                  background: 'transparent',
-                  textAlign: 'left',
-                  display: 'block',
-                }}
               >
                 <Image
                   src={item.image || FALLBACK_IMAGE}
                   alt={item.short_title}
-                  width={400}
-                  height={280}
-                  style={{ width: '100%', height: 'auto', objectFit: 'cover', display: 'block' }}
+                  fill
+                  style={{ objectFit: 'cover' }}
                   loading={idx < 4 ? 'eager' : 'lazy'}
                 />
                 {(item.vehicle || item.film_product) && (
-                  <div style={{
-                    padding: '8px 4px 4px',
-                    fontSize: '13px',
-                    color: 'var(--muted, #666)',
-                  }}>
+                  <div className="pd-shot-caption">
                     {[
                       item.vehicle ? `${item.vehicle.brand} ${item.vehicle.model}` : null,
                       item.film_product?.name,
                     ].filter(Boolean).join(' · ')}
                   </div>
                 )}
+                <span className="zoom-hint" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="m21 21-4.35-4.35M11 8v6M8 11h6" />
+                  </svg>
+                </span>
               </button>
             ))}
           </div>
         )}
       </div>
 
-      {/* Lightbox */}
+      {/* Lightbox — pakai class yang sama dengan galeri di halaman lain
+          supaya pengalaman melihat foto konsisten di seluruh situs. */}
       {selected && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          onClick={() => setSelected(null)}
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(0,0,0,.85)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '32px',
-            zIndex: 1000,
-          }}
-        >
-          <button
-            type="button"
-            onClick={() => setSelected(null)}
-            aria-label="Tutup"
-            style={{
-              position: 'absolute',
-              top: '20px',
-              right: '24px',
-              background: 'transparent',
-              border: 'none',
-              color: '#fff',
-              fontSize: '32px',
-              lineHeight: 1,
-              cursor: 'pointer',
-            }}
-          >
-            &times;
+        <div className="lightbox" role="dialog" aria-modal="true" onClick={() => setSelected(null)}>
+          <button className="lightbox-close" onClick={() => setSelected(null)} aria-label="Tutup">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
           </button>
-
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{ maxWidth: '90vw', maxHeight: '80vh', textAlign: 'center' }}
-          >
+          <div className="lightbox-inner" onClick={(e) => e.stopPropagation()}>
             <Image
               src={selected.image || FALLBACK_IMAGE}
               alt={selected.title}
-              width={1000}
-              height={650}
-              style={{
-                width: '100%',
-                height: 'auto',
-                maxHeight: '70vh',
-                objectFit: 'contain',
-                borderRadius: '8px',
-              }}
+              fill
+              style={{ objectFit: 'contain' }}
             />
-            <div style={{ color: '#fff', marginTop: '16px', fontSize: '16px' }}>
-              {selected.title}
-            </div>
+          </div>
+          <div className="lightbox-caption">
+            {selected.title}
             {(selected.vehicle || selected.film_product) && (
-              <div style={{ color: 'rgba(255,255,255,.6)', marginTop: '4px', fontSize: '14px' }}>
+              <span className="lightbox-caption-sub">
                 {[
                   selected.vehicle ? `${selected.vehicle.brand} ${selected.vehicle.model}` : null,
                   selected.film_product?.name,
                 ].filter(Boolean).join(' · ')}
-              </div>
+              </span>
             )}
           </div>
         </div>

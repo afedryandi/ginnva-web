@@ -10,8 +10,28 @@ interface Props {
 }
 
 export default function ProductFaq({ faqs }: Props) {
+  // Schema FAQPage — supaya Google bisa tampilkan Q&A ini sebagai rich
+  // snippet, dan AI search (ChatGPT/Perplexity/AI Overview) lebih mudah
+  // mengutip jawabannya langsung.
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
+      },
+    })),
+  };
+
   return (
     <section className="psec psec--alt">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="wrap">
         <div className="head">
           <div className="t">Pertanyaan Umum</div>

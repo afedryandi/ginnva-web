@@ -1,11 +1,12 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { seoDefaults } from '@/config/seo';
+import { seoDefaults, canonical } from '@/config/seo';
 import ProductBanner from '@/components/product/ProductBanner';
 import ProductIntro from '@/components/product/ProductIntro';
 
 export const metadata: Metadata = {
   ...seoDefaults,
+  ...canonical('/product/film-pengubah-warna'),
   title: 'Color Change Film Ginnva — Ubah Warna Kendaraan Tanpa Cat Ulang',
   description: 'Ganti tampilan kendaraan dengan Color Change Film Ginnva. Tersedia matte, satin, ultra-gloss dalam ratusan pilihan warna. Tanpa cat ulang.',
   openGraph: {

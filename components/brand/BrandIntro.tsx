@@ -6,7 +6,7 @@ function BuildingPhoto({ src, alt, label }: { src: string; alt: string; label: s
   const [errored, setErrored] = useState(false);
 
   return (
-    <div style={{ width: '100%', aspectRatio: '16/9', overflow: 'hidden', background: 'linear-gradient(135deg, #f2f5fa 0%, #e8edf5 100%)' }}>
+    <div className="ec-photo" style={{ width: '100%', aspectRatio: '16/9', overflow: 'hidden', background: 'linear-gradient(135deg, #f2f5fa 0%, #e8edf5 100%)' }}>
       {!errored ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -41,15 +41,13 @@ export default function BrandIntro() {
   return (
     <>
       {/* ===================== PAGE BANNER ===================== */}
-      <section className="page-banner">
-        <div
-          className="bg"
-          style={{ backgroundImage: `url('/image/building-image.webp')` }}
+      <section className="banner brand-banner">
+        <img
+          src="/image/building-image.webp"
+          alt="Ginnva Building"
+          className="banner-img"
         />
-        <div className="inner">
-          <h1>Profil Brand</h1>
-          <div className="en">Brand Introduction</div>
-        </div>
+        <a className="scrolldown" aria-label="Gulir ke bawah" />
       </section>
 
       {/* ===================== PROFIL PERUSAHAAN ===================== */}
@@ -69,7 +67,7 @@ export default function BrandIntro() {
           }}>
 
             {/* ── Ginnva Indonesia ─────────────────────────────────── */}
-            <div style={{ border: '1px solid var(--line)', borderRadius: '18px', overflow: 'hidden', background: '#fff' }}>
+            <div className="entity-card">
               <BuildingPhoto
                 src="/image/building-image.webp"
                 alt="Gedung PT. Ginnva Shield Indonesia"
@@ -100,7 +98,7 @@ export default function BrandIntro() {
             </div>
 
             {/* ── Ginnva China ─────────────────────────────────────── */}
-            <div style={{ border: '1px solid var(--line)', borderRadius: '18px', overflow: 'hidden', background: '#fff' }}>
+            <div className="entity-card">
               <BuildingPhoto
                 src="/image/building-china.webp"
                 alt="Kantor Pusat Ginnva China"
@@ -118,7 +116,7 @@ export default function BrandIntro() {
                   </span>
                 </div>
                 <h3 style={{ fontSize: '20px', fontWeight: '800', color: 'var(--ink)', marginBottom: '14px', lineHeight: '1.35' }}>
-                  Ginnva New Material Co., Ltd.
+                  Shanghai Smith Adhesive New Material Co., Ltd.
                   <span style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: 'var(--muted-2)', marginTop: '4px', letterSpacing: '.02em' }}>
                     SSE: 603683
                   </span>
@@ -128,11 +126,27 @@ export default function BrandIntro() {
                   <br /><br />
                   Bisnis Ginnva China mencakup tiga bidang utama: <strong>material perekat industri</strong>, <strong>material perekat elektronik</strong>, dan <strong>material film fungsional</strong>. Produknya diaplikasikan di industri otomotif (PPF, Kaca Film, dan Color Change Film), konstruksi & dekorasi, baterai kendaraan listrik, serta layar sentuh.
                   <br /><br />
-                  Dengan komitmen pada inovasi teknologi, Ginnva China melayani lebih dari <strong>70 negara</strong> di seluruh dunia melalui kolaborasi riset bersama pelanggan industri terkemuka.
+                  Dengan komitmen pada inovasi teknologi, Ginnva China melayani lebih dari <strong>110 negara</strong> di seluruh dunia melalui kolaborasi riset bersama pelanggan industri terkemuka.
                 </p>
               </div>
             </div>
 
+          </div>
+
+          {/* ── Kotak kepercayaan/penunjukan mitra — diletakkan di tengah,
+                di antara kolom Ginnva Indonesia & Ginnva China ─────────── */}
+          <div style={{
+            maxWidth: '760px',
+            margin: '32px auto 0',
+            textAlign: 'center',
+            background: 'rgba(237,22,81,.05)',
+            border: '1px solid rgba(237,22,81,.15)',
+            borderRadius: '16px',
+            padding: '28px 32px',
+          }}>
+            <p style={{ fontSize: '15px', color: 'var(--muted)', lineHeight: '1.85', margin: 0 }}>
+              Sebagai bentuk kepercayaan dan ekspansi global, Shanghai Smith Adhesive New Material Co., Ltd. secara resmi menunjuk <strong>PT. Ginnva Shield Indonesia</strong> sebagai mitra dan perwakilan eksklusif di Indonesia untuk memasarkan serta mendistribusikan produk film otomotif bermerek <strong>Ginnva</strong>.
+            </p>
           </div>
 
           {/* Stat row gabungan

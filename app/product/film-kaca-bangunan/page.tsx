@@ -1,11 +1,12 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { seoDefaults } from '@/config/seo';
+import { seoDefaults, canonical } from '@/config/seo';
 import ProductBanner from '@/components/product/ProductBanner';
 import ProductIntro from '@/components/product/ProductIntro';
 
 export const metadata: Metadata = {
   ...seoDefaults,
+  ...canonical('/product/film-kaca-bangunan'),
   title: 'Film Kaca Bangunan Ginnva — Efisiensi Energi & Perlindungan UV',
   description: 'Ginnva Architectural Film untuk gedung dan hunian. Tolak panas matahari, hemat energi AC, blokir UV 99%. Solusi kaca bangunan premium.',
   openGraph: {

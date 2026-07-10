@@ -14,7 +14,7 @@ export default function Header() {
   const pathname = usePathname();
 
   // Halaman beranda (/) biasanya memiliki hero transparan, halaman lain solid
-  const isHomePage = pathname === '/';
+  const isHomePage = pathname === '/' || pathname === '/brand';
 
   useEffect(() => {
     const handleScroll = () => {

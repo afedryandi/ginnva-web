@@ -1,10 +1,11 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { seoDefaults } from '@/config/seo';
+import { seoDefaults, canonical } from '@/config/seo';
 
 export const metadata: Metadata = {
   ...seoDefaults,
-  title: 'Pernyataan Hukum — Ginnva House',
+  ...canonical('/legal'),
+  title: 'Pernyataan Hukum — Ginnva Shield Indonesia',
   description: 'Pernyataan Hukum PT. Ginnva Shield Indonesia mencakup ketentuan penggunaan, hak kekayaan intelektual, dan pembatasan tanggung jawab.',
 };
 
@@ -29,7 +30,7 @@ export default function LegalPage() {
               Situs web ini (<strong>ginnva.id</strong>) dioperasikan oleh <strong>PT. Ginnva Shield Indonesia</strong>,
               perusahaan yang terdaftar dan berkedudukan hukum di Indonesia, beralamat di Thamrin Business Center,
               Jl. M.H Thamrin Blok 1 No. 52, PIK 2, Kosambi, Tangerang, Banten 15210.
-              PT. Ginnva Shield Indonesia merupakan mitra resmi dan perwakilan dari Ginnva New Material Co., Ltd.
+              PT. Ginnva Shield Indonesia merupakan mitra resmi dan perwakilan dari Shanghai Smith Adhesive New Material Co., Ltd.
               (SSE: 603683) di Indonesia.
             </p>
 
@@ -50,7 +51,7 @@ export default function LegalPage() {
             <p>
               Seluruh konten yang terdapat di situs web ini — termasuk namun tidak terbatas pada teks, gambar,
               logo, grafis, ikon, video, desain antarmuka, dan perangkat lunak — merupakan milik PT. Ginnva
-              Shield Indonesia dan/atau Ginnva New Material Co., Ltd., serta dilindungi oleh hukum hak cipta,
+              Shield Indonesia dan/atau Shanghai Smith Adhesive New Material Co., Ltd., serta dilindungi oleh hukum hak cipta,
               merek dagang, dan kekayaan intelektual yang berlaku.
             </p>
             <p>

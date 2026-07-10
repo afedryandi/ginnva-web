@@ -3,10 +3,11 @@ import ContactBanner from '@/components/contact/ContactBanner';
 import ContactContent from '@/components/contact/ContactContent';
 
 import type { Metadata } from 'next';
-import { seoDefaults } from '@/config/seo';
+import { seoDefaults, canonical } from '@/config/seo';
 
 export const metadata: Metadata = {
   ...seoDefaults,
+  ...canonical('/contact'),
   title: 'Hubungi Kami — Ginnva Shield Indonesia',
   description: 'Hubungi tim Ginnva Shield Indonesia untuk pertanyaan produk, garansi, atau kemitraan dealer. Kami siap membantu.',
   openGraph: {

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { seoDefaults } from '@/config/seo';
+import { seoDefaults, canonical } from '@/config/seo';
 import CaseBanner from '@/components/case/CaseBanner';
 import CaseGrid from '@/components/case/CaseGrid';
 
 export const metadata: Metadata = {
   ...seoDefaults,
+  ...canonical('/case'),
   title: 'Portofolio & Case Study — Hasil Pemasangan Ginnva',
   description: 'Lihat portofolio hasil pemasangan Paint Protection Film dan Kaca Film Ginnva pada berbagai jenis kendaraan premium di Indonesia.',
   openGraph: {

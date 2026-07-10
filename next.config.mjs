@@ -1,9 +1,10 @@
-import type { NextConfig } from "next";
+// @ts-check
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   // Silence Turbopack workspace root warning (ada dua package-lock.json)
   turbopack: {
-    root: __dirname,
+    root: import.meta.dirname,
   },
   images: {
     // Format modern — browser yang support AVIF/WebP otomatis dapat versi

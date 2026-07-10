@@ -63,7 +63,9 @@ export const NAV_ITEMS = [
     href: '/brand',
     sub: [
       { label: 'Profil Perusahaan', href: '/brand' },
+      { label: 'Galeri Pemasangan', href: '/case' },
       { label: 'Berita', href: '/news' },
+      { label: 'Karier', href: '/karier' },
       { label: 'Kontak', href: '/contact' }
     ]
   },

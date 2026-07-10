@@ -12,6 +12,17 @@ export const SITE_TWITTER = '@ginnvaid';
 // OG Image default — public/og-default.jpg (1200x630px)
 export const OG_IMAGE_DEFAULT = `${SITE_URL}/og-default.jpg`;
 
+// Helper canonical URL — pakai di tiap page.tsx: `...canonical('/brand')`
+// supaya Google tahu persis URL "resmi" tiap halaman, mencegah masalah
+// duplicate content (mis. akses lewat query string atau trailing slash).
+export function canonical(path: string = '/') {
+  return {
+    alternates: {
+      canonical: `${SITE_URL}${path === '/' ? '' : path}`,
+    },
+  };
+}
+
 export const seoDefaults = {
   metadataBase: new URL(SITE_URL),
   applicationName: SITE_NAME,

@@ -1,10 +1,11 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
-import { seoDefaults } from '@/config/seo';
+import { seoDefaults, canonical } from '@/config/seo';
 import WarrantyForm from './WarrantyForm';
 
 export const metadata: Metadata = {
   ...seoDefaults,
+  ...canonical('/warranty'),
   title: 'Cek Garansi Ginnva — Verifikasi E-Warranty Online',
   description: 'Cek status garansi produk Ginnva Anda secara online. Masukkan nomor garansi atau plat kendaraan untuk verifikasi langsung.',
   openGraph: {

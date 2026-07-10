@@ -1,10 +1,11 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { seoDefaults } from '@/config/seo';
+import { seoDefaults, canonical } from '@/config/seo';
 import QuoteForm from './QuoteForm';
 
 export const metadata: Metadata = {
   ...seoDefaults,
+  ...canonical('/quote'),
   title: 'Minta Penawaran Harga PPF & Kaca Film — Ginnva Shield Indonesia',
   description: 'Ajukan permintaan penawaran harga pemasangan Paint Protection Film atau Kaca Film Ginnva untuk kendaraan Anda. Gratis konsultasi.',
   openGraph: {

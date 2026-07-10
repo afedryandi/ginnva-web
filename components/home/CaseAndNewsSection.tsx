@@ -33,11 +33,21 @@ function formatDate(dateString: string | null): string {
     year: 'numeric',
   });
 }
-
 export default function CaseAndNewsSection() {
   const [cases, setCases] = useState<CaseStudyItem[]>([]);
   const [activeCaseId, setActiveCaseId] = useState<number | null>(null);
   const [news, setNews] = useState<NewsItem[]>([]);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  // Tutup lightbox dengan tombol Escape
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightboxOpen(false);
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [lightboxOpen]);
 
   // Galeri pemasangan — diurutkan sesuai sort_order yang diatur admin
   // lewat drag-reorder di Filament (CaseStudyResource).
@@ -116,15 +126,20 @@ export default function CaseAndNewsSection() {
             </div>
           ) : (
             <div className="case-main">
-              <div className="bigPic">
+              <div className="bigPic" onClick={() => setLightboxOpen(true)}>
                 <Image
                   src={activeCase.image || FALLBACK_IMAGE}
                   alt={activeCase.title}
-                  width={800}
-                  height={500}
-                  style={{ width: '100%', height: 'auto' }}
+                  fill
+                  style={{ objectFit: 'cover' }}
                 />
                 <div className="nameBox"><h3>{activeCase.title}</h3></div>
+                <span className="zoom-hint" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="m21 21-4.35-4.35M11 8v6M8 11h6" />
+                  </svg>
+                </span>
               </div>
               <div className="thumbs">
                 {cases.map((item) => (
@@ -133,13 +148,15 @@ export default function CaseAndNewsSection() {
                     className={`thumb ${activeCase.id === item.id ? 'active' : ''}`}
                     onClick={() => setActiveCaseId(item.id)}
                   >
-                    <Image
-                      src={item.image || FALLBACK_IMAGE}
-                      alt={item.short_title}
-                      width={180}
-                      height={120}
-                    />
-                    <div className="nameBox">{item.short_title}</div>
+                    <div className="thumb-pic">
+                      <Image
+                        src={item.image || FALLBACK_IMAGE}
+                        alt={item.short_title}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
+                    <div className="thumb-label">{item.short_title}</div>
                   </div>
                 ))}
               </div>
@@ -183,40 +200,78 @@ export default function CaseAndNewsSection() {
                     <Image
                       src={featuredNews.cover_image || FALLBACK_IMAGE}
                       alt={featuredNews.title}
-                      width={500}
-                      height={300}
-                      style={{ width: '100%', height: 'auto' }}
+                      fill
+                      style={{ objectFit: 'cover' }}
                     />
                   </div>
-                  <div className="nm">{featuredNews.title}</div>
-                  {featuredNews.excerpt && <p className="news-excerpt">{featuredNews.excerpt}</p>}
-                  <div className="date">{formatDate(featuredNews.published_at)}</div>
+                  <div className="media-body">
+                    <div className="news-kicker">
+                      <span className="k-label">Sorotan</span>
+                      <span className="k-date">{formatDate(featuredNews.published_at)}</span>
+                    </div>
+                    <div className="nm">{featuredNews.title}</div>
+                    {featuredNews.excerpt && <p className="news-excerpt">{featuredNews.excerpt}</p>}
+                    <span className="news-readmore">
+                      Baca selengkapnya
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                      </svg>
+                    </span>
+                  </div>
                 </Link>
               )}
 
               <div className="list">
-                <ul>
-                  {restNews.map((item) => (
-                    <li key={item.id}>
-                      <Link
-                        href={item.source_url || `/news/${item.slug}`}
-                        target={item.source_url ? '_blank' : undefined}
-                        rel={item.source_url ? 'noopener noreferrer' : undefined}
-                      >
-                        <div className="nm">{item.title}</div>
-                        <div className="meta">
-                          <span>Berita</span>
-                          <span>{formatDate(item.published_at)}</span>
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                {restNews.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={item.source_url || `/news/${item.slug}`}
+                    className="news-card"
+                    target={item.source_url ? '_blank' : undefined}
+                    rel={item.source_url ? 'noopener noreferrer' : undefined}
+                  >
+                    <div className="card-pic">
+                      <Image
+                        src={item.cover_image || FALLBACK_IMAGE}
+                        alt={item.title}
+                        width={320}
+                        height={200}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    </div>
+                    <div className="card-date">{formatDate(item.published_at)}</div>
+                    <div className="nm">{item.title}</div>
+                  </Link>
+                ))}
               </div>
             </div>
           )}
         </div>
       </section>
+
+      {/* ===================== LIGHTBOX FOTO GALERI ===================== */}
+      {lightboxOpen && activeCase && (
+        <div className="lightbox" onClick={() => setLightboxOpen(false)}>
+          <button
+            className="lightbox-close"
+            onClick={() => setLightboxOpen(false)}
+            aria-label="Tutup"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+          <div className="lightbox-inner" onClick={(e) => e.stopPropagation()}>
+            <Image
+              src={activeCase.image || FALLBACK_IMAGE}
+              alt={activeCase.title}
+              fill
+              style={{ objectFit: 'contain' }}
+            />
+          </div>
+          <div className="lightbox-caption">{activeCase.title}</div>
+        </div>
+      )}
     </>
   );
 }

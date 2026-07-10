@@ -38,10 +38,10 @@ export default function BrandStrength() {
             </div>
           </div>
           <p className="lead">
-            Ginnva memiliki 6 basis produksi yang tersebar di Chengdu, Sichuan, Anhui, Jiangsu, Zhejiang, dan Dongguan. Fasilitas produksi ini dilengkapi dengan robot dan teknologi kecerdasan buatan untuk inspeksi kualitas, logistik, dan perakitan. Menjadikan Ginnva sebagai salah satu produsen material perekat fungsional dengan infrastruktur manufaktur paling modern di industri. Kapasitas produksi mencakup 600 juta m² perekat industri, 170 juta m² perekat elektronik, 150 juta m² perekat optik, dan 50.000 ton perekat.
+            Ginnva memiliki 4 basis produksi yang tersebar di Suzhou, Quzhou, Chuzhou, dan Neijiang. Fasilitas produksi ini dilengkapi dengan robot dan teknologi kecerdasan buatan untuk inspeksi kualitas, logistik, dan perakitan. Menjadikan Ginnva sebagai salah satu produsen material perekat fungsional dengan infrastruktur manufaktur paling modern di industri. Kapasitas produksi mencakup 600 juta m² perekat industri, 170 juta m² perekat elektronik, 150 juta m² perekat optik, dan 50.000 ton perekat.
           </p>
           <div className="stat-row">
-            <div className="it"><div className="v">6</div><div className="l">Basis Produksi</div></div>
+            <div className="it"><div className="v">4</div><div className="l">Basis Produksi</div></div>
             <div className="it"><div className="v">600<small> juta m²</small></div><div className="l">Kapasitas Perekat Industri</div></div>
             <div className="it"><div className="v">350<small>+</small></div><div className="l">Instrumen Pengujian</div></div>
             <div className="it"><div className="v">100<small>+</small></div><div className="l">Pengendalian Kualitas</div></div>

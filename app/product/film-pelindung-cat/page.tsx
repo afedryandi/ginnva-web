@@ -1,6 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { seoDefaults } from '@/config/seo';
+import { seoDefaults, canonical } from '@/config/seo';
 import ProductBanner from '@/components/product/ProductBanner';
 import ProductIntro from '@/components/product/ProductIntro';
 import ProductSpecs from '@/components/product/ProductSpecs';
@@ -9,18 +9,19 @@ import ProductFaq from '@/components/product/ProductFaq';
 
 export const metadata: Metadata = {
   ...seoDefaults,
+  ...canonical('/product/film-pelindung-cat'),
   title: 'Paint Protection Film (PPF) Ginnva — TPU Generasi 3 Self-Healing',
-  description: 'PPF Ginnva berbasis 100% Polycaprolactone TPU Gen 3. Self-healing, anti-yellowing, super hydrophobic. Proteksi cat kendaraan premium garansi 10 tahun.',
+  description: 'PPF Ginnva berbasis 100% TPU 3rd Generation. Self-healing, anti-yellowing, super hydrophobic. Proteksi cat kendaraan premium garansi 10 tahun.',
   openGraph: {
     ...seoDefaults.openGraph,
     title: 'Paint Protection Film (PPF) Ginnva — TPU Generasi 3 Self-Healing',
-    description: 'PPF Ginnva berbasis 100% Polycaprolactone TPU Gen 3. Self-healing, anti-yellowing, super hydrophobic. Proteksi cat kendaraan premium garansi 10 tahun.',
+    description: 'PPF Ginnva berbasis 100% TPU 3rd Generation. Self-healing, anti-yellowing, super hydrophobic. Proteksi cat kendaraan premium garansi 10 tahun.',
     url: 'https://ginnva.id/product/film-pelindung-cat',
   },
   twitter: {
     ...seoDefaults.twitter,
     title: 'Paint Protection Film (PPF) Ginnva — TPU Generasi 3 Self-Healing',
-    description: 'PPF Ginnva berbasis 100% Polycaprolactone TPU Gen 3. Self-healing, anti-yellowing, super hydrophobic. Proteksi cat kendaraan premium garansi 10 tahun.',
+    description: 'PPF Ginnva berbasis 100% TPU 3rd Generation. Self-healing, anti-yellowing, super hydrophobic. Proteksi cat kendaraan premium garansi 10 tahun.',
   },
 };
 
@@ -38,10 +39,10 @@ const columnsData = [
 ];
 
 const specsRows = [
-  { label: 'Black Crystal', values: ['M8-M', 'Polycaprolactone TPU\n(3rd Generation)', 'Hydrophobic', 'Matte', '7.5 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
-  { label: 'Orange Crystal', values: ['M10', 'Polycaprolactone TPU\n(3rd Generation)', 'Hydrophobic', 'Gloss', '8.8 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
-  { label: 'Orange Crystal', values: ['H10', 'Polycaprolactone TPU\n(3rd Generation)', 'Hydrophobic', 'Gloss', '7.8 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
-  { label: 'Green Crystal', values: ['EV7', 'Polycaprolactone TPU\n(3rd Generation)', 'Hydrophilic', 'Gloss', '7.5 ± 3%', 'HC 50 µm', '75 µm', '1.52 × 15 m', '5'] },
+  { label: 'Black Crystal', values: ['M8-M', 'TPU 3rd Generation', 'Hydrophobic', 'Matte', '7.5 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
+  { label: 'Orange Crystal', values: ['M10', 'TPU 3rd Generation', 'Hydrophobic', 'Gloss', '8.8 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
+  { label: 'Orange Crystal', values: ['H10', 'TPU 3rd Generation', 'Hydrophobic', 'Gloss', '7.8 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
+  { label: 'Green Crystal', values: ['EV7', 'TPU 3rd Generation', 'Hydrophilic', 'Gloss', '7.5 ± 3%', 'HC 50 µm', '75 µm', '1.52 × 15 m', '5'] },
 ];
 
 const faqItems = [
@@ -78,7 +79,7 @@ export default function FilmPerlindunganCatPage() {
       <ProductIntro 
         title="Ginnva Paint Protection Film" 
         subTitle="FILM PELINDUNG CAT PREMIUM"
-        description="Ginnva PPF menggunakan bahan 100% Polycaprolactone TPU Generasi 3 dengan lapisan Crystal-Shield dan adhesive berkinerja tinggi. Tersedia dalam seri Black Crystal, Orange Crystal, dan Green Crystal. Melindungi cat dari goresan, benturan kerikil, dan korosi, dilengkapi kemampuan self-healing, ketahanan anti-yellowing superior, dan efek Super Hydrophobic yang membuat permukaan selalu bersih." 
+        description="Ginnva PPF menggunakan bahan 100% TPU 3rd Generation dengan lapisan Crystal-Shield dan adhesive berkinerja tinggi. Tersedia dalam seri Black Crystal, Orange Crystal, dan Green Crystal. Melindungi cat dari goresan, benturan kerikil, dan korosi, dilengkapi kemampuan self-healing, ketahanan anti-yellowing superior, dan efek Super Hydrophobic yang membuat permukaan selalu bersih." 
         imgUrl="/image/product/paint-protection-film.webp" 
       />
       <ProductSpecs columns={columnsData} rows={specsRows} />

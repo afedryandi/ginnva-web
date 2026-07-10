@@ -2,6 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Pagination from '@/components/shared/Pagination';
+
+const PER_PAGE = 9;
 
 interface CaseStudyItem {
   id: number;
@@ -19,6 +22,7 @@ export default function CaseGrid() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<CaseStudyItem | null>(null);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     let cancelled = false;
@@ -82,97 +86,67 @@ export default function CaseGrid() {
           </p>
         )}
 
-        {!loading && !error && cases.length > 0 && (
-          <div className="news-grid">
-            {cases.map((item, idx) => (
+        {!loading && !error && cases.length > 0 && (() => {
+          const totalPages = Math.ceil(cases.length / PER_PAGE);
+          const pageItems = cases.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+
+          return (
+        <>
+          <div className="case-page-grid">
+            {pageItems.map((item, idx) => (
               <button
                 key={item.id}
                 type="button"
-                className="ncard"
+                className="case-page-card"
                 onClick={() => setSelected(item)}
-                style={{ cursor: 'zoom-in', textAlign: 'left', border: 'none', padding: 0, font: 'inherit' }}
               >
-                <div className="pic">
+                <div className="cpc-pic">
                   <Image
                     src={item.image || FALLBACK_IMAGE}
                     alt={item.title}
-                    width={400}
-                    height={250}
-                    style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+                    fill
+                    style={{ objectFit: 'cover' }}
                     priority={idx < 3}
                   />
                 </div>
-                <div className="b">
-                  <div className="d">{item.film_product?.name || 'Ginnva Shield'}</div>
-                  <div className="t">{item.title}</div>
+                <div className="cpc-body">
+                  <span className="cpc-tag">{item.film_product?.name || 'Ginnva Shield'}</span>
+                  <div className="cpc-title">{item.title}</div>
                 </div>
+                <span className="zoom-hint" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="m21 21-4.35-4.35M11 8v6M8 11h6" />
+                  </svg>
+                </span>
               </button>
             ))}
           </div>
-        )}
+
+          <Pagination page={page} totalPages={totalPages} onChange={setPage} />
+        </>
+          );
+        })()}
       </div>
 
-      {/* Lightbox sederhana — overlay fullscreen, klik di luar gambar
-          atau tombol close untuk menutup. Tidak memakai library eksternal,
-          konsisten dengan pola state lokal yang sudah dipakai di project ini
-          (mis. activeCase di home page). */}
+      {/* Lightbox — pakai class yang sama dengan galeri di beranda supaya
+          pengalaman melihat foto konsisten di seluruh situs. */}
       {selected && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          onClick={() => setSelected(null)}
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(0,0,0,.85)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '32px',
-            zIndex: 1000,
-          }}
-        >
-          <button
-            type="button"
-            onClick={() => setSelected(null)}
-            aria-label="Tutup"
-            style={{
-              position: 'absolute',
-              top: '20px',
-              right: '24px',
-              background: 'transparent',
-              border: 'none',
-              color: '#fff',
-              fontSize: '32px',
-              lineHeight: 1,
-              cursor: 'pointer',
-            }}
-          >
-            &times;
+        <div className="lightbox" role="dialog" aria-modal="true" onClick={() => setSelected(null)}>
+          <button className="lightbox-close" onClick={() => setSelected(null)} aria-label="Tutup">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
           </button>
-
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{ maxWidth: '90vw', maxHeight: '80vh', textAlign: 'center' }}
-          >
+          <div className="lightbox-inner" onClick={(e) => e.stopPropagation()}>
             <Image
               src={selected.image || FALLBACK_IMAGE}
               alt={selected.title}
-              width={1000}
-              height={650}
-              style={{
-                width: '100%',
-                height: 'auto',
-                maxHeight: '70vh',
-                objectFit: 'contain',
-                borderRadius: '8px',
-              }}
+              fill
+              style={{ objectFit: 'contain' }}
             />
-            <div style={{ color: '#fff', marginTop: '16px', fontSize: '16px' }}>
-              {selected.title}
-            </div>
           </div>
+          <div className="lightbox-caption">{selected.title}</div>
         </div>
       )}
     </section>

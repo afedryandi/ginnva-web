@@ -63,8 +63,41 @@ export default function DealersList() {
       ? `https://www.google.com/maps?q=${selectedStore.latitude},${selectedStore.longitude}&output=embed`
       : null;
 
+  // Schema LocalBusiness per dealer — penting untuk muncul di Google
+  // Maps/local search dan membantu AI search memahami lokasi & jam buka
+  // tiap toko.
+  const dealersSchema = stores.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: stores.map((store, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      item: {
+        '@type': 'AutomotiveBusiness',
+        name: store.name,
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: store.address,
+          addressLocality: store.city,
+          addressCountry: 'ID',
+        },
+        telephone: store.phone ?? undefined,
+        openingHours: store.opening_hours ?? undefined,
+        ...(store.latitude && store.longitude
+          ? { geo: { '@type': 'GeoCoordinates', latitude: store.latitude, longitude: store.longitude } }
+          : {}),
+      },
+    })),
+  } : null;
+
   return (
     <div className="dealer-wrap">
+      {dealersSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(dealersSchema) }}
+        />
+      )}
       <div className="dealer-side">
         <div className="w-search">
           <input

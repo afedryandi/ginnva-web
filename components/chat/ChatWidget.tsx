@@ -19,6 +19,12 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 const WA_NUMBER = '628118681678'; // TODO: ganti nomor WA sales Ginnva Indonesia
 const WA_URL = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo, saya ingin bertanya lebih lanjut tentang produk Ginnva.')}`;
 
+const DISCLAIMER: Message = {
+  id: 'disclaimer',
+  role: 'assistant',
+  text: '⚠️ Perlu diketahui: Saya adalah asisten AI dan jawaban saya mungkin tidak selalu akurat. Untuk informasi resmi atau pemesanan, silakan hubungi tim kami via [WhatsApp].',
+};
+
 const WELCOME: Message = {
   id: 'welcome',
   role: 'assistant',
@@ -36,16 +42,22 @@ const SUGGESTIONS = [
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([WELCOME]);
+  const [messages, setMessages] = useState<Message[]>([DISCLAIMER, WELCOME]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const topRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const isInitial = messages.length === 2;
 
-  // Auto-scroll ke bawah setiap ada pesan baru
+  // Scroll ke atas saat pertama buka, ke bawah saat ada pesan baru
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, loading]);
+    if (isInitial) {
+      topRef.current?.scrollIntoView({ behavior: 'instant' as ScrollBehavior });
+    } else {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, loading, isInitial]);
 
   // Fokus input saat panel dibuka
   useEffect(() => {
@@ -72,7 +84,7 @@ export default function ChatWidget() {
     setLoading(true);
 
     const history = nextMessages
-      .filter((m) => m.id !== 'welcome' && !m.isError)
+      .filter((m) => m.id !== 'welcome' && m.id !== 'disclaimer' && !m.isError)
       .map((m) => ({ role: m.role, content: m.text }));
 
     try {
@@ -111,7 +123,7 @@ export default function ChatWidget() {
     }
   };
 
-  const showSuggestions = messages.length === 1;
+  const showSuggestions = messages.length === 2;
 
   return (
     <>
@@ -237,6 +249,7 @@ export default function ChatWidget() {
             background: '#f7f8fc',
           }}
         >
+          <div ref={topRef} />
           {messages.map((msg) =>
             msg.role === 'user' ? (
               <div key={msg.id} style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -276,7 +289,7 @@ export default function ChatWidget() {
                 </div>
                 <div
                   style={{
-                    background: msg.isError ? '#fde8e8' : '#fff',
+                    background: msg.isError ? '#fde8e8' : msg.id === 'disclaimer' ? '#fff8e1' : '#fff',
                     color: msg.isError ? '#dc2626' : '#333',
                     borderRadius: '16px 16px 16px 4px',
                     padding: '9px 13px',
@@ -287,7 +300,15 @@ export default function ChatWidget() {
                     whiteSpace: 'pre-wrap',
                   }}
                 >
-                  {msg.text}
+                  {msg.id === 'disclaimer' ? (
+                    <>
+                      ⚠️ Perlu diketahui: Saya adalah asisten AI dan jawaban saya mungkin tidak selalu akurat. Untuk informasi resmi atau pemesanan, silakan hubungi tim kami via{' '}
+                      <a href={WA_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#25d366', fontWeight: 700, textDecoration: 'none' }}>
+                        WhatsApp
+                      </a>
+                      .
+                    </>
+                  ) : msg.text}
                 </div>
               </div>
             )

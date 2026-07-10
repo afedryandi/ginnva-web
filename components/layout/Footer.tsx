@@ -22,7 +22,9 @@ export default function Footer() {
           <div className="foot-col">
             <h5>Tentang</h5>
             <Link href="/brand">Profil Brand</Link>
+            <Link href="/case">Galeri Pemasangan</Link>
             <Link href="/news">Berita</Link>
+            <Link href="/karier">Karier</Link>
             <Link href="/contact">Kontak</Link>
           </div>
 

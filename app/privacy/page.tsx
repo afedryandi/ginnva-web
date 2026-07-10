@@ -1,10 +1,11 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { seoDefaults } from '@/config/seo';
+import { seoDefaults, canonical } from '@/config/seo';
 
 export const metadata: Metadata = {
   ...seoDefaults,
-  title: 'Kebijakan Privasi — Ginnva House',
+  ...canonical('/privacy'),
+  title: 'Kebijakan Privasi — Ginnva Shield Indonesia',
   description: 'Kebijakan Privasi PT. Ginnva Shield Indonesia tentang pengumpulan, penggunaan, dan perlindungan data pribadi pengguna.',
 };
 
@@ -26,7 +27,7 @@ export default function PrivacyPage() {
 
             <h2>1. Pendahuluan</h2>
             <p>
-              PT. Ginnva Shield Indonesia (&ldquo;Ginnva House&rdquo;, &ldquo;kami&rdquo;) berkomitmen untuk melindungi privasi Anda.
+              PT. Ginnva Shield Indonesia (&ldquo;Ginnva&rdquo;, &ldquo;kami&rdquo;) berkomitmen untuk melindungi privasi Anda.
               Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi
               pribadi Anda saat menggunakan layanan, situs web (<strong>ginnva.id</strong>), dan aplikasi mobile kami.
             </p>

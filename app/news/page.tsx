@@ -3,10 +3,11 @@ import NewsBanner from '@/components/news/NewsBanner';
 import NewsGrid from '@/components/news/NewsGrid';
 
 import type { Metadata } from 'next';
-import { seoDefaults } from '@/config/seo';
+import { seoDefaults, canonical } from '@/config/seo';
 
 export const metadata: Metadata = {
   ...seoDefaults,
+  ...canonical('/news'),
   title: 'Berita & Artikel — Ginnva Shield Indonesia',
   description: 'Berita terbaru, tips perawatan film kendaraan, dan informasi produk dari Ginnva Shield Indonesia.',
   openGraph: {
