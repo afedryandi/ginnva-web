@@ -141,7 +141,7 @@ export default function DealersList() {
                   <circle cx="12" cy="9.5" r="2.4" />
                 </svg>
               </span>
-              <span>
+              <span className="dealer__info">
                 <span className="dealer__name" style={{ display: 'block' }}>
                   {store.name}
                 </span>

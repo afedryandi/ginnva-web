@@ -36,7 +36,7 @@ export default function QuotePage() {
       <section style={{ padding: '60px 20px' }}>
         <div className="wrap" style={{ maxWidth: '980px', margin: '0 auto' }}>
           <div className="sec-title-box" style={{ display: 'block', textAlign: 'center', marginBottom: '40px' }}>
-            <div className="sec-title" style={{ fontSize: 'clamp(24px, 2.6vw, 32px)' }}>Pilih Produk Anda</div>
+            <div className="sec-title sec-title--no-bar" style={{ fontSize: 'clamp(24px, 2.6vw, 32px)' }}>Pilih Produk Anda</div>
             <div className="sec-sub" style={{ marginTop: '10px' }}>
               Klik salah satu produk untuk mengisi formulir
             </div>

@@ -6,6 +6,7 @@ import ProductIntro from '@/components/product/ProductIntro';
 import ProductSpecs from '@/components/product/ProductSpecs';
 import ProductGalleryDynamic from '@/components/product/ProductGalleryDynamic';
 import ProductFaq from '@/components/product/ProductFaq';
+import ProductSchema from '@/components/product/ProductSchema';
 
 export const metadata: Metadata = {
   ...seoDefaults,
@@ -75,6 +76,13 @@ const faqItems = [
 export default function FilmPerlindunganCatPage() {
   return (
     <main data-page="product" data-nav="product">
+      <ProductSchema
+        name="Paint Protection Film (PPF) Ginnva"
+        description="PPF Ginnva berbasis 100% TPU 3rd Generation, self-healing, anti-yellowing, super hydrophobic. Proteksi cat kendaraan premium garansi hingga 8 tahun."
+        imagePath="/image/product/paint-protection-film.webp"
+        category="Paint Protection Film"
+        path="/product/film-pelindung-cat"
+      />
       <ProductBanner currentId="2" title="Paint Protection Film" enTitle="Film Pelindung Cat" bgUrl="/image/product/paint-protection-film.webp" />
       <ProductIntro 
         title="Ginnva Paint Protection Film" 

@@ -141,6 +141,14 @@ h4 {
   padding-left: 20px;
 }
 
+.sec-title-box .sec-title--no-bar {
+  padding-left: 0;
+}
+
+.sec-title-box .sec-title--no-bar::before {
+  display: none;
+}
+
 .sec-title-box .sec-title::before {
   content: "";
   position: absolute;
@@ -356,6 +364,7 @@ h4 {
 .banner {
   position: relative;
   height: 100vh;
+  height: 100dvh; /* iOS Safari: address bar bikin 100vh terlalu tinggi/jumpy */
   min-height: 600px;
   overflow: hidden;
   background: #07070a;
@@ -371,6 +380,7 @@ h4 {
 
 .brand-banner {
   height: 100vh;
+  height: 100dvh; /* iOS Safari: address bar bikin 100vh terlalu tinggi/jumpy */
   min-height: 600px;
 }
 
@@ -767,12 +777,21 @@ h4 {
   opacity: 0;
   visibility: hidden;
   transition: opacity .3s, visibility .3s;
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 
 .tabs-floating.visible {
   opacity: 1;
   visibility: visible;
+}
+
+/* Tombol chat mengambang — posisi default (desktop). Di breakpoint mobile
+   digeser naik supaya tidak menimpa .tabs-floating (bar switch kategori
+   produk di Beranda) saat keduanya sama-sama muncul di layar. */
+.chat-fab {
+  bottom: 24px;
+  right: 24px;
 }
 
 .tabs-floating .tab {
@@ -842,6 +861,7 @@ h4 {
   height: 38px;
   border-radius: 50%;
   background: rgba(0, 0, 0, .45);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   color: #fff;
   display: flex;
@@ -1399,6 +1419,39 @@ h4 {
   box-shadow: 0 8px 20px rgba(0, 0, 0, .3);
 }
 
+/* Desktop: QR code (scan pakai HP lain). Mobile: ikon tap langsung (lihat breakpoint di bawah). */
+.foot-social-icons {
+  display: none;
+}
+
+.foot-social-icons .social-icon {
+  text-align: center;
+  font-size: 11px;
+  color: rgba(255, 255, 255, .6);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.foot-social-icons .social-icon-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .08);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s, transform .2s;
+}
+
+.foot-social-icons .social-icon:hover .social-icon-badge {
+  background: var(--accent);
+  transform: translateY(-2px);
+}
+
 .foot-bottom {
   border-top: 1px solid rgba(255, 255, 255, .1);
   padding: 22px 0;
@@ -1510,6 +1563,18 @@ h4 {
   color: var(--ink);
   padding: 16px 24px;
   transition: color .2s;
+}
+
+.mm-coming-soon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  opacity: 0.5;
+  cursor: default;
+  padding: 16px 24px;
 }
 
 .mm-item > a.on {
@@ -1655,6 +1720,11 @@ h4 {
     white-space: nowrap;
     line-height: 42px;
   }
+
+  .chat-fab {
+    bottom: 100px;
+    right: 20px;
+  }
 }
 
 @media (max-width: 720px) {
@@ -1697,6 +1767,11 @@ h4 {
     justify-content: flex-start;
   }
 
+  .chat-fab {
+    bottom: 90px;
+    right: 16px;
+  }
+
   .tabs-floating .tab {
     height: 40px;
     padding: 0 14px;
@@ -1725,9 +1800,12 @@ h4 {
     justify-content: flex-start;
   }
 
-  .foot-social .qr img {
-    width: 70px;
-    height: 70px;
+  .foot-social-qr {
+    display: none;
+  }
+
+  .foot-social-icons {
+    display: flex;
   }
 }
 
@@ -2212,6 +2290,7 @@ h4 {
   height: 32px;
   border-radius: 50%;
   background: rgba(0, 0, 0, .4);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   color: #fff;
   display: flex;
@@ -2613,7 +2692,13 @@ h4 {
   border: 1px solid var(--line);
   border-radius: 14px;
   background: #fff;
+  text-align: left;
   transition: border-color .2s, box-shadow .2s;
+}
+
+.dealer__info {
+  flex: 1;
+  min-width: 0;
 }
 
 .dealer:hover {
@@ -2766,6 +2851,17 @@ h4 {
     height: 340px;
   }
 
+  .page-banner .inner {
+    max-width: 100%;
+    padding: 0 24px;
+  }
+
+  .page-banner .en {
+    font-size: 12px;
+    letter-spacing: .14em;
+    white-space: normal;
+  }
+
   .foot-bottom .links {
     margin-right: 0;
   }
@@ -2821,6 +2917,20 @@ h4 {
 
   .w-search {
     flex-direction: column;
+  }
+
+  .dealer {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .dealer__info {
+    flex-basis: calc(100% - 58px);
+  }
+
+  .dealer__tel {
+    margin-left: 58px;
+    margin-top: 10px;
   }
 }
 
@@ -3153,6 +3263,7 @@ h4 {
   height: 36px;
   border-radius: 50%;
   background: rgba(0, 0, 0, .4);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   color: #fff;
   display: flex;
@@ -3605,6 +3716,12 @@ h4 {
     flex-direction: column;
     align-items: flex-start;
     padding: 34px 30px;
+  }
+
+  .career-open .pill {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
   }
 }
 

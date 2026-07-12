@@ -5,6 +5,7 @@ import Footer from '@/components/layout/Footer';
 import ChatWidget from '@/components/chat/ChatWidget';
 import { seoDefaults, SITE_NAME, SITE_DESCRIPTION, SITE_URL, canonical } from '@/config/seo';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   ...seoDefaults,
@@ -62,6 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
         <GoogleAnalytics />
+        <Analytics />
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
           <Header />
           <main style={{ flex: '1 0 auto' }}>{children}</main>

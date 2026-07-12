@@ -29,7 +29,7 @@ export default function LegalPage() {
             <p>
               Situs web ini (<strong>ginnva.id</strong>) dioperasikan oleh <strong>PT. Ginnva Shield Indonesia</strong>,
               perusahaan yang terdaftar dan berkedudukan hukum di Indonesia, beralamat di Thamrin Business Center,
-              Jl. M.H Thamrin Blok 1 No. 52, PIK 2, Kosambi, Tangerang, Banten 15210.
+              Jl. M.H Thamrin Blok 1 No. 52, PIK 2, Kosambi, Selembaran, Tangerang, Banten 15210.
               PT. Ginnva Shield Indonesia merupakan mitra resmi dan perwakilan dari Shanghai Smith Adhesive New Material Co., Ltd.
               (SSE: 603683) di Indonesia.
             </p>
@@ -97,7 +97,7 @@ export default function LegalPage() {
             <p>
               <strong>PT. Ginnva Shield Indonesia</strong><br />
               Thamrin Business Center, Jl. M.H Thamrin Blok 1 No. 52, PIK 2<br />
-              Kosambi, Tangerang, Banten 15210<br />
+              Kosambi, Selembaran, Tangerang, Banten 15210<br />
               Email: <a href="mailto:marketing@ginnva.id" style={{ color: 'var(--accent)' }}>marketing@ginnva.id</a><br />
               Telepon: +62 811-8681-678
             </p>

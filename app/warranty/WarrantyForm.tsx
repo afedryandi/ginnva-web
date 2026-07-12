@@ -115,15 +115,16 @@ export default function WarrantyForm() {
             Masukkan nomor kode E-Warranty resmi yang Anda dapatkan dari dealer resmi Ginnva saat pemasangan.
           </p>
 
-          <form onSubmit={handleSearch} style={{ display: 'flex', gap: '12px' }}>
-            <input 
-              type="text" 
+          <form onSubmit={handleSearch} style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <input
+              type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Contoh: GNV-2026XXXXXXXX" 
+              placeholder="Contoh: GNV-2026XXXXXXXX"
               required
               style={{
-                flex: 1,
+                flex: '1 1 200px',
+                minWidth: 0,
                 padding: '12px 16px',
                 border: '1px solid #ccc',
                 borderRadius: '4px',
@@ -131,15 +132,16 @@ export default function WarrantyForm() {
                 outline: 'none'
               }}
             />
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={loading}
               className="pill pill--accent"
-              style={{ 
-                padding: '12px 24px', 
-                backgroundColor: loading ? '#999' : '#111', 
-                color: '#fff', 
-                border: 'none', 
+              style={{
+                flexShrink: 0,
+                padding: '12px 24px',
+                backgroundColor: loading ? '#999' : '#111',
+                color: '#fff',
+                border: 'none',
                 borderRadius: '4px',
                 fontWeight: 'bold',
                 cursor: loading ? 'not-allowed' : 'pointer'

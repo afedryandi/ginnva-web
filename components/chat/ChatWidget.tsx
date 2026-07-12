@@ -16,7 +16,7 @@ interface Message {
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-const WA_NUMBER = '628118681678'; // TODO: ganti nomor WA sales Ginnva Indonesia
+const WA_NUMBER = '628118681678';
 const WA_URL = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo, saya ingin bertanya lebih lanjut tentang produk Ginnva.')}`;
 
 const DISCLAIMER: Message = {
@@ -40,6 +40,9 @@ const SUGGESTIONS = [
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
+const FAB_SIZE = 56;
+const FAB_MARGIN = 8;
+
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([DISCLAIMER, WELCOME]);
@@ -49,6 +52,80 @@ export default function ChatWidget() {
   const topRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const isInitial = messages.length === 2;
+
+  // Posisi bubble chat — null artinya masih pakai posisi default dari CSS
+  // (.chat-fab). Setelah user drag sekali, posisi disimpan dalam koordinat
+  // left/top piksel dan dipakai terus (juga di-restore dari localStorage).
+  const [fabPos, setFabPos] = useState<{ x: number; y: number } | null>(null);
+  const dragState = useRef<{
+    dragging: boolean;
+    moved: boolean;
+    startX: number;
+    startY: number;
+    startLeft: number;
+    startTop: number;
+  } | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('ginnva_chat_fab_pos');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (typeof parsed.x === 'number' && typeof parsed.y === 'number') {
+          setFabPos(clampToViewport(parsed.x, parsed.y));
+        }
+      } catch {
+        // abaikan, pakai posisi default
+      }
+    }
+  }, []);
+
+  function clampToViewport(x: number, y: number) {
+    const maxX = window.innerWidth - FAB_SIZE - FAB_MARGIN;
+    const maxY = window.innerHeight - FAB_SIZE - FAB_MARGIN;
+    return {
+      x: Math.min(Math.max(x, FAB_MARGIN), Math.max(maxX, FAB_MARGIN)),
+      y: Math.min(Math.max(y, FAB_MARGIN), Math.max(maxY, FAB_MARGIN)),
+    };
+  }
+
+  const handleFabPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    dragState.current = {
+      dragging: true,
+      moved: false,
+      startX: e.clientX,
+      startY: e.clientY,
+      startLeft: rect.left,
+      startTop: rect.top,
+    };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handleFabPointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const state = dragState.current;
+    if (!state?.dragging) return;
+
+    const dx = e.clientX - state.startX;
+    const dy = e.clientY - state.startY;
+
+    if (!state.moved && Math.hypot(dx, dy) < 6) return;
+    state.moved = true;
+
+    setFabPos(clampToViewport(state.startLeft + dx, state.startTop + dy));
+  };
+
+  const handleFabPointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const state = dragState.current;
+    if (!state) return;
+
+    if (state.moved && fabPos) {
+      localStorage.setItem('ginnva_chat_fab_pos', JSON.stringify(fabPos));
+    }
+
+    dragState.current = null;
+    e.currentTarget.releasePointerCapture(e.pointerId);
+  };
 
   // Scroll ke atas saat pertama buka, ke bawah saat ada pesan baru
   useEffect(() => {
@@ -454,33 +531,43 @@ export default function ChatWidget() {
         </div>
       </div>
 
-      {/* ── Floating Bubble ──────────────────────────────────────────────── */}
+      {/* ── Floating Bubble (bisa digeser/drag) ────────────────────────────── */}
       <button
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          // Kalau baru saja di-drag, jangan toggle panel — hindari klik
+          // tidak sengaja saat user selesai menggeser posisi bubble.
+          if (dragState.current?.moved) return;
+          setOpen((v) => !v);
+        }}
+        onPointerDown={handleFabPointerDown}
+        onPointerMove={handleFabPointerMove}
+        onPointerUp={handleFabPointerUp}
+        onPointerCancel={handleFabPointerUp}
         aria-label={open ? 'Tutup asisten' : 'Buka asisten Ginnva'}
+        className={fabPos ? undefined : 'chat-fab'}
+        draggable={false}
         style={{
           position: 'fixed',
-          bottom: 24,
-          right: 24,
-          width: 56,
-          height: 56,
+          ...(fabPos
+            ? { left: fabPos.x, top: fabPos.y, right: 'auto', bottom: 'auto' }
+            : {}),
+          width: FAB_SIZE,
+          height: FAB_SIZE,
           borderRadius: '50%',
           background: 'var(--accent, #ed1651)',
           border: 'none',
-          cursor: 'pointer',
+          cursor: 'grab',
           zIndex: 300,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           boxShadow: '0 4px 20px rgba(237,22,81,.45)',
-          transition: 'transform .2s, box-shadow .2s',
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.08)';
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
-        }}
+          transition: 'box-shadow .2s',
+          touchAction: 'none',
+          WebkitUserSelect: 'none',
+          userSelect: 'none',
+          WebkitUserDrag: 'none',
+        } as React.CSSProperties}
       >
         {/* Icon: chat saat tutup, X saat buka */}
         <div

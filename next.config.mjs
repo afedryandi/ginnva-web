@@ -1,4 +1,5 @@
 // @ts-check
+import { withSentryConfig } from '@sentry/nextjs';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -37,4 +38,10 @@ const nextConfig = {
   compress: true,
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  // Upload sourcemap hanya jalan kalau org/project/authToken di-set lewat
+  // env (SENTRY_ORG, SENTRY_PROJECT, SENTRY_AUTH_TOKEN) — kalau kosong,
+  // langkah ini di-skip otomatis tanpa bikin build gagal.
+  silent: true,
+  widenClientFileUpload: true,
+});

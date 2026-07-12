@@ -29,7 +29,7 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         {NAV_ITEMS.map((item) => (
           <div key={item.label} className="mm-item">
             {item.comingSoon ? (
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', opacity: 0.5, cursor: 'default' }}>
+              <span className="mm-coming-soon">
                 {item.label}
                 <span style={{
                   fontSize: '9px', fontWeight: '700', letterSpacing: '.06em',

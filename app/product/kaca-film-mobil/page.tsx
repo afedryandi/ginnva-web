@@ -6,6 +6,7 @@ import ProductIntro from '@/components/product/ProductIntro';
 import ProductSpecs from '@/components/product/ProductSpecs';
 import ProductGalleryDynamic from '@/components/product/ProductGalleryDynamic';
 import ProductFaq from '@/components/product/ProductFaq';
+import ProductSchema from '@/components/product/ProductSchema';
 
 export const metadata: Metadata = {
   ...seoDefaults,
@@ -73,7 +74,14 @@ const faqItems = [
 export default function KacaFilmMobilPage() {
   return (
     <main data-page="product" data-nav="product">
-      <ProductBanner 
+      <ProductSchema
+        name="Kaca Film Mobil Ginnva"
+        description="Kaca film mobil Ginnva dengan teknologi Bi-silver Sputtering dan Nano-Ceramic. Tolak panas hingga 93%, blokir UV 99%, garansi hingga 10 tahun."
+        imagePath="/image/product/car-window-film.webp"
+        category="Kaca Film Otomotif"
+        path="/product/kaca-film-mobil"
+      />
+      <ProductBanner
         currentId="1" 
         title="Film Kaca Mobil" 
         enTitle="Car Window Film" 
