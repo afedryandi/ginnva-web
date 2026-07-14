@@ -19,10 +19,10 @@ export default function BrandStrength() {
             Teknologi inti kami mencakup: desain struktur spasial polimer, desain struktur silang, teknologi polimerisasi multi-komponen, teknologi biodegradasi, dan teknologi pelapisan presisi.
           </p>
           <div className="stat-row">
-            <div className="it"><div className="v">100<small>+</small></div><div className="l">Paten Penemuan</div></div>
-            <div className="it"><div className="v">4</div><div className="l">Tim Riset & Pengembangan</div></div>
-            <div className="it"><div className="v">5</div><div className="l">Teknologi Inti</div></div>
-            <div className="it"><div className="v">120<small>+</small></div><div className="l">Personel Riset & Pengembangan</div></div>
+            <div className="it"><div className="v">158<small>+</small></div><div className="l">Sertifikasi Industri</div></div>
+            <div className="it"><div className="v">100<small>+</small></div><div className="l">Paten Proprietary</div></div>
+            <div className="it"><div className="v">120<small>+</small></div><div className="l">Personel R&D</div></div>
+            <div className="it"><div className="v">350<small>+</small></div><div className="l">Peralatan Canggih</div></div>
           </div>
         </div>
       </section>
