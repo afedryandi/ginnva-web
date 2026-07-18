@@ -17,8 +17,16 @@ export default function GrandOpeningPopup() {
     if (!started) setOpen(true);
   }, [started]);
 
+  // Popup sebenarnya tampil kalau open DAN acara belum lewat — dulu
+  // effect scroll-lock di bawah cuma bergantung ke `open` saja, jadi
+  // begitu `started` berubah jadi true (acara lewat), komponen langsung
+  // return null tanpa pernah menjalankan cleanup effect ini, dan
+  // document.body.style.overflow='hidden' nyangkut permanen (halaman
+  // tidak bisa discroll lagi walau popup-nya sendiri sudah tidak tampil).
+  const visible = open && !started;
+
   useEffect(() => {
-    if (!open) return;
+    if (!visible) return;
 
     document.body.style.overflow = 'hidden';
 
@@ -31,9 +39,9 @@ export default function GrandOpeningPopup() {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [open]);
+  }, [visible]);
 
-  if (!open || started) return null;
+  if (!visible) return null;
 
   return (
     <div className="go-popup-backdrop" onClick={() => setOpen(false)}>
