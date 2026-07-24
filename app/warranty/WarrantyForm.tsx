@@ -120,7 +120,7 @@ export default function WarrantyForm() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Contoh: GNV-2026XXXXXXXX"
+              placeholder="Masukkan kode garansi Anda"
               required
               style={{
                 flex: '1 1 200px',

@@ -3,7 +3,6 @@ import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import ChatWidget from '@/components/chat/ChatWidget';
-import GrandOpeningPopup from '@/components/home/GrandOpeningPopup';
 import { seoDefaults, SITE_NAME, SITE_DESCRIPTION, SITE_URL, canonical } from '@/config/seo';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import { Analytics } from '@vercel/analytics/next';
@@ -70,7 +69,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main style={{ flex: '1 0 auto' }}>{children}</main>
           <Footer />
           <ChatWidget />
-          <GrandOpeningPopup />
         </div>
       </body>
     </html>
