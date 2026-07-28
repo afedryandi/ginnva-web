@@ -51,6 +51,7 @@ const nextConfig = {
       "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https://api.ginnva.id https://www.ginnvafilm.com https://www.googletagmanager.com",
+      "media-src 'self' https://api.ginnva.id",
       "font-src 'self' data:",
       "connect-src 'self' https://api.ginnva.id https://www.google-analytics.com https://analytics.google.com https://*.sentry.io https://*.ingest.sentry.io",
       "frame-src https://www.google.com",
