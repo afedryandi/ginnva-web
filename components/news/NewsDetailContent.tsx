@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import sanitizeHtml from 'sanitize-html';
 
 interface NewsDetailContentProps {
   title: string;
@@ -19,14 +20,42 @@ function formatDate(dateString: string | null): string {
   });
 }
 
-function sanitizeContent(html: string): string {
+// Regex cleanup dulu (buang <p>/<figcaption> yang isinya cuma URL bare, sisa
+// artefak dari embed/paste di Filament RichEditor) — DILAKUKAN SEBELUM
+// sanitizeHtml() supaya cleanup pattern-nya tidak perlu tahu-menahu soal
+// struktur tag yang sudah disaring sanitizer.
+function stripBareUrlArtifacts(html: string): string {
   return html
-    // <p> with only a URL
     .replace(/<p[^>]*>\s*https?:\/\/[^\s<"']+\s*<\/p>/gi, '')
-    // <figcaption> with only a URL
     .replace(/<figcaption[^>]*>\s*https?:\/\/[^\s<"']+\s*<\/figcaption>/gi, '')
-    // bare URL text node immediately after <img ...>
     .replace(/(<img[^>]*\/?>)\s*https?:\/\/[^\s<"']+/gi, '$1');
+}
+
+// Sanitasi XSS SUNGGUHAN — sebelumnya cuma regex cleanup URL (tidak menyaring
+// <script>, event handler onerror/onload, javascript: href, dll), padahal
+// halaman ini publik dan kontennya di-render lewat dangerouslySetInnerHTML.
+// Kompromi akun admin/Filament atau bug CMS tetap bisa terjadi — sanitizer
+// ini jadi lapisan pertahanan terakhir sebelum HTML mentah sampai ke browser
+// setiap pengunjung.
+function sanitizeContent(html: string): string {
+  return sanitizeHtml(stripBareUrlArtifacts(html), {
+    allowedTags: [
+      'p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'span', 'div',
+      'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+      'ul', 'ol', 'li', 'blockquote', 'a', 'img', 'figure', 'figcaption',
+      'table', 'thead', 'tbody', 'tr', 'th', 'td', 'hr',
+    ],
+    allowedAttributes: {
+      a: ['href', 'title', 'target', 'rel'],
+      img: ['src', 'alt', 'width', 'height'],
+      '*': ['class'],
+    },
+    allowedSchemes: ['http', 'https', 'mailto'],
+    transformTags: {
+      // Cegah reverse tabnabbing (window.opener) pada link yang buka tab baru.
+      a: sanitizeHtml.simpleTransform('a', { rel: 'noopener noreferrer' }, true),
+    },
+  });
 }
 
 export default function NewsDetailContent({
@@ -60,10 +89,13 @@ export default function NewsDetailContent({
           {/*
             content berasal dari Filament RichEditor (HTML), bukan plain
             text/markdown — wajib dirender lewat dangerouslySetInnerHTML.
-            Sumber konten ini hanya admin internal (bukan input publik),
-            jadi risiko XSS rendah, tapi tetap dibungkus div terpisah
-            (bukan langsung di <article>) supaya gaya .article p/h2 tetap
-            konsisten tanpa ikut menimpa elemen lain di luar konten.
+            sanitizeContent() menyaring lewat allowlist tag/atribut
+            (sanitize-html) sebelum dirender — halaman ini publik, jadi
+            walau sumbernya "cuma" admin internal, kompromi akun admin atau
+            bug CMS tetap bisa jadi stored-XSS ke semua pengunjung tanpa
+            sanitasi ini. Dibungkus div terpisah (bukan langsung di
+            <article>) supaya gaya .article p/h2 tetap konsisten tanpa ikut
+            menimpa elemen lain di luar konten.
           */}
           {content ? (
             <div dangerouslySetInnerHTML={{ __html: sanitizeContent(content) }} />

@@ -12,17 +12,17 @@ export const metadata: Metadata = {
   ...seoDefaults,
   ...canonical('/product/film-pelindung-cat'),
   title: 'Paint Protection Film (PPF) Ginnva — TPU Generasi 3 Self-Healing',
-  description: 'PPF Ginnva berbasis 100% TPU 3rd Generation. Self-healing, anti-yellowing, super hydrophobic. Proteksi cat kendaraan premium garansi 10 tahun.',
+  description: 'PPF Ginnva berbasis 100% TPU 3rd Generation. Self-healing, anti-yellowing, super hydrophobic. Proteksi cat kendaraan premium garansi hingga 8 tahun.',
   openGraph: {
     ...seoDefaults.openGraph,
     title: 'Paint Protection Film (PPF) Ginnva — TPU Generasi 3 Self-Healing',
-    description: 'PPF Ginnva berbasis 100% TPU 3rd Generation. Self-healing, anti-yellowing, super hydrophobic. Proteksi cat kendaraan premium garansi 10 tahun.',
+    description: 'PPF Ginnva berbasis 100% TPU 3rd Generation. Self-healing, anti-yellowing, super hydrophobic. Proteksi cat kendaraan premium garansi hingga 8 tahun.',
     url: 'https://ginnva.id/product/film-pelindung-cat',
   },
   twitter: {
     ...seoDefaults.twitter,
     title: 'Paint Protection Film (PPF) Ginnva — TPU Generasi 3 Self-Healing',
-    description: 'PPF Ginnva berbasis 100% TPU 3rd Generation. Self-healing, anti-yellowing, super hydrophobic. Proteksi cat kendaraan premium garansi 10 tahun.',
+    description: 'PPF Ginnva berbasis 100% TPU 3rd Generation. Self-healing, anti-yellowing, super hydrophobic. Proteksi cat kendaraan premium garansi hingga 8 tahun.',
   },
 };
 

@@ -11,7 +11,7 @@ export default function ContactContent() {
             <h3>PT. Ginnva Shield Indonesia</h3>
             <div className="row"><b>Telepon</b><span>+62 811-8681-678</span></div>
             <div className="row"><b>Email</b><span>marketing@ginnva.id</span></div>
-            <div className="row"><b>Alamat</b><span>Thamrin Business Center, Jl. M.H Thamrin Blok 1 No. 52, PIK 2. Kosambi, Selembaran, Tangerang, Banten 15210</span></div>
+            <div className="row"><b>Alamat</b><span>Thamrin Business Center, Jl. M.H Thamrin Blok 1 No. 52, PIK 2, Kosambi, Selembaran, Tangerang, Banten 15210</span></div>
             <div className="row"><b>Website</b><span>www.ginnva.id</span></div>
           </div>
 

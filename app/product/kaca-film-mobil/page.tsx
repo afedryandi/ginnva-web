@@ -12,17 +12,17 @@ export const metadata: Metadata = {
   ...seoDefaults,
   ...canonical('/product/kaca-film-mobil'),
   title: 'Kaca Film Mobil Premium Ginnva — Teknologi Bi-Silver & Nano-Ceramic',
-  description: 'Kaca film mobil Ginnva dengan teknologi Bi-silver Sputtering dan Nano-Ceramic. Tolak panas hingga 93%, blokir UV 99%, garansi hingga 10 tahun.',
+  description: 'Kaca film mobil Ginnva dengan teknologi Bi-silver Sputtering dan Nano-Ceramic. Tolak panas hingga 61%, blokir UV 99%, garansi hingga 10 tahun.',
   openGraph: {
     ...seoDefaults.openGraph,
     title: 'Kaca Film Mobil Premium Ginnva — Teknologi Bi-Silver & Nano-Ceramic',
-    description: 'Kaca film mobil Ginnva dengan teknologi Bi-silver Sputtering dan Nano-Ceramic. Tolak panas hingga 93%, blokir UV 99%, garansi hingga 10 tahun.',
+    description: 'Kaca film mobil Ginnva dengan teknologi Bi-silver Sputtering dan Nano-Ceramic. Tolak panas hingga 61%, blokir UV 99%, garansi hingga 10 tahun.',
     url: 'https://ginnva.id/product/kaca-film-mobil',
   },
   twitter: {
     ...seoDefaults.twitter,
     title: 'Kaca Film Mobil Premium Ginnva — Teknologi Bi-Silver & Nano-Ceramic',
-    description: 'Kaca film mobil Ginnva dengan teknologi Bi-silver Sputtering dan Nano-Ceramic. Tolak panas hingga 93%, blokir UV 99%, garansi hingga 10 tahun.',
+    description: 'Kaca film mobil Ginnva dengan teknologi Bi-silver Sputtering dan Nano-Ceramic. Tolak panas hingga 61%, blokir UV 99%, garansi hingga 10 tahun.',
   },
 };
 
@@ -76,7 +76,7 @@ export default function KacaFilmMobilPage() {
     <main data-page="product" data-nav="product">
       <ProductSchema
         name="Kaca Film Mobil Ginnva"
-        description="Kaca film mobil Ginnva dengan teknologi Bi-silver Sputtering dan Nano-Ceramic. Tolak panas hingga 93%, blokir UV 99%, garansi hingga 10 tahun."
+        description="Kaca film mobil Ginnva dengan teknologi Bi-silver Sputtering dan Nano-Ceramic. Tolak panas hingga 61%, blokir UV 99%, garansi hingga 10 tahun."
         imagePath="/image/product/car-window-film.webp"
         category="Kaca Film Otomotif"
         path="/product/kaca-film-mobil"
