@@ -2686,8 +2686,8 @@ h4 {
 
 .dealer {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;
+  gap: 10px;
   padding: 18px 20px;
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -2696,19 +2696,32 @@ h4 {
   transition: border-color .2s, box-shadow .2s;
 }
 
-.dealer__info {
-  flex: 1;
-  min-width: 0;
-}
-
 .dealer:hover {
   border-color: var(--accent);
   box-shadow: 0 8px 22px rgba(0, 0, 0, .06);
 }
 
+/* Baris atas: ikon + nama/kota + tombol telepon — SENGAJA dipisah dari
+   alamat/jam di bawahnya (align-items flex-start, bukan center di seluruh
+   kartu) supaya ikon & tombol telepon tetap sejajar dengan judul walau
+   kontennya jadi tinggi (alamat panjang + banyak baris jam operasional). */
+.dealer__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.dealer__titleblock {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .dealer__ic {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: #fde7ee;
   color: var(--accent);
@@ -2719,33 +2732,86 @@ h4 {
 }
 
 .dealer__ic svg {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
 }
 
 .dealer__name {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--ink);
 }
 
 .dealer__meta {
   font-size: 13px;
   color: var(--muted-2);
-  margin: 2px 0;
 }
 
 .dealer__addr {
-  font-size: 14px;
+  display: block;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted);
+  /* Sejajar dengan judul (bukan ikon) — ikon 40px + gap 14px */
+  padding-left: 54px;
+}
+
+/* Tombol telepon kecil (bukan cuma teks berwarna mengambang) — lebih
+   jelas ini elemen yang bisa diklik/di-tap, dan tetap nempel di
+   pojok-kanan-atas kartu walau kontennya jadi tinggi. */
+.dealer__tel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  background: var(--alt);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 7px 12px;
+  border-radius: 20px;
+  transition: background .2s, color .2s;
+}
+
+.dealer__tel:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Blok jam operasional — dipisah visual dari alamat (background lembut +
+   ikon jam) supaya tidak jadi tembok teks abu-abu yang menyatu dengan
+   alamat di atasnya. */
+.dealer__hours {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-left: 54px;
+  padding: 8px 12px;
+  background: var(--alt);
+  border-radius: 10px;
   color: var(--muted);
 }
 
-.dealer__tel {
-  margin-left: auto;
-  color: var(--accent);
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
+.dealer__hours-ic {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--muted-2);
+}
+
+.dealer__hours-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.dealer__hours-lines .is-closed {
+  color: var(--muted-2);
+  font-style: italic;
 }
 
 .dealer-map {
@@ -2919,18 +2985,18 @@ h4 {
     flex-direction: column;
   }
 
-  .dealer {
+  .dealer__header {
     flex-wrap: wrap;
-    align-items: flex-start;
-  }
-
-  .dealer__info {
-    flex-basis: calc(100% - 58px);
   }
 
   .dealer__tel {
-    margin-left: 58px;
-    margin-top: 10px;
+    margin-left: 54px;
+  }
+
+  .dealer__addr,
+  .dealer__hours {
+    padding-left: 0;
+    margin-left: 0;
   }
 }
 

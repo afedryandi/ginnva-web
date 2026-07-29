@@ -2,18 +2,26 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 
+interface OpeningHoursSchemaRow {
+  '@type': 'OpeningHoursSpecification';
+  dayOfWeek: string[];
+  opens: string | null;
+  closes: string | null;
+}
+
 interface Store {
   id: number;
   name: string;
   city: string;
   address: string;
   phone: string | null;
-  opening_hours: string | null;
+  opening_hours_lines: string[];
+  opening_hours_schema: OpeningHoursSchemaRow[];
   latitude: number | null;
   longitude: number | null;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.ginnva.id';
 
 export default function DealersList() {
   const [stores, setStores] = useState<Store[]>([]);
@@ -82,7 +90,7 @@ export default function DealersList() {
           addressCountry: 'ID',
         },
         telephone: store.phone ?? undefined,
-        openingHours: store.opening_hours ?? undefined,
+        openingHoursSpecification: store.opening_hours_schema?.length ? store.opening_hours_schema : undefined,
         ...(store.latitude && store.longitude
           ? { geo: { '@type': 'GeoCoordinates', latitude: store.latitude, longitude: store.longitude } }
           : {}),
@@ -135,32 +143,50 @@ export default function DealersList() {
                   : undefined
               }
             >
-              <span className="dealer__ic">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                  <path d="M12 21s-7-6.2-7-11.2A7 7 0 0 1 19 9.8C19 14.8 12 21 12 21Z" />
-                  <circle cx="12" cy="9.5" r="2.4" />
-                </svg>
+              <span className="dealer__header">
+                <span className="dealer__ic">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M12 21s-7-6.2-7-11.2A7 7 0 0 1 19 9.8C19 14.8 12 21 12 21Z" />
+                    <circle cx="12" cy="9.5" r="2.4" />
+                  </svg>
+                </span>
+                <span className="dealer__titleblock">
+                  <span className="dealer__name">{store.name}</span>
+                  <span className="dealer__meta">{store.city}</span>
+                </span>
+                {store.phone && (
+                  <a
+                    className="dealer__tel"
+                    href={`tel:${store.phone}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="14" height="14">
+                      <path d="M6.6 10.8a15.4 15.4 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11 11 0 0 0 3.4.55 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .55 3.4 1 1 0 0 1-.25 1z" />
+                    </svg>
+                    {store.phone}
+                  </a>
+                )}
               </span>
-              <span className="dealer__info">
-                <span className="dealer__name" style={{ display: 'block' }}>
-                  {store.name}
+
+              <span className="dealer__addr">{store.address}</span>
+
+              {store.opening_hours_lines?.length > 0 && (
+                <span className="dealer__hours">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="dealer__hours-ic">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 7v5l3.2 2" />
+                  </svg>
+                  <span className="dealer__hours-lines">
+                    {store.opening_hours_lines.map((line, i) => (
+                      <span
+                        key={i}
+                        className={line.toLowerCase().includes('libur') ? 'is-closed' : undefined}
+                      >
+                        {line}
+                      </span>
+                    ))}
+                  </span>
                 </span>
-                <span className="dealer__meta" style={{ display: 'block' }}>
-                  {store.city}
-                  {store.opening_hours ? ` · ${store.opening_hours}` : ''}
-                </span>
-                <span className="dealer__addr" style={{ display: 'block' }}>
-                  {store.address}
-                </span>
-              </span>
-              {store.phone && (
-                <a
-                  className="dealer__tel"
-                  href={`tel:${store.phone}`}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {store.phone}
-                </a>
               )}
             </button>
           ))}

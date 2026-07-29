@@ -46,9 +46,14 @@ const nextConfig = {
   // cuma ke origin yang benar-benar dipakai (backend, GA, Google Maps
   // embed, Sentry).
   async headers() {
+    // 'unsafe-eval' CUMA di development — React pakai eval() untuk hot
+    // reload/debugging di `next dev`, tapi "React will never use eval()
+    // dalam production mode" (dari React sendiri), jadi CSP production
+    // tetap ketat tanpa unsafe-eval.
+    const isDev = process.env.NODE_ENV !== 'production';
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
+      `script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval' " : ''}https://www.googletagmanager.com`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https://api.ginnva.id https://www.ginnvafilm.com https://www.googletagmanager.com",
       "media-src 'self' https://api.ginnva.id",
