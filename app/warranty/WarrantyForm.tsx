@@ -15,11 +15,6 @@ interface WarrantyData {
   vin: string | null;
   installation_position: string | null;
   installation_position_detail: string | null;
-  roll_number: string | null;
-  roll_number_front: string | null;
-  roll_number_side_rear: string | null;
-  film_model_front: string | null;
-  film_model_side_rear: string | null;
   installation_date: string;
   expiry_date: string;
   dealer_name: string;
@@ -41,7 +36,7 @@ export default function WarrantyForm() {
   const [hasSearched, setHasSearched] = useState(false);
 
   // Jalur pemanggilan API
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.ginnva.id';
 
   const runSearch = useCallback(
     async (rawCode: string) => {
@@ -222,30 +217,6 @@ export default function WarrantyForm() {
                       {result.installation_position === 'partial' && result.installation_position_detail
                         ? ` (${result.installation_position_detail})`
                         : ''}
-                    </span>
-                  </div>
-                )}
-                {result.product_category === 'ppf' && result.roll_number && (
-                  <div style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: '8px' }}>
-                    <span style={{ display: 'block', fontSize: '12px', color: '#718096', marginBottom: '2px' }}>Roll Number / ID Material</span>
-                    <span style={{ fontWeight: '600' }}>{result.roll_number}</span>
-                  </div>
-                )}
-                {result.product_category === 'window_film' && result.roll_number_front && (
-                  <div style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: '8px' }}>
-                    <span style={{ display: 'block', fontSize: '12px', color: '#718096', marginBottom: '2px' }}>Roll Number — Kaca Depan</span>
-                    <span style={{ fontWeight: '600' }}>
-                      {result.roll_number_front}
-                      {result.film_model_front ? ` (${result.film_model_front})` : ''}
-                    </span>
-                  </div>
-                )}
-                {result.product_category === 'window_film' && result.roll_number_side_rear && (
-                  <div style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: '8px' }}>
-                    <span style={{ display: 'block', fontSize: '12px', color: '#718096', marginBottom: '2px' }}>Roll Number — Samping &amp; Belakang</span>
-                    <span style={{ fontWeight: '600' }}>
-                      {result.roll_number_side_rear}
-                      {result.film_model_side_rear ? ` (${result.film_model_side_rear})` : ''}
                     </span>
                   </div>
                 )}
