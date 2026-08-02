@@ -79,11 +79,17 @@ export default function GiiasForm() {
         throw new Error('Form belum terhubung ke Google Sheet. Hubungi tim IT untuk setup NEXT_PUBLIC_GIIAS_SHEET_URL.');
       }
 
-      // Google Apps Script Web App tidak mendukung CORS preflight dengan
-      // baik untuk JSON body dari browser — 'text/plain' menghindari
-      // preflight OPTIONS request supaya submit tidak diblok browser.
-      const res = await fetch(SHEET_ENDPOINT, {
+      // Google Apps Script Web App menjalankan doPost lalu redirect ke
+      // script.googleusercontent.com untuk mengirim baliknya — browser
+      // kadang gagal membaca response hasil redirect itu dengan bersih
+      // walau doPost di server sudah selesai nulis ke sheet. 'no-cors'
+      // membuat kita tidak perlu (dan tidak bisa) baca response-nya sama
+      // sekali; request tetap terkirim & dieksekusi di server, yang
+      // penting untuk fitur ini. 'text/plain' juga menghindari preflight
+      // OPTIONS request yang tidak ditangani Apps Script.
+      await fetch(SHEET_ENDPOINT, {
         method: 'POST',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
           name: form.name.trim(),
@@ -96,8 +102,6 @@ export default function GiiasForm() {
           submittedAt: new Date().toISOString(),
         }),
       });
-
-      if (!res.ok) throw new Error('Gagal mengirim data. Silakan coba lagi.');
 
       setDone(true);
       setForm(initialState);

@@ -204,7 +204,7 @@ export default function GiiasPage() {
         <div className="sec-title-box" style={{ display: 'block', textAlign: 'center' }}>
           <div className="sec-title sec-title--no-bar" style={{ fontSize: 'clamp(22px, 2.6vw, 30px)' }}>Why Protect a New Car?</div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
           <div style={{ border: '1px solid var(--line)', borderRadius: '16px', padding: '28px', background: '#fafafa' }}>
             <div style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '.1em', color: 'var(--muted-2)', textTransform: 'uppercase' }}>
               Without PPF

@@ -58,7 +58,11 @@ const nextConfig = {
       "img-src 'self' data: https://api.ginnva.id https://www.ginnvafilm.com https://www.googletagmanager.com",
       "media-src 'self' https://api.ginnva.id",
       "font-src 'self' data:",
-      "connect-src 'self' https://api.ginnva.id https://www.google-analytics.com https://analytics.google.com https://*.sentry.io https://*.ingest.sentry.io",
+      // script.google.com + script.googleusercontent.com dipakai form GIIAS
+      // (app/giias/GiiasForm.tsx) buat submit lead ke Google Sheet lewat
+      // Apps Script Web App — googleusercontent.com adalah domain redirect
+      // tempat Apps Script benar-benar mengembalikan response-nya.
+      "connect-src 'self' https://api.ginnva.id https://www.google-analytics.com https://analytics.google.com https://*.sentry.io https://*.ingest.sentry.io https://script.google.com https://script.googleusercontent.com",
       "frame-src https://www.google.com",
       "object-src 'none'",
       "base-uri 'self'",
