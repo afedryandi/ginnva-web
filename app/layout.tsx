@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-import ChatWidget from '@/components/chat/ChatWidget';
+import SiteChrome from '@/components/layout/SiteChrome';
 import { seoDefaults, SITE_NAME, SITE_DESCRIPTION, SITE_URL, canonical } from '@/config/seo';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import { Analytics } from '@vercel/analytics/next';
@@ -64,12 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <GoogleAnalytics />
         <Analytics />
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <Header />
-          <main style={{ flex: '1 0 auto' }}>{children}</main>
-          <Footer />
-          <ChatWidget />
-        </div>
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

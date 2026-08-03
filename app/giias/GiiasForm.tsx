@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Endpoint Google Apps Script Web App (bukan Google Sheets API) — cara paling
 // simpel untuk nulis langsung ke satu Google Sheet tanpa perlu backend
@@ -9,10 +9,14 @@ import React, { useState } from 'react';
 // script yang perlu ditempel di Google Sheets.
 const SHEET_ENDPOINT = process.env.NEXT_PUBLIC_GIIAS_SHEET_URL || '';
 
+// Complimentary benefit sekarang berupa KOMBINASI 2 dari 3 pilihan
+// (Interior PPF / Sunroof Window Film / Panoramic Window Film), bukan
+// pilih 1 saja — jadi opsinya adalah tiap kombinasi 2-dari-3, bukan
+// item tunggal.
 const BENEFIT_OPTIONS = [
-  { value: 'interior_ppf', label: 'Interior PPF' },
-  { value: 'sunroof_film', label: 'Sunroof Window Film' },
-  { value: 'panoramic_film', label: 'Panoramic Window Film' },
+  { value: 'interior_sunroof', label: 'Interior PPF + Sunroof Window Film' },
+  { value: 'interior_panoramic', label: 'Interior PPF + Panoramic Window Film' },
+  { value: 'sunroof_panoramic', label: 'Sunroof Window Film + Panoramic Window Film' },
 ];
 
 const STATUS_OPTIONS = [
@@ -49,11 +53,28 @@ const initialState: FormState = {
   benefit: '',
 };
 
+// Sales Advisor mendapat link unik: /giias?ref=BYD-A001 — kode ini murni
+// ditangkap & diteruskan apa adanya ke CRM Sheet (kolom "Referral Code"),
+// TANPA mapping ke nama/brand/dealer di sini. Mapping kode → Sales
+// Advisor/Brand/Dealer dikelola tim Ginnva sendiri lewat tab terpisah di
+// Google Sheet pakai VLOOKUP, supaya menambah Sales Advisor baru cukup
+// nambah 1 baris di sheet — tidak perlu deploy ulang web ini. Lihat
+// GIIAS_SHEET_SETUP.md.
+function readReferralCodeFromUrl(): string {
+  if (typeof window === 'undefined') return '';
+  return new URLSearchParams(window.location.search).get('ref')?.trim() ?? '';
+}
+
 export default function GiiasForm() {
   const [form, setForm] = useState<FormState>(initialState);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [referralCode, setReferralCode] = useState('');
+
+  useEffect(() => {
+    setReferralCode(readReferralCodeFromUrl());
+  }, []);
 
   const set = (key: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
@@ -99,6 +120,7 @@ export default function GiiasForm() {
           purchaseStatus: form.purchaseStatus,
           delivery: form.delivery,
           benefit: form.benefit,
+          referralCode,
           submittedAt: new Date().toISOString(),
         }),
       });
@@ -114,7 +136,7 @@ export default function GiiasForm() {
 
   if (done) {
     return (
-      <div className="book" style={{ textAlign: 'center' }}>
+      <div className="book" role="status" style={{ textAlign: 'center' }}>
         <div style={{ fontSize: '36px' }}>🎉</div>
         <h3 style={{ marginTop: '12px', fontSize: '20px' }}>Privilege Anda Sudah Diklaim!</h3>
         <p style={{ color: 'var(--muted)', marginTop: '10px', fontSize: '14.5px' }}>
@@ -128,24 +150,24 @@ export default function GiiasForm() {
     <form className="book" onSubmit={handleSubmit}>
       <div className="grid">
         <div className="fld full">
-          <label>Nama</label>
-          <input value={form.name} onChange={set('name')} placeholder="Nama lengkap" required />
+          <label htmlFor="giias-name">Nama</label>
+          <input id="giias-name" value={form.name} onChange={set('name')} placeholder="Nama lengkap" required />
         </div>
         <div className="fld full">
-          <label>WhatsApp</label>
-          <input value={form.whatsapp} onChange={set('whatsapp')} placeholder="08xxxxxxxxxx" inputMode="tel" required />
+          <label htmlFor="giias-whatsapp">WhatsApp</label>
+          <input id="giias-whatsapp" value={form.whatsapp} onChange={set('whatsapp')} placeholder="08xxxxxxxxxx" inputMode="tel" required />
         </div>
         <div className="fld">
-          <label>Merek Mobil</label>
-          <input value={form.brand} onChange={set('brand')} placeholder="Mis. BYD, BMW, Toyota" required />
+          <label htmlFor="giias-brand">Merek Mobil</label>
+          <input id="giias-brand" value={form.brand} onChange={set('brand')} placeholder="Mis. BYD, BMW, Toyota" required />
         </div>
         <div className="fld">
-          <label>Model Mobil</label>
-          <input value={form.model} onChange={set('model')} placeholder="Mis. Sealion 7, X3, Innova Zenix" required />
+          <label htmlFor="giias-model">Model Mobil</label>
+          <input id="giias-model" value={form.model} onChange={set('model')} placeholder="Mis. Sealion 7, X3, Innova Zenix" required />
         </div>
         <div className="fld">
-          <label>Status Pembelian</label>
-          <select value={form.purchaseStatus} onChange={set('purchaseStatus')} required>
+          <label htmlFor="giias-purchase-status">Status Pembelian</label>
+          <select id="giias-purchase-status" value={form.purchaseStatus} onChange={set('purchaseStatus')} required>
             <option value="" disabled>Pilih status</option>
             {STATUS_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>{o.label}</option>
@@ -153,8 +175,8 @@ export default function GiiasForm() {
           </select>
         </div>
         <div className="fld">
-          <label>Estimasi Delivery</label>
-          <select value={form.delivery} onChange={set('delivery')} required>
+          <label htmlFor="giias-delivery">Estimasi Delivery</label>
+          <select id="giias-delivery" value={form.delivery} onChange={set('delivery')} required>
             <option value="" disabled>Pilih estimasi</option>
             {DELIVERY_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>{o.label}</option>
@@ -162,9 +184,9 @@ export default function GiiasForm() {
           </select>
         </div>
         <div className="fld full">
-          <label>Pilih Complimentary Benefit</label>
-          <select value={form.benefit} onChange={set('benefit')} required>
-            <option value="" disabled>Pilih benefit</option>
+          <label htmlFor="giias-benefit">Pilih 2 Complimentary Benefit</label>
+          <select id="giias-benefit" value={form.benefit} onChange={set('benefit')} required>
+            <option value="" disabled>Pilih kombinasi benefit</option>
             {BENEFIT_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>{o.label}</option>
             ))}
@@ -172,7 +194,7 @@ export default function GiiasForm() {
         </div>
       </div>
 
-      {error && <div style={{ color: '#c0392b', fontSize: '13.5px', marginTop: '14px' }}>{error}</div>}
+      {error && <div role="alert" style={{ color: '#c0392b', fontSize: '13.5px', marginTop: '14px' }}>{error}</div>}
 
       <button
         type="submit"
