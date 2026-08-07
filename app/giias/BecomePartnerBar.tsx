@@ -33,7 +33,7 @@ export default function BecomePartnerBar({ hasReferralCode }: { hasReferralCode:
   const set = (key: keyof SignupState) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
 
-  const isValid = form.name.trim() && form.phone.trim() && form.email.trim() && form.carBrand.trim();
+  const isValid = form.name.trim() && form.phone.trim() && form.carBrand.trim();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +49,7 @@ export default function BecomePartnerBar({ hasReferralCode }: { hasReferralCode:
         body: JSON.stringify({
           name: form.name.trim(),
           phone: form.phone.trim(),
-          email: form.email.trim(),
+          email: form.email.trim() || null,
           car_brand: form.carBrand.trim(),
           dealer_name: form.dealerName.trim() || null,
         }),
@@ -185,8 +185,8 @@ export default function BecomePartnerBar({ hasReferralCode }: { hasReferralCode:
                       <input id="bp-phone" value={form.phone} onChange={set('phone')} placeholder="08xxxxxxxxxx" inputMode="tel" required />
                     </div>
                     <div className="fld full">
-                      <label htmlFor="bp-email">Email <span style={{ color: '#c0392b' }}>*</span></label>
-                      <input id="bp-email" type="email" value={form.email} onChange={set('email')} placeholder="nama@email.com" required />
+                      <label htmlFor="bp-email">Email (opsional)</label>
+                      <input id="bp-email" type="email" value={form.email} onChange={set('email')} placeholder="nama@email.com" />
                     </div>
                     <div className="fld">
                       <label htmlFor="bp-brand">Merek Kendaraan tempat Anda bekerja <span style={{ color: '#c0392b' }}>*</span></label>
