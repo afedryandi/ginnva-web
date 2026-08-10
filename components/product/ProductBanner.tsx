@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { GINNVA_PRODUCTS } from '@/config/site';
 
 interface BannerProps {
   currentId: string;
@@ -14,11 +15,11 @@ export default function ProductBanner({ currentId, title, enTitle, bgUrl }: Bann
   return (
     <>
       <section className="page-banner">
-        <div 
-          className="bg" 
-          style={{ 
+        <div
+          className="bg"
+          style={{
             backgroundImage: `url('${bgUrl}')`,
-            backgroundPosition: 'center' 
+            backgroundPosition: 'center'
           }}
         />
         <div className="inner">
@@ -27,13 +28,16 @@ export default function ProductBanner({ currentId, title, enTitle, bgUrl }: Bann
         </div>
       </section>
 
-      {/* PILIH PRODUK TABBAR */}
+      {/* PILIH PRODUK TABBAR — data-driven dari GINNVA_PRODUCTS supaya
+          tab-nya otomatis konsisten di semua halaman produk tanpa
+          duplikasi markup per produk. */}
       <div className="pd-tabbar">
         <div className="wrap">
-          <Link href="/product/kaca-film-mobil" className={currentId === '1' ? 'active' : ''}>Car Window Film</Link>
-          <Link href="/product/film-pelindung-cat" className={currentId === '2' ? 'active' : ''}>Paint Protection Film</Link>
-          <Link href="/product/film-pengubah-warna" className={currentId === '3' ? 'active' : ''}>Color Change Film</Link>
-          <Link href="/product/film-kaca-bangunan" className={currentId === '4' ? 'active' : ''}>Architectural Film</Link>
+          {GINNVA_PRODUCTS.map((p) => (
+            <Link key={p.id} href={`/product/${p.slug}`} className={currentId === p.id ? 'active' : ''}>
+              {p.name}
+            </Link>
+          ))}
         </div>
       </div>
     </>

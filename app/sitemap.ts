@@ -23,8 +23,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/brand`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE_URL}/product/kaca-film-mobil`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/product/film-pelindung-cat`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${SITE_URL}/product/film-pengubah-warna`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${SITE_URL}/product/film-kaca-bangunan`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    // Prioritas lebih rendah — belum dijual, tapi tetap boleh di-index
+    // (halamannya sudah jelas menyatakan "segera hadir").
+    { url: `${SITE_URL}/product/film-pengubah-warna`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+    // Sama seperti Color Change Film — belum dijual, prioritas diturunkan.
+    { url: `${SITE_URL}/product/film-kaca-bangunan`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
     { url: `${SITE_URL}/warranty`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/dealers`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: `${SITE_URL}/quote`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
