@@ -1,4 +1,12 @@
-# Setup Google Sheet untuk form GIIAS
+# Setup Google Sheet untuk form GIIAS & Partner (umum)
+
+> **Update:** sheet ini sekarang dipakai BERSAMA oleh 2 landing page —
+> `/giias` (khusus event GIIAS) dan `/partner` (umum, tidak terikat event
+> apa pun, lihat `app/partner/page.tsx`). Keduanya kirim data ke
+> `NEXT_PUBLIC_GIIAS_SHEET_URL` yang SAMA (nama env var-nya masih
+> "GIIAS" untuk alasan historis, tapi fungsinya sekarang generik).
+> Baris dari 2 sumber ini dibedakan lewat kolom **Source** baru (lihat
+> langkah 1 & 2 di bawah, sudah diupdate).
 
 Ada 2 form terpisah di halaman `/giias`, dan cuma SATU yang berhubungan
 dengan dokumen ini:
@@ -21,8 +29,13 @@ Ikuti langkah berikut sekali saja untuk setup form klaim customer (#1):
 Buat sheet baru (nama bebas, mis. "GIIAS Leads"), beri header di baris 1:
 
 ```
-Timestamp | Nama | WhatsApp | Merek | Model | Status Pembelian | Estimasi Delivery | Benefit | Lead Score | Referral Code | Sales Advisor | Brand (Referral) | Dealer
+Timestamp | Nama | WhatsApp | Merek | Model | Status Pembelian | Estimasi Delivery | Benefit | Lead Score | Referral Code | Sales Advisor | Brand (Referral) | Dealer | Source
 ```
+
+Kolom **Source** (baru, kolom terakhir) berisi `giias` atau `partner` —
+menandai form ini disubmit dari halaman mana. Kalau sheet-nya sudah ada
+dari sebelumnya, cukup tambah 1 header baru di kolom terakhir yang masih
+kosong, tidak perlu bikin sheet baru.
 
 Semua kolom terakhir (**Referral Code**, **Sales Advisor**, **Brand
 (Referral)**, **Dealer**) terisi **OTOMATIS PENUH oleh script** setiap kali
@@ -30,9 +43,17 @@ customer submit form dengan referral code di URL-nya — TIDAK perlu rumus
 VLOOKUP, tab Master, atau cek manual ke Filament sama sekali. Detail cara
 kerjanya di langkah 2.
 
-Kolom **Benefit** berisi KOMBINASI 2 dari 3 perlindungan (bukan 1 item),
-value-nya salah satu dari: `interior_sunroof`, `interior_panoramic`,
-`sunroof_panoramic`.
+Kolom **Benefit** isinya beda tergantung `Source`-nya:
+
+- Baris dengan `Source = giias`: KOMBINASI 2 dari 3 perlindungan (bukan 1
+  item), value-nya salah satu dari: `interior_sunroof`, `interior_panoramic`,
+  `sunroof_panoramic`.
+- Baris dengan `Source = partner`: SELALU `interior_ppf` (nilai tetap,
+  bukan pilihan customer — landing page `/partner` cuma menawarkan 1
+  benefit yaitu Interior PPF, jadi tidak ada dropdown pilihan kombinasi
+  seperti di `/giias`). Kalau bikin laporan/filter dari kolom ini,
+  perlakukan `interior_ppf` sebagai nilai terpisah, bukan bagian dari 3
+  kombinasi di atas.
 
 ## 2. Tempel Apps Script
 
@@ -60,6 +81,7 @@ function doPost(e) {
     partner.name,
     partner.car_brand,
     partner.dealer_name,
+    data.source || 'giias', // form /giias lama belum kirim field ini — default 'giias' supaya data lama tetap benar kalau di-resubmit
   ]);
 
   return ContentService

@@ -11,7 +11,7 @@ import ChatWidget from '@/components/chat/ChatWidget';
 // (bukan bagian dari navigasi ginnva.id biasa, jadi elemen situs itu
 // cuma bikin distraksi buat customer yang lagi diarahkan ke satu CTA
 // spesifik). Semua halaman lain tetap tampil dengan chrome normal.
-const BARE_PREFIXES = ['/giias'];
+const BARE_PREFIXES = ['/giias', '/partner'];
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
