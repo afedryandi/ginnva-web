@@ -134,20 +134,36 @@ export default function GiiasForm() {
     }
   };
 
-  if (done) {
-    return (
-      <div className="book" role="status" style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: '36px' }}>🎉</div>
-        <h3 style={{ marginTop: '12px', fontSize: '20px' }}>Privilege Anda Sudah Diklaim!</h3>
-        <p style={{ color: 'var(--muted)', marginTop: '10px', fontSize: '14.5px' }}>
-          Tim GINNVA akan segera menghubungi Anda via WhatsApp untuk konfirmasi jadwal.
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <form className="book" onSubmit={handleSubmit}>
+    <>
+      {/* Popup sukses — form di baliknya TETAP ada (sudah kosong lagi
+          lewat setForm(initialState)), supaya sales/booth yang dipakai
+          bergantian banyak customer bisa langsung isi submission
+          berikutnya tanpa reload halaman, cukup tutup popup ini. */}
+      {done && (
+        <div className="quote-modal" role="dialog" aria-modal="true" aria-labelledby="giias-success-title">
+          <div className="quote-modal__backdrop" onClick={() => setDone(false)} />
+          <div className="quote-modal__panel">
+            <button
+              type="button"
+              className="quote-modal__close"
+              onClick={() => setDone(false)}
+              aria-label="Tutup"
+            >
+              ✕
+            </button>
+            <div className="book" role="status" style={{ maxWidth: 'none', border: 'none', boxShadow: 'none', textAlign: 'center' }}>
+              <div style={{ fontSize: '36px' }}>🎉</div>
+              <h3 id="giias-success-title" style={{ marginTop: '12px', fontSize: '20px' }}>Privilege Anda Sudah Diklaim!</h3>
+              <p style={{ color: 'var(--muted)', marginTop: '10px', fontSize: '14.5px' }}>
+                Tim GINNVA akan segera menghubungi Anda via WhatsApp untuk konfirmasi jadwal.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <form className="book" onSubmit={handleSubmit}>
       <div className="grid">
         <div className="fld full">
           <label htmlFor="giias-name">Nama</label>
@@ -184,7 +200,7 @@ export default function GiiasForm() {
           </select>
         </div>
         <div className="fld full">
-          <label htmlFor="giias-benefit">Pilih 2 Complimentary Benefit</label>
+          <label htmlFor="giias-benefit">Pilih Complimentary Benefit</label>
           <select id="giias-benefit" value={form.benefit} onChange={set('benefit')} required>
             <option value="" disabled>Pilih kombinasi benefit</option>
             {BENEFIT_OPTIONS.map((o) => (
@@ -204,6 +220,7 @@ export default function GiiasForm() {
       >
         {submitting ? 'Mengirim...' : 'KLAIM SEKARANG'}
       </button>
-    </form>
+      </form>
+    </>
   );
 }

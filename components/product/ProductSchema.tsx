@@ -6,12 +6,18 @@ interface ProductSchemaProps {
   imagePath: string; // relatif, mis. "/image/product/paint-protection-film.webp"
   category: string;
   path: string; // mis. "/product/film-pelindung-cat"
+  // false untuk produk yang belum dijual (mis. Color Change Film) — dulu
+  // SEMUA halaman produk hardcode availability "InStock" di sini walau
+  // produknya belum benar-benar dijual, itu salah satu penyebab Google AI
+  // Overview meringkas produk itu sebagai sudah tersedia dibeli. Default
+  // true supaya 3 produk yang memang sudah dijual tidak perlu ubah apa pun.
+  available?: boolean;
 }
 
 // Schema markup Product — dipakai di tiap halaman /product/* supaya Google
 // bisa menampilkan rich result (nama, gambar, kategori, brand) untuk
 // produk Ginnva di hasil pencarian.
-export default function ProductSchema({ name, description, imagePath, category, path }: ProductSchemaProps) {
+export default function ProductSchema({ name, description, imagePath, category, path, available = true }: ProductSchemaProps) {
   const json = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -31,7 +37,7 @@ export default function ProductSchema({ name, description, imagePath, category, 
     },
     offers: {
       '@type': 'Offer',
-      availability: 'https://schema.org/InStock',
+      availability: available ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder',
       priceCurrency: 'IDR',
       url: `${SITE_URL}${path}`,
       seller: {

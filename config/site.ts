@@ -11,6 +11,11 @@ export interface ProductItem {
   long: string;
   img: string;
   gallery: string[];
+  // Produk yang belum dijual — ditampilkan di web (nav, homepage, halaman
+  // sendiri) tapi selalu diberi label "Segera Hadir" di setiap tempat,
+  // dan ProductSchema-nya pakai availability PreOrder (bukan InStock)
+  // supaya Google/AI Overview tidak menyimpulkan produk ini sudah dijual.
+  comingSoon?: boolean;
 }
 
 export const GINNVA_PRODUCTS: ProductItem[] = [
@@ -42,7 +47,8 @@ export const GINNVA_PRODUCTS: ProductItem[] = [
     text: 'Ubah tampilan eksterior kendaraan secara instan dengan beragam pilihan warna dan tekstur: matte, satin, glossy (tanpa pengecatan ulang yang menurunkan nilai jual).',
     long: 'Ginnva Color Change Film hadir dalam berbagai pilihan warna dan finishing tekstur premium — matte, satin, hingga ultra-gloss — berbasis material PVC berkualitas tinggi. Dipasang presisi menggunakan pola digital cutting sesuai tipe kendaraan, tampilan baru bisa dinikmati tanpa mengorbankan nilai jual kendaraan.',
     img: '/image/product/color-change-film.webp',
-    gallery: []
+    gallery: [],
+    comingSoon: true,
   },
   {
     id: '4',
@@ -52,11 +58,28 @@ export const GINNVA_PRODUCTS: ProductItem[] = [
     text: 'Solusi efisiensi energi untuk gedung dan hunian. Menolak panas matahari secara signifikan, mengurangi beban kerja AC, memblokir paparan UV hingga 99% dan memberikan kenyamanan interior sepanjang hari.',
     long: 'Ginnva Architectural Film dirancang untuk kaca gedung dan hunian: menolak panas secara signifikan, memblokir UV hingga 99%, meningkatkan privasi, serta memberikan perlindungan tambahan dari pecahan kaca. Hasilnya adalah interior yang lebih sejuk, nyaman, dan hemat energi sepanjang hari.',
     img: '/image/product/architectural-window-film.webp',
-    gallery: []
+    gallery: [],
+    comingSoon: true,
   }
 ];
 
-export const NAV_ITEMS = [
+// Tipe eksplisit (bukan dibiarkan disimpulkan otomatis) — tanpa ini,
+// TypeScript menyimpulkan bentuk tiap array `sub` SENDIRI-SENDIRI dari
+// literalnya, beda-beda antar grup nav.
+export interface NavSubItem {
+  label: string;
+  href: string;
+}
+
+export interface NavItem {
+  label: string;
+  href: string;
+  sub?: NavSubItem[];
+  blank?: boolean;
+  comingSoon?: boolean;
+}
+
+export const NAV_ITEMS: NavItem[] = [
   { label: 'Beranda', href: '/' },
   {
     label: 'Tentang',

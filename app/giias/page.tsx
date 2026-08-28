@@ -101,16 +101,26 @@ const WHY_GINNVA = [
 ];
 
 const GALLERY = [
-  { src: '/image/image-coming-soon.webp', label: 'Flagship Store' },
-  { src: '/image/image-coming-soon.webp', label: 'Workshop' },
-  { src: '/image/image-coming-soon.webp', label: 'Lounge' },
-  { src: '/image/image-coming-soon.webp', label: 'Installation Bay' },
+  { src: '/image/giias/Flagship Store.webp', label: 'Flagship Store' },
+  { src: '/image/giias/Workshop.webp', label: 'Workshop' },
+  { src: '/image/giias/Lounge.webp', label: 'Lounge' },
+  { src: '/image/giias/Installation Bay.webp', label: 'Installation Bay' },
 ];
 
-export default function GiiasPage() {
+export default async function GiiasPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ ref?: string | string[] }>;
+}) {
+  // Ditentukan di server (bukan lewat useEffect di client) supaya HTML
+  // pertama yang dikirim ke browser sudah final — menghindari layout
+  // shift (bar "Become a Partner" muncul lalu mendorong konten turun
+  // sesaat setelah JS jalan).
+  const hasReferralCode = !!(await searchParams).ref;
+
   return (
     <main data-page="giias" style={{ backgroundColor: '#fff' }}>
-      <BecomePartnerBar />
+      <BecomePartnerBar hasReferralCode={hasReferralCode} />
 
       {/* ================= 1. HERO (video, sama seperti beranda) ================= */}
       <section
@@ -189,7 +199,7 @@ export default function GiiasPage() {
             KLAIM PRIVILEGE SEKARANG
           </a>
           <div style={{ marginTop: '14px', fontSize: '12.5px', color: 'rgba(255,255,255,.7)' }}>
-            Pilih 2 dari 3 perlindungan gratis • Berlaku syarat &amp; ketentuan
+            *Setiap Pembelian Pemasangan PPF
           </div>
         </div>
       </section>
@@ -202,7 +212,7 @@ export default function GiiasPage() {
               Your Car Will Never Be This New Again.
             </h2>
             <p style={{ color: 'var(--muted)', fontSize: '15.5px', lineHeight: 1.8, marginTop: '16px' }}>
-              Sejak dipakai, cat mulai terpapar stone chip dan goresan jalan. Waktu terbaik melindungi
+              Sejak dipakai, cat mulai terpapar stone chip dan goresan di jalan. Waktu terbaik melindungi
               kendaraan adalah <b>sebelum</b> risiko itu terjadi.
             </p>
           </div>
@@ -215,7 +225,7 @@ export default function GiiasPage() {
       {/* ================= 3. WHAT IS PPF ================= */}
       <Section alt>
         <div className="sec-title-box" style={{ display: 'block', textAlign: 'center' }}>
-          <h2 className="sec-title sec-title--no-bar" style={{ fontSize: 'clamp(22px, 2.6vw, 30px)' }}>Apa itu PPF?</h2>
+          <h2 className="sec-title sec-title--no-bar" style={{ fontSize: 'clamp(22px, 2.6vw, 30px)' }}>Apa fungsi PPF?</h2>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '20px' }}>
           {PPF_FEATURES.map((f) => (
@@ -225,9 +235,6 @@ export default function GiiasPage() {
               <div style={{ fontSize: '13px', color: 'var(--muted)', marginTop: '6px', lineHeight: 1.6 }}>{f.text}</div>
             </div>
           ))}
-        </div>
-        <div style={{ textAlign: 'center', marginTop: '32px' }}>
-          <a href="#klaim" className="pill pill--outline" style={{ fontSize: '14px' }}>Lihat Demo di GINNVA House</a>
         </div>
       </Section>
 
@@ -265,12 +272,11 @@ export default function GiiasPage() {
         <div id="klaim" style={{ scrollMarginTop: '90px' }} />
         <div className="sec-title-box" style={{ display: 'block', textAlign: 'center' }}>
           <h2 className="sec-title sec-title--no-bar" style={{ fontSize: 'clamp(22px, 2.6vw, 30px)' }}>Choose Your Complimentary Protection</h2>
-          <div className="sec-sub" style={{ marginTop: '10px' }}>Pilih 2 dari 3 perlindungan gratis selama periode program</div>
         </div>
         <GiiasForm />
       </Section>
 
-      {/* ================= 7. WHY GINNVA ================= */}
+      {/* ================= 7. WHY GINNVA =================
       <Section>
         <div className="sec-title-box" style={{ display: 'block', textAlign: 'center' }}>
           <h2 className="sec-title sec-title--no-bar" style={{ fontSize: 'clamp(22px, 2.6vw, 30px)' }}>Why GINNVA</h2>
@@ -286,8 +292,10 @@ export default function GiiasPage() {
         </div>
       </Section>
 
+      */}
+
       {/* ================= 8. SONAX TRUST BUILDER ================= */}
-      <Section alt>
+      <Section>
         <div style={{ maxWidth: '680px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '.14em', color: ACCENT, textTransform: 'uppercase' }}>
             Premium Preparation Matters
@@ -299,7 +307,7 @@ export default function GiiasPage() {
       </Section>
 
       {/* ================= 9. VISIT GINNVA HOUSE ================= */}
-      <Section>
+      <Section alt>
         <div className="sec-title-box" style={{ display: 'block', textAlign: 'center' }}>
           <h2 className="sec-title sec-title--no-bar" style={{ fontSize: 'clamp(22px, 2.6vw, 30px)' }}>Experience GINNVA Before You Decide.</h2>
           <div className="sec-sub" style={{ marginTop: '10px' }}>Lihat langsung cara kerja PPF & proses instalasi di GINNVA House</div>
@@ -347,17 +355,13 @@ export default function GiiasPage() {
           overflow: 'hidden',
         }}
       >
-        <Image src="/image/hero-banner.webp" alt="" fill sizes="100vw" style={{ objectFit: 'cover', zIndex: 0 }} />
+        <Image src="/image/hero-banner-giias.webp" alt="" fill sizes="100vw" style={{ objectFit: 'cover', zIndex: 0 }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(20,21,26,.88) 0%, rgba(31,20,32,.88) 55%, rgba(58,15,34,.88) 100%)' }} />
         <div style={{ maxWidth: '640px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
           <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', lineHeight: 1.3 }}>YOUR NEW CAR DESERVES PROTECTION FROM DAY ONE.</h2>
-          <p style={{ color: 'rgba(255,255,255,.75)', marginTop: '14px', fontSize: '15px' }}>
-            Pilih 2 dari 3: FREE Interior PPF, FREE Sunroof Window Film, FREE Panoramic Window Film
-          </p>
           <a href="#klaim" className="pill pill--accent" style={{ marginTop: '30px', fontSize: '15px', fontWeight: 700 }}>
             CLAIM YOUR PRIVILEGE
           </a>
-          <div style={{ marginTop: '20px', fontSize: '13px', color: 'rgba(255,255,255,.55)' }}>GINNVA House — PIK 2</div>
         </div>
       </section>
     </main>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://api.ginnva.id';
 
@@ -18,30 +18,22 @@ const initialState: SignupState = { name: '', phone: '', email: '', carBrand: ''
 // yang dipakai sales GINNVA saat approach sales dealer di GIIAS — begitu
 // sales dealer sudah punya link referral sendiri (/giias?ref=KODE) untuk
 // dibagikan ke customer, tombol ini otomatis disembunyikan supaya
-// customer tidak salah klik daftar jadi partner.
-function hasReferralCodeInUrl(): boolean {
-  if (typeof window === 'undefined') return false;
-  return !!new URLSearchParams(window.location.search).get('ref')?.trim();
-}
-
-export default function BecomePartnerBar() {
-  const [hasRef, setHasRef] = useState<boolean | null>(null);
+// customer tidak salah klik daftar jadi partner. `hasReferralCode`
+// ditentukan di server (lewat searchParams di page.tsx) supaya HTML
+// pertama sudah final — tidak ada layout shift dari deteksi client-side.
+export default function BecomePartnerBar({ hasReferralCode }: { hasReferralCode: boolean }) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<SignupState>(initialState);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ referral_code: string; referral_link: string; qr_data_uri: string } | null>(null);
 
-  useEffect(() => {
-    setHasRef(hasReferralCodeInUrl());
-  }, []);
-
-  if (hasRef !== false) return null;
+  if (hasReferralCode) return null;
 
   const set = (key: keyof SignupState) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
 
-  const isValid = form.name.trim() && form.phone.trim() && form.email.trim() && form.carBrand.trim();
+  const isValid = form.name.trim() && form.phone.trim() && form.carBrand.trim();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,7 +49,7 @@ export default function BecomePartnerBar() {
         body: JSON.stringify({
           name: form.name.trim(),
           phone: form.phone.trim(),
-          email: form.email.trim(),
+          email: form.email.trim() || null,
           car_brand: form.carBrand.trim(),
           dealer_name: form.dealerName.trim() || null,
         }),
@@ -102,7 +94,7 @@ export default function BecomePartnerBar() {
         }}
       >
         <span style={{ fontSize: '13.5px', color: 'rgba(255,255,255,.75)' }}>
-          Sales dealer mobil di GIIAS? Dapatkan link referral Anda sendiri.
+          Kamu Sales mobil di GIIAS? Dapatkan link referral Anda sendiri.
         </span>
         <button
           type="button"
@@ -185,23 +177,23 @@ export default function BecomePartnerBar() {
                   </h3>
                   <div className="grid">
                     <div className="fld full">
-                      <label htmlFor="bp-name">Nama</label>
+                      <label htmlFor="bp-name">Nama <span style={{ color: '#c0392b' }}>*</span></label>
                       <input id="bp-name" value={form.name} onChange={set('name')} placeholder="Nama lengkap" required />
                     </div>
                     <div className="fld full">
-                      <label htmlFor="bp-phone">No. WhatsApp</label>
+                      <label htmlFor="bp-phone">No. WhatsApp <span style={{ color: '#c0392b' }}>*</span></label>
                       <input id="bp-phone" value={form.phone} onChange={set('phone')} placeholder="08xxxxxxxxxx" inputMode="tel" required />
                     </div>
                     <div className="fld full">
-                      <label htmlFor="bp-email">Email</label>
-                      <input id="bp-email" type="email" value={form.email} onChange={set('email')} placeholder="nama@email.com" required />
+                      <label htmlFor="bp-email">Email (opsional)</label>
+                      <input id="bp-email" type="email" value={form.email} onChange={set('email')} placeholder="nama@email.com" />
                     </div>
                     <div className="fld">
-                      <label htmlFor="bp-brand">Sales dari Merek Mobil Apa</label>
+                      <label htmlFor="bp-brand">Merek Kendaraan tempat Anda bekerja <span style={{ color: '#c0392b' }}>*</span></label>
                       <input id="bp-brand" value={form.carBrand} onChange={set('carBrand')} placeholder="Mis. BYD, BMW, Toyota" required />
                     </div>
                     <div className="fld">
-                      <label htmlFor="bp-dealer">Sales dari Dealer Apa (opsional)</label>
+                      <label htmlFor="bp-dealer">Nama Dealer tempat Anda bertugas (opsional)</label>
                       <input id="bp-dealer" value={form.dealerName} onChange={set('dealerName')} placeholder="Nama dealer" />
                     </div>
                   </div>

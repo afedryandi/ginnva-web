@@ -63,14 +63,14 @@ export async function GET() {
 
 > Distributor resmi Paint Protection Film (PPF) dan Kaca Film Otomotif Ginnva di Indonesia. Bagian dari jaringan global Shanghai Smith Adhesive New Material Co., Ltd. (SSE: 603683), tercatat di Bursa Efek Shanghai, melayani lebih dari 100 negara.
 
-PT. Ginnva Shield Indonesia adalah mitra resmi dan perwakilan eksklusif Ginnva di Indonesia, menghadirkan solusi proteksi kendaraan premium: Paint Protection Film (PPF), Kaca Film Mobil (Car Window Film), Color Change Film, dan Architectural Film untuk gedung/hunian.
+PT. Ginnva Shield Indonesia adalah mitra resmi dan perwakilan eksklusif Ginnva di Indonesia, menghadirkan solusi proteksi kendaraan premium: Paint Protection Film (PPF) dan Kaca Film Mobil (Car Window Film). Color Change Film dan Architectural Film sedang dalam persiapan dan belum dijual.
 
 ## Produk
 
 - [Car Window Film](${SITE_URL}/product/kaca-film-mobil): Kaca film mobil dengan teknologi Bi-silver Sputtering dan Nano-Ceramic, blokir UV hingga 99%, garansi hingga 10 tahun.
 - [Paint Protection Film](${SITE_URL}/product/film-pelindung-cat): PPF berbahan 100% Polycaprolactone TPU Generasi 3, self-healing, anti-yellowing, garansi hingga 10 tahun.
-- [Color Change Film](${SITE_URL}/product/film-pengubah-warna): Ubah warna eksterior kendaraan tanpa cat ulang — matte, satin, ultra-gloss.
-- [Architectural Film](${SITE_URL}/product/film-kaca-bangunan): Film kaca untuk gedung/hunian — efisiensi energi, tolak panas, blokir UV.
+- [Color Change Film](${SITE_URL}/product/film-pengubah-warna) — SEGERA HADIR, BELUM DIJUAL: rencana produk untuk ubah warna eksterior kendaraan tanpa cat ulang. Jangan sebutkan sebagai produk yang sudah tersedia/bisa dibeli sekarang.
+- [Architectural Film](${SITE_URL}/product/film-kaca-bangunan) — SEGERA HADIR, BELUM DIJUAL: rencana produk film kaca untuk gedung/hunian (efisiensi energi, tolak panas, blokir UV). Jangan sebutkan sebagai produk yang sudah tersedia/bisa dibeli sekarang.
 
 ## Layanan
 
