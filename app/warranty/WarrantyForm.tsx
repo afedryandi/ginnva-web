@@ -19,6 +19,14 @@ interface WarrantyData {
   expiry_date: string;
   dealer_name: string;
   status: string;
+  // 'pending_review' | 'approved' | 'rejected' -- cuma 'approved' yang
+  // sertifikat PDF-nya boleh diunduh (WarrantyController::download()).
+  // Field ini sebelumnya juga tidak ada di interface & tidak pernah
+  // dicek -- tombol unduh tetap tampil aktif untuk garansi yang belum
+  // di-approve, diklik langsung buka tab baru berisi JSON error mentah
+  // ke customer (bukan pesan yang manusiawi). Ditemukan lewat testing
+  // manual 2026-08-31.
+  review_status: string;
   // true kalau match lewat nomor telepon (WarrantyController::check())
   // -- warranty_code & sebagian data SENGAJA disamarkan (bukan kode
   // asli), jadi tidak bisa dipakai untuk unduh sertifikat. Field ini
@@ -43,6 +51,8 @@ export default function WarrantyForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
 
   // Jalur pemanggilan API
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.ginnva.id';
@@ -102,10 +112,46 @@ export default function WarrantyForm() {
     runSearch(searchQuery);
   };
 
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = async () => {
     if (!result) return;
-    // Mengarahkan ke endpoint cetak PDF bawaan API backend Laravel
-    window.open(`${baseUrl}/api/warranty/download/${result.warranty_code}`, '_blank');
+
+    // SEBELUMNYA window.open() langsung ke URL API mentah -- kalau
+    // gagal (belum approved/tidak ditemukan), browser cuma menampilkan
+    // JSON error mentah ke customer, bukan pesan yang manusiawi. Fetch
+    // dulu di sini supaya kegagalan bisa ditangkap & ditampilkan
+    // sebagai pesan biasa, PDF cuma dibuka kalau responsnya benar file.
+    // Sama pola dengan mobile app (app/warranty/check.tsx).
+    setDownloading(true);
+    setDownloadError(null);
+
+    try {
+      const response = await fetch(`${baseUrl}/api/warranty/download/${result.warranty_code}`);
+
+      if (!response.ok) {
+        let message = 'Sertifikat garansi ini belum bisa diunduh.';
+        try {
+          const data = await response.json();
+          message = data.message || message;
+        } catch {
+          // Respons bukan JSON (mis. HTML 404 bawaan server) -- pakai pesan default.
+        }
+        throw new Error(message);
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `E-Warranty-Ginnva-${result.warranty_code}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err: any) {
+      setDownloadError(err.message || 'Gagal mengunduh sertifikat. Periksa koneksi internet Anda.');
+    } finally {
+      setDownloading(false);
+    }
   };
 
   return (
@@ -250,33 +296,46 @@ export default function WarrantyForm() {
               </div>
 
               {/* Tombol Unduh PDF -- disembunyikan kalau hasil masking
-                  (match lewat nomor telepon), karena warranty_code yang
-                  ditampilkan cuma teks placeholder ("GNV-••••• hubungi
-                  toko..."), bukan kode asli yang bisa dipakai unduh. */}
-              {!result.masked ? (
+                  (match lewat nomor telepon, warranty_code cuma teks
+                  placeholder) ATAU garansinya belum approved (belum sah
+                  diunduh, lihat WarrantyController::download()). SEBELUMNYA
+                  status ini tidak pernah dicek sama sekali -- tombol
+                  tetap aktif untuk garansi pending/rejected, diklik
+                  langsung buka JSON error mentah ke customer. */}
+              {result.masked ? (
+                <div style={{ marginTop: '20px', backgroundColor: '#fffaf0', borderLeft: '4px solid #dd6b20', padding: '14px 16px', borderRadius: '4px', color: '#7b341e', fontSize: '13px' }}>
+                  Hasil pencarian lewat nomor telepon disamarkan sebagian demi keamanan data. Untuk melihat data lengkap &amp; mengunduh sertifikat, cari dengan nomor E-Warranty, plat nomor, atau VIN yang tertera di kendaraan/sertifikat.
+                </div>
+              ) : result.review_status !== 'approved' ? (
+                <div style={{ marginTop: '20px', backgroundColor: '#fffaf0', borderLeft: '4px solid #dd6b20', padding: '14px 16px', borderRadius: '4px', color: '#7b341e', fontSize: '13px' }}>
+                  {result.review_status === 'rejected'
+                    ? 'Pendaftaran garansi ini ditolak admin. Hubungi dealer pemasangan untuk info lebih lanjut.'
+                    : 'Garansi ini sedang diverifikasi admin. Sertifikat PDF tersedia setelah disetujui.'}
+                </div>
+              ) : (
                 <div style={{ marginTop: '24px', textAlign: 'right' }}>
                   <button
                     onClick={handleDownloadPDF}
+                    disabled={downloading}
                     style={{
                       padding: '10px 20px',
-                      backgroundColor: '#2b6cb0',
+                      backgroundColor: downloading ? '#999' : '#2b6cb0',
                       color: '#fff',
                       border: 'none',
                       borderRadius: '4px',
                       fontWeight: 'bold',
                       fontSize: '14px',
-                      cursor: 'pointer',
+                      cursor: downloading ? 'not-allowed' : 'pointer',
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '8px'
                     }}
                   >
-                    📥 Unduh Sertifikat PDF
+                    {downloading ? 'Mengunduh...' : '📥 Unduh Sertifikat PDF'}
                   </button>
-                </div>
-              ) : (
-                <div style={{ marginTop: '20px', backgroundColor: '#fffaf0', borderLeft: '4px solid #dd6b20', padding: '14px 16px', borderRadius: '4px', color: '#7b341e', fontSize: '13px' }}>
-                  Hasil pencarian lewat nomor telepon disamarkan sebagian demi keamanan data. Untuk melihat data lengkap &amp; mengunduh sertifikat, cari dengan nomor E-Warranty, plat nomor, atau VIN yang tertera di kendaraan/sertifikat.
+                  {downloadError && (
+                    <p style={{ marginTop: '10px', color: '#c53030', fontSize: '13px', textAlign: 'right' }}>{downloadError}</p>
+                  )}
                 </div>
               )}
             </div>
