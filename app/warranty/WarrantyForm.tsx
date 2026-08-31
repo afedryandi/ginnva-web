@@ -19,6 +19,15 @@ interface WarrantyData {
   expiry_date: string;
   dealer_name: string;
   status: string;
+  // true kalau match lewat nomor telepon (WarrantyController::check())
+  // -- warranty_code & sebagian data SENGAJA disamarkan (bukan kode
+  // asli), jadi tidak bisa dipakai untuk unduh sertifikat. Field ini
+  // sebelumnya tidak ada di interface & tidak pernah dicek sama sekali
+  // di halaman ini -- tombol unduh tetap tampil aktif dan memakai teks
+  // placeholder masking ("GNV-••••• hubungi toko...") sebagai kode
+  // asli, dikirim ke endpoint download & gagal dengan respons JSON
+  // mentah. Ditemukan lewat testing manual 2026-08-31.
+  masked?: boolean;
 }
 
 export default function WarrantyForm() {
@@ -240,27 +249,36 @@ export default function WarrantyForm() {
                 </div>
               </div>
 
-              {/* Tombol Unduh PDF */}
-              <div style={{ marginTop: '24px', textAlign: 'right' }}>
-                <button
-                  onClick={handleDownloadPDF}
-                  style={{
-                    padding: '10px 20px',
-                    backgroundColor: '#2b6cb0',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    fontWeight: 'bold',
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px'
-                  }}
-                >
-                  📥 Unduh Sertifikat PDF
-                </button>
-              </div>
+              {/* Tombol Unduh PDF -- disembunyikan kalau hasil masking
+                  (match lewat nomor telepon), karena warranty_code yang
+                  ditampilkan cuma teks placeholder ("GNV-••••• hubungi
+                  toko..."), bukan kode asli yang bisa dipakai unduh. */}
+              {!result.masked ? (
+                <div style={{ marginTop: '24px', textAlign: 'right' }}>
+                  <button
+                    onClick={handleDownloadPDF}
+                    style={{
+                      padding: '10px 20px',
+                      backgroundColor: '#2b6cb0',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '4px',
+                      fontWeight: 'bold',
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px'
+                    }}
+                  >
+                    📥 Unduh Sertifikat PDF
+                  </button>
+                </div>
+              ) : (
+                <div style={{ marginTop: '20px', backgroundColor: '#fffaf0', borderLeft: '4px solid #dd6b20', padding: '14px 16px', borderRadius: '4px', color: '#7b341e', fontSize: '13px' }}>
+                  Hasil pencarian lewat nomor telepon disamarkan sebagian demi keamanan data. Untuk melihat data lengkap &amp; mengunduh sertifikat, cari dengan nomor E-Warranty, plat nomor, atau VIN yang tertera di kendaraan/sertifikat.
+                </div>
+              )}
             </div>
           )}
 
