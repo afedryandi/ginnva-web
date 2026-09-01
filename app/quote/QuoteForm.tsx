@@ -18,6 +18,25 @@ interface FilmProductOption {
   id: number;
   name: string;
   product_type: 'window_film' | 'ppf' | 'color_change';
+  position: 'front' | 'side_rear' | null;
+}
+
+// SEBELUMNYA dropdown cuma render p.name mentah -- kalau admin kebetulan
+// kasih Nama Produk yang SAMA PERSIS untuk Kaca Depan & Kaca Samping/
+// Belakang (dua baris terpisah selalu, tidak ada larangan nama sama),
+// keduanya tampil identik di dropdown, customer tidak bisa bedakan mana
+// yang mana. Produk lain "aman" cuma karena admin kebetulan disiplin
+// ketik manual "(Depan)"/"(Samping/Belakang)" di nama -- bukan jaminan
+// sistematis. Tambahkan label posisi otomatis dari field position kalau
+// belum ada di nama produknya. Ditemukan lewat testing manual 2026-09-01.
+function productOptionLabel(p: FilmProductOption): string {
+  if (p.product_type !== 'window_film' || !p.position) return p.name;
+
+  const positionLabel = p.position === 'front' ? 'Kaca Depan' : 'Kaca Samping & Belakang';
+  // Kalau admin SUDAH sebut posisinya manual di nama (mis. "(Depan)"),
+  // jangan tempel dobel -- cek longgar lewat kata kuncinya.
+  const alreadyLabeled = /depan|samping|belakang/i.test(p.name);
+  return alreadyLabeled ? p.name : `${p.name} (${positionLabel})`;
 }
 
 interface QuotationOptions {
@@ -370,7 +389,7 @@ function QuotationFormPanel({
             >
               <option value="" disabled>Pilih varian produk</option>
               {filteredProducts.map((p) => (
-                <option key={p.id} value={p.id}>{p.name}</option>
+                <option key={p.id} value={p.id}>{productOptionLabel(p)}</option>
               ))}
             </select>
           </div>
