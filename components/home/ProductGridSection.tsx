@@ -35,7 +35,7 @@ export default function ProductGridSection() {
       </div>
 
       <div className="product-grid">
-        {GINNVA_PRODUCTS.map((p, idx) => (
+        {GINNVA_PRODUCTS.map((p) => (
           <Link
             key={p.id}
             href={`/product/${p.slug}`}
@@ -43,8 +43,6 @@ export default function ProductGridSection() {
             onMouseMove={handleTilt}
             onMouseLeave={resetTilt}
           >
-            <span className="product-grid-item__index">{String(idx + 1).padStart(2, '0')}</span>
-
             <div className="thumb">
               <Image
                 src={p.img}

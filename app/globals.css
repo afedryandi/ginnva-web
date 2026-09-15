@@ -790,17 +790,29 @@ h4 {
 
 /* Full-bleed -- kartu nempel sampai ke tepi viewport (bukan pakai
    .wrap yang nyisain 40px terasa seperti spasi "nanggung"), selaras
-   dengan hero video yang juga full-bleed. */
+   dengan hero video yang juga full-bleed.
+
+   Pakai flexbox (bukan CSS Grid) supaya sudut jajar genjang bisa
+   dipotong TEBAL (--slant, kelihatan jelas) TANPA nyisain celah
+   segitiga antar kartu: tiap kartu (kecuali yang pertama di barisnya)
+   ditarik ke kiri sebesar --slant lewat margin negatif supaya sisi
+   miringnya pas menutup sisi miring tetangganya, dan flex-grow secara
+   otomatis melebarkan semua kartu untuk mengisi ruang yang "hilang"
+   itu -- CSS Grid (1fr) TIDAK bisa melakukan ini karena lebar track-nya
+   dihitung lepas dari margin item di dalamnya. */
 .product-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 3px;
+  --slant: 36px;
+  display: flex;
   margin-top: 8px;
+  padding: 0 40px;
   perspective: 1400px;
   position: relative;
   z-index: 1;
 }
 
+/* Bentuk jajar genjang menghadap kiri -- sudut kanan-atas & kiri-bawah
+   tetap siku (supaya arrow badge di situ tidak ikut terpotong), sudut
+   kiri-atas & kanan-bawah dipotong miring sebesar --slant jadi lancip. */
 .product-grid-item {
   --rx: 0deg;
   --ry: 0deg;
@@ -808,38 +820,21 @@ h4 {
   --my: 50%;
   display: block;
   position: relative;
-  border-radius: 20px;
-  overflow: hidden;
+  flex: 1 1 0;
+  min-width: 0;
   background: #0d0d0f;
-  border: 1px solid transparent;
-  box-shadow: 0 10px 30px -16px rgba(0, 0, 0, .25);
+  clip-path: polygon(var(--slant) 0, 100% 0, calc(100% - var(--slant)) 100%, 0 100%);
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, .2));
   transform: rotateX(var(--rx)) rotateY(var(--ry));
-  transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease, border-color .35s ease;
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1), filter .35s ease;
+}
+
+.product-grid-item:not(:first-child) {
+  margin-left: calc(var(--slant) * -1);
 }
 
 .product-grid-item:hover {
-  border-color: rgba(237, 22, 81, .55);
-  box-shadow: 0 26px 50px -18px rgba(237, 22, 81, .35);
-}
-
-.product-grid-item:hover::before {
-  opacity: 1;
-}
-
-.product-grid-item__index {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  z-index: 3;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  color: #fff;
-  background: rgba(255, 255, 255, .14);
-  border: 1px solid rgba(255, 255, 255, .25);
-  backdrop-filter: blur(6px);
-  padding: 5px 9px;
-  border-radius: 8px;
+  filter: drop-shadow(0 20px 34px rgba(237, 22, 81, .4));
 }
 
 .product-grid-item .thumb {
@@ -892,7 +887,10 @@ h4 {
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 18px;
+  /* Sudut kanan-bawah dipotong miring, jadi padding kanan dilebarkan
+     supaya arrow-badge tidak ikut terpotong. Nama produk tetap di kiri
+     (sudut kiri-bawah aman, tidak dipotong). */
+  padding: 18px 34px 18px 18px;
   z-index: 2;
   color: #fff;
   display: flex;
@@ -954,10 +952,28 @@ h4 {
   z-index: 1;
 }
 
+/* <=980px: 2 kartu per baris -- flex-wrap, dan koreksi margin per baris
+   (item pertama di tiap baris, yaitu ke-1 & ke-3, tidak boleh ikut
+   ditarik ke kiri; cuma item ke-2 di tiap baris yang overlap ke
+   tetangga kirinya). */
 @media (max-width: 980px) {
   .product-grid {
-    grid-template-columns: repeat(2, 1fr);
+    --slant: 28px;
+    flex-wrap: wrap;
+    row-gap: 18px;
     perspective: none;
+  }
+
+  .product-grid-item {
+    flex-basis: 50%;
+  }
+
+  .product-grid-item:not(:first-child) {
+    margin-left: 0;
+  }
+
+  .product-grid-item:nth-child(2n) {
+    margin-left: calc(var(--slant) * -1);
   }
 
   .product-grid-item {
@@ -968,11 +984,6 @@ h4 {
 @media (max-width: 560px) {
   .product-grid-sec {
     padding: 64px 0;
-  }
-
-  .product-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
   }
 
   .product-grid-item .label {
