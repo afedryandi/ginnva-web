@@ -890,7 +890,7 @@ h4 {
   /* Sudut kanan-bawah dipotong miring, jadi padding kanan dilebarkan
      supaya arrow-badge tidak ikut terpotong. Nama produk tetap di kiri
      (sudut kiri-bawah aman, tidak dipotong). */
-  padding: 18px 34px 18px 18px;
+  padding: 18px 46px 18px 18px;
   z-index: 2;
   color: #fff;
   display: flex;
@@ -981,16 +981,46 @@ h4 {
   }
 }
 
+/* <=560px (HP): jajar genjang diganti kotak polos -- di layar sempit
+   sudut miring bikin teks nama produk numpuk/kepotong. Juga kecilkan
+   & rapikan teks supaya nama produk yang panjang tetap muat rapi. */
 @media (max-width: 560px) {
   .product-grid-sec {
     padding: 64px 0;
   }
 
+  .product-grid {
+    column-gap: 10px;
+  }
+
+  .product-grid-item {
+    flex-basis: calc(50% - 5px);
+    clip-path: none;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .product-grid-item:nth-child(2n) {
+    margin-left: 0;
+  }
+
   .product-grid-item .label {
+    padding: 14px;
     transform: translateY(0);
   }
 
+  .product-grid-item .label .name {
+    font-size: 14px;
+    line-height: 1.25;
+  }
+
+  .product-grid-item .label .sub {
+    font-size: 9px;
+  }
+
   .product-grid-item .arrow-badge {
+    width: 28px;
+    height: 28px;
     opacity: 1;
     transform: scale(1);
   }
