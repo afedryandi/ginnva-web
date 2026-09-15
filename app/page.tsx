@@ -1,6 +1,7 @@
 import AboutSection from '@/components/home/AboutSection';
 import CaseAndNewsSection from '@/components/home/CaseAndNewsSection';
 import HeroSection from '@/components/home/HeroSection';
+import ProductGridSection from '@/components/home/ProductGridSection';
 import ProductSection from '@/components/home/ProductSection';
 
 import type { Metadata } from 'next';
@@ -28,6 +29,7 @@ export default function Home() {
   return (
     <main>
       <HeroSection />
+      <ProductGridSection />
       <AboutSection />
       <ProductSection />
       <CaseAndNewsSection />
