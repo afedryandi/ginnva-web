@@ -783,14 +783,18 @@ h4 {
 .product-grid-head {
   text-align: center;
   margin-bottom: 56px;
+  padding: 0 40px;
   position: relative;
   z-index: 1;
 }
 
+/* Full-bleed -- kartu nempel sampai ke tepi viewport (bukan pakai
+   .wrap yang nyisain 40px terasa seperti spasi "nanggung"), selaras
+   dengan hero video yang juga full-bleed. */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
+  gap: 3px;
   margin-top: 8px;
   perspective: 1400px;
   position: relative;
@@ -945,12 +949,9 @@ h4 {
   display: flex;
   justify-content: center;
   margin-top: 52px;
+  padding: 0 40px;
   position: relative;
   z-index: 1;
-}
-
-.pill--magnetic {
-  transition: transform .18s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease;
 }
 
 @media (max-width: 980px) {
