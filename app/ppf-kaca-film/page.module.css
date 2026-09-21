@@ -1,0 +1,298 @@
+/*
+ * Gaya khusus halaman /ppf-kaca-film — sengaja di-scope sebagai CSS
+ * Module (bukan ditambahkan ke globals.css) supaya nama kelas seperti
+ * .honorGrid / .prodCard / .cmpCard tidak bentrok atau mengubah
+ * tampilan halaman lain (mis. .honor-grid di /brand yang sudah punya
+ * layout grid berbeda). Nilai warna/spacing di sini sengaja disalin
+ * persis dari draft artifact awal (ginnva-landing.html) atas
+ * permintaan user, dan referensi var(--accent) dkk memakai token yang
+ * sama dari app/globals.css.
+ */
+
+.psec {
+  padding-block: 76px;
+}
+.psecAlt {
+  background: var(--alt);
+}
+.head {
+  text-align: center;
+  margin-bottom: 44px;
+}
+.head .t {
+  font-size: clamp(24px, 3vw, 36px);
+  color: var(--ink);
+  text-wrap: balance;
+  margin: 0;
+  font-weight: 700;
+}
+.head .e {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.head .e::before,
+.head .e::after {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: rgba(237, 22, 81, .35);
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+@media (max-width: 760px) {
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.prodCard {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.prodCard .pic {
+  aspect-ratio: 4/3;
+  position: relative;
+}
+.prodCard .body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.prodCard h3 {
+  font-size: 19px;
+  margin: 0;
+}
+.prodCard p {
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.7;
+  margin-top: 10px;
+  flex: 1;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: var(--alt);
+  color: var(--ink);
+  font-weight: 600;
+}
+.chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.galleryScroll {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 8px 4px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.galleryScroll::-webkit-scrollbar {
+  height: 6px;
+}
+.galleryScroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.galleryScroll::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 3px;
+}
+.galleryScroll::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+.galleryItem {
+  flex-shrink: 0;
+  width: 230px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  aspect-ratio: 4/3;
+}
+.galleryCap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  color: #fff;
+  background: linear-gradient(to top, rgba(10, 11, 16, .82), transparent);
+}
+
+.cmpCard {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px;
+  background: #fafafa;
+}
+.cmpCardWith {
+  border-color: var(--accent);
+  background: rgba(237, 22, 81, .04);
+}
+.cmpLabel {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.cmpCardWith .cmpLabel {
+  color: var(--accent);
+}
+.cmpCard ul {
+  margin: 16px 0 0;
+  list-style: none;
+  padding: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+.cmpCardWith ul {
+  color: var(--ink);
+}
+.cmpCard li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+}
+
+.statRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+@media (max-width: 760px) {
+  .statRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.statRow .it {
+  text-align: center;
+  padding: 22px 12px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+.statRow .v {
+  font-size: clamp(26px, 3.2vw, 36px);
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+.statRow .l {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.honorGrid {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 8px 4px 16px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.honorGrid::-webkit-scrollbar {
+  height: 6px;
+}
+.honorGrid::-webkit-scrollbar-track {
+  background: transparent;
+}
+.honorGrid::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 3px;
+}
+.honorGrid::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+.honorItem {
+  flex-shrink: 0;
+  width: 220px;
+  scroll-snap-align: start;
+}
+.honorItem .pic {
+  aspect-ratio: 3/4;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fafafa;
+  border: 1px solid var(--line);
+}
+.honorItem .cap {
+  font-size: 12.5px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 10px;
+  line-height: 1.4;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+@media (max-width: 760px) {
+  .contactGrid {
+    grid-template-columns: 1fr;
+  }
+}
+.contactCard .row {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, .2);
+  font-size: 15px;
+  color: rgba(255, 255, 255, .7);
+}
+.contactCard .row b {
+  color: #fff;
+  font-weight: 500;
+  min-width: 64px;
+}
+.contactMap {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.footer {
+  background: #1a1a1d;
+  color: rgba(255, 255, 255, .7);
+}
+.footBottom {
+  padding: 24px 0;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+  font-size: 13px;
+  color: rgba(255, 255, 255, .45);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
