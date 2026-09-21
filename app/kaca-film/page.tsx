@@ -187,7 +187,7 @@ export default function KacaFilmPage() {
           <h1 style={{ fontSize: 'clamp(28px, 5vw, 50px)', lineHeight: 1.15, marginTop: '24px' }}>
             SUDAH BELI MOBIL BARU?
             <br />
-            <span style={{ color: ACCENT }}>Cool Comfort From Day One.</span>
+            <span style={{ color: ACCENT, display: 'block', fontSize: 'clamp(20px, 4.4vw, 50px)', whiteSpace: 'nowrap' }}>Cool Comfort From Day One.</span>
           </h1>
           <p style={{ fontSize: 'clamp(15px, 1.6vw, 18px)', color: 'rgba(255,255,255,.85)', marginTop: '18px', maxWidth: '56ch', marginInline: 'auto' }}>
             Distributor resmi dan perwakilan eksklusif Ginnva di Indonesia — Kaca Film premium Bi-silver
