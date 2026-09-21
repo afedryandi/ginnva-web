@@ -4,31 +4,27 @@ import type { Metadata } from 'next';
 import { seoDefaults, canonical } from '@/config/seo';
 import styles from './page.module.css';
 
-// Landing page iklan (Meta Ads) untuk PPF + Kaca Film — satu halaman,
-// satu CTA (klik ke WhatsApp), struktur & gaya visual sama persis
-// dengan /partner (lihat SiteChrome.tsx: kedua path ini "bare", tanpa
-// Header/Footer/ChatWidget situs utama, karena keduanya landing page
-// iklan yang tidak boleh mendistraksi customer dari satu CTA).
-//
-// Kata-kata & gaya di halaman ini SENGAJA disamakan persis dengan
-// draft artifact awal (ginnva-landing.html) atas permintaan user —
-// jangan diparafrase ulang tanpa diminta. Kelas .prodCard/.cmpCard/dkk
-// ada di page.module.css (scoped ke halaman ini saja) supaya tidak
-// bentrok dengan kelas nama serupa di globals.css yang dipakai halaman
-// lain (mis. .honor-grid di /brand).
-const TITLE = 'Ginnva Shield Perlindungan Total';
-const DESC = 'Distributor resmi dan perwakilan eksklusif Ginnva di Indonesia — Paint Protection Film dan Kaca Film premium bergaransi hingga 10 tahun, dipasang presisi di GINNVA House, PIK 2.';
+// Landing page iklan (Meta Ads) khusus Kaca Film Mobil — pecahan dari
+// halaman gabungan /ppf-kaca-film sebelumnya, atas permintaan user
+// supaya PPF dan Kaca Film masing-masing punya landing page sendiri
+// (satu produk, satu fokus iklan). Struktur & bare-chrome sama persis
+// dengan /partner (lihat SiteChrome.tsx). Kembaran persis dari
+// app/ppf/page.tsx, cuma kontennya di-generalize ke Kaca Film saja —
+// SENGAJA berdiri sendiri (bukan share komponen) mengikuti konvensi
+// /partner & /giias di repo ini.
+const TITLE = 'Ginnva Kaca Film — Perlindungan Kaca Premium';
+const DESC = 'Distributor resmi dan perwakilan eksklusif Ginnva di Indonesia — Kaca Film premium Bi-silver Sputtering & Nano-Ceramic, tolak panas hingga 61%, garansi hingga 10 tahun, dipasang presisi di GINNVA House, PIK 2.';
 
 export const metadata: Metadata = {
   ...seoDefaults,
-  ...canonical('/ppf-kaca-film'),
+  ...canonical('/kaca-film'),
   title: TITLE,
   description: DESC,
   openGraph: {
     ...seoDefaults.openGraph,
     title: TITLE,
     description: DESC,
-    url: 'https://ginnva.id/ppf-kaca-film',
+    url: 'https://ginnva.id/kaca-film',
   },
   twitter: {
     ...seoDefaults.twitter,
@@ -74,10 +70,8 @@ const CheckCircle = ({ color }: { color: string }) => (
 
 const GALLERY = [
   { src: '/image/ppf-kaca-film/kf1.jpg', alt: 'BMW Series 7 - Kaca Film Ginnva', cap: 'BMW Series 7 · Kaca Film' },
-  { src: '/image/ppf-kaca-film/ppf1.jpg', alt: 'Range Rover Evoque - PPF Ginnva', cap: 'Range Rover Evoque · PPF' },
   { src: '/image/ppf-kaca-film/kf2.jpg', alt: 'Porsche Macan - Kaca Film Ginnva', cap: 'Porsche Macan · Kaca Film' },
   { src: '/image/ppf-kaca-film/kf3.jpg', alt: 'Audi A6 - Kaca Film Ginnva', cap: 'Audi A6 · Kaca Film' },
-  { src: '/image/ppf-kaca-film/ppf2.jpg', alt: 'Tesla Model Y - PPF Ginnva', cap: 'Tesla Model Y · PPF' },
   { src: '/image/ppf-kaca-film/kf4.jpg', alt: 'GWM Tank 500 - Kaca Film Ginnva', cap: 'GWM Tank 500 · Kaca Film' },
 ];
 
@@ -99,9 +93,9 @@ const HONOR_IMAGES = [
   { src: '/image/certification/certification-11.webp', caption: 'China Automotive Aftermarket TOP100 List 2023' },
 ];
 
-export default function PpfKacaFilmPage() {
+export default function KacaFilmPage() {
   return (
-    <main data-page="ppf-kaca-film" style={{ backgroundColor: '#fff' }}>
+    <main data-page="kaca-film" style={{ backgroundColor: '#fff' }}>
       {/* ================= HERO + NAVBAR BLUR ================= */}
       <section
         style={{
@@ -143,7 +137,7 @@ export default function PpfKacaFilmPage() {
         >
           <div className="wrap" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
             <Image src="/image/ginnva-logo-white.webp" alt="Ginnva Shield Indonesia" width={130} height={26} style={{ height: '26px', width: 'auto' }} />
-            <a className="pill pill--accent" style={{ height: '38px', padding: '0 20px', fontSize: '13px' }} href={waLink('Halo Ginnva, saya tertarik konsultasi PPF / Kaca Film')} target="_blank" rel="noopener">
+            <a className="pill pill--accent" style={{ height: '38px', padding: '0 20px', fontSize: '13px' }} href={waLink('Halo Ginnva, saya tertarik konsultasi Kaca Film')} target="_blank" rel="noopener">
               Chat WhatsApp
             </a>
           </div>
@@ -172,14 +166,15 @@ export default function PpfKacaFilmPage() {
           <h1 style={{ fontSize: 'clamp(28px, 5vw, 50px)', lineHeight: 1.15, marginTop: '24px' }}>
             SUDAH BELI MOBIL BARU?
             <br />
-            <span style={{ color: ACCENT }}>Protect It From Day One.</span>
+            <span style={{ color: ACCENT }}>Cool Comfort From Day One.</span>
           </h1>
           <p style={{ fontSize: 'clamp(15px, 1.6vw, 18px)', color: 'rgba(255,255,255,.85)', marginTop: '18px', maxWidth: '56ch', marginInline: 'auto' }}>
-            Distributor resmi dan perwakilan eksklusif Ginnva di Indonesia — Paint Protection Film dan Kaca Film
-            premium bergaransi hingga 10 tahun, dipasang presisi di GINNVA House, PIK 2.
+            Distributor resmi dan perwakilan eksklusif Ginnva di Indonesia — Kaca Film premium Bi-silver
+            Sputtering &amp; Nano-Ceramic, tolak panas hingga 61%, garansi hingga 10 tahun, dipasang presisi
+            di GINNVA House, PIK 2.
           </p>
           <a
-            href={waLink('Halo Ginnva, saya tertarik konsultasi PPF / Kaca Film')}
+            href={waLink('Halo Ginnva, saya tertarik konsultasi Kaca Film')}
             target="_blank"
             rel="noopener"
             className="pill pill--accent"
@@ -194,23 +189,9 @@ export default function PpfKacaFilmPage() {
       <Section>
         <div className={styles.head}>
           <div className={styles.e}>Produk Kami</div>
-          <h2 className={styles.t}>Perlindungan Premium untuk Mobil Anda</h2>
+          <h2 className={styles.t}>Kaca Film Performa Tinggi untuk Mobil Anda</h2>
         </div>
         <div className={styles.grid2}>
-          <div className={styles.prodCard}>
-            <div className={styles.pic}>
-              <Image src="/image/ppf-kaca-film/ppf1.jpg" alt="Paint Protection Film Ginnva" fill sizes="(max-width: 720px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
-            </div>
-            <div className={styles.body}>
-              <h3>Paint Protection Film</h3>
-              <p>TPU 3rd Generation dengan lapisan Crystal-Shield — melindungi cat dari goresan, benturan kerikil, dan korosi. Self-healing, anti-yellowing, garansi hingga 8 tahun.</p>
-              <div className={styles.chips}>
-                <span className={styles.chip}>Self-healing</span>
-                <span className={styles.chip}>Anti-yellowing</span>
-                <span className={styles.chip}>Garansi 8 tahun</span>
-              </div>
-            </div>
-          </div>
           <div className={styles.prodCard}>
             <div className={styles.pic}>
               <Image src="/image/ppf-kaca-film/kf1.jpg" alt="Kaca Film Mobil Ginnva" fill sizes="(max-width: 720px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
@@ -222,6 +203,20 @@ export default function PpfKacaFilmPage() {
                 <span className={styles.chip}>UV block 99%</span>
                 <span className={styles.chip}>Tidak ganggu GPS</span>
                 <span className={styles.chip}>Garansi 10 tahun</span>
+              </div>
+            </div>
+          </div>
+          <div className={styles.prodCard}>
+            <div className={styles.pic}>
+              <Image src="/image/ppf-kaca-film/kf4.jpg" alt="Kaca Film Mobil Ginnva" fill sizes="(max-width: 720px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
+            </div>
+            <div className={styles.body}>
+              <h3>Bi-Silver Sputtering</h3>
+              <p>Seri A70 dengan TSER 61% (penolakan total energi matahari) — performa penolakan panas tertinggi, kejernihan optik tinggi, garansi resmi hingga 10 tahun.</p>
+              <div className={styles.chips}>
+                <span className={styles.chip}>TSER 61%</span>
+                <span className={styles.chip}>Kejernihan optik tinggi</span>
+                <span className={styles.chip}>Kaca depan & samping</span>
               </div>
             </div>
           </div>
@@ -248,21 +243,21 @@ export default function PpfKacaFilmPage() {
       <Section>
         <div className={styles.head}>
           <div className={styles.e}>Kenapa Melindungi Sejak Hari Pertama</div>
-          <h2 className={styles.t}>Your Car Will Never Be This New Again.</h2>
+          <h2 className={styles.t}>Your Cabin Will Never Feel This Cool Again.</h2>
         </div>
         <div className={styles.grid2} style={{ alignItems: 'stretch' }}>
           <div className={styles.cmpCard}>
-            <div className={styles.cmpLabel}>Tanpa perlindungan</div>
+            <div className={styles.cmpLabel}>Tanpa Kaca Film</div>
             <ul>
-              {['Goresan kunci & kuku menumpuk', 'Cat & kaca kusam, menguning', 'Permukaan sulit dibersihkan', 'Nilai jual kembali turun'].map((t) => (
+              {['Panas menembus kabin', 'Kaca kusam & menguning', 'Privasi kurang terjaga', 'UV merusak interior'].map((t) => (
                 <li key={t}><XCircle color="#c0392b" /> {t}</li>
               ))}
             </ul>
           </div>
           <div className={`${styles.cmpCard} ${styles.cmpCardWith}`}>
-            <div className={styles.cmpLabel}>Dengan Ginnva Shield</div>
+            <div className={styles.cmpLabel}>Dengan Ginnva Kaca Film</div>
             <ul>
-              {['Terlindungi dari goresan harian', 'Permukaan tetap glossy & jernih', 'Mudah dibersihkan dari noda', 'Nilai jual kembali terjaga'].map((t) => (
+              {['Kabin sejuk, tolak panas 61%', 'Kaca tetap jernih & bening', 'Privasi terjaga maksimal', 'Blokir UV hingga 99%'].map((t) => (
                 <li key={t}><CheckCircle color={ACCENT} /> {t}</li>
               ))}
             </ul>
