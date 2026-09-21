@@ -191,33 +191,35 @@ export default function KacaFilmPage() {
           <div className={styles.e}>Produk Kami</div>
           <h2 className={styles.t}>Kaca Film Performa Tinggi untuk Mobil Anda</h2>
         </div>
-        <div className={styles.grid2}>
-          <div className={styles.prodCard}>
-            <div className={styles.pic}>
-              <Image src="/image/ppf-kaca-film/kf1.jpg" alt="Kaca Film Mobil Ginnva" fill sizes="(max-width: 720px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
-            </div>
-            <div className={styles.body}>
-              <h3>Kaca Film Mobil</h3>
-              <p>Magnetron Sputtering Multi-Layer dan Nano-Ceramic — UV block 99%, penolakan panas superior, tanpa mengganggu sinyal GPS maupun e-Toll. Garansi hingga 10 tahun.</p>
-              <div className={styles.chips}>
-                <span className={styles.chip}>UV block 99%</span>
-                <span className={styles.chip}>Tidak ganggu GPS</span>
-                <span className={styles.chip}>Garansi 10 tahun</span>
-              </div>
-            </div>
+        <div className={`${styles.prodCard} ${styles.featureCard}`}>
+          <div className={styles.pic}>
+            <Image src="/image/product/car-window-film.webp" alt="Kaca Film Mobil Ginnva" fill sizes="(max-width: 720px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
           </div>
-          <div className={styles.prodCard}>
-            <div className={styles.pic}>
-              <Image src="/image/ppf-kaca-film/kf4.jpg" alt="Kaca Film Mobil Ginnva" fill sizes="(max-width: 720px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
+          <div className={styles.body}>
+            <h3>Ginnva Premium Car Window Film</h3>
+            <p>
+              Menggunakan teknologi pelapisan Magnetron Sputtering Multi-Layer dan Nano-Ceramic tingkat lanjut.
+              Semua seri memberikan perlindungan UV hingga 99%, penolakan panas inframerah superior, dan
+              kejernihan optik tinggi — tanpa mengganggu sinyal GPS maupun e-Toll.
+            </p>
+            <div className={styles.chips}>
+              <span className={styles.chip}>UV block 99%</span>
+              <span className={styles.chip}>Tidak ganggu GPS</span>
+              <span className={styles.chip}>Kejernihan optik tinggi</span>
             </div>
-            <div className={styles.body}>
-              <h3>Bi-Silver Sputtering</h3>
-              <p>Seri A70 dengan TSER 61% (penolakan total energi matahari) — performa penolakan panas tertinggi, kejernihan optik tinggi, garansi resmi hingga 10 tahun.</p>
-              <div className={styles.chips}>
-                <span className={styles.chip}>TSER 61%</span>
-                <span className={styles.chip}>Kejernihan optik tinggi</span>
-                <span className={styles.chip}>Kaca depan & samping</span>
-              </div>
+
+            <div style={{ marginTop: '22px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {[
+                { name: 'A70', finish: 'Kaca Depan · TSER 61%', warranty: '10 tahun' },
+                { name: 'H70', finish: 'Kaca Depan · TSER 47%', warranty: '8 tahun' },
+                { name: 'H30', finish: 'Samping/Belakang · TSER 56%', warranty: '8 tahun' },
+                { name: 'H15', finish: 'Samping/Belakang · TSER 65%', warranty: '8 tahun' },
+              ].map((v) => (
+                <div key={v.name} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', padding: '12px 14px', borderRadius: '10px', background: 'var(--alt)', fontSize: '13.5px' }}>
+                  <span style={{ fontWeight: 700, color: 'var(--ink)' }}>{v.name}</span>
+                  <span style={{ color: 'var(--muted)' }}>{v.finish} · Garansi {v.warranty}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

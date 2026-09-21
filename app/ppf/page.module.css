@@ -69,6 +69,18 @@
   aspect-ratio: 4/3;
   position: relative;
 }
+.featureCard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+@media (max-width: 760px) {
+  .featureCard {
+    grid-template-columns: 1fr;
+  }
+  .featureCard .pic {
+    aspect-ratio: 4/3;
+  }
+}
 .prodCard .body {
   padding: 24px;
   display: flex;

@@ -188,33 +188,34 @@ export default function PpfPage() {
           <div className={styles.e}>Produk Kami</div>
           <h2 className={styles.t}>Perlindungan Cat Premium untuk Mobil Anda</h2>
         </div>
-        <div className={styles.grid2}>
-          <div className={styles.prodCard}>
-            <div className={styles.pic}>
-              <Image src="/image/ppf-kaca-film/ppf1.jpg" alt="Paint Protection Film Ginnva" fill sizes="(max-width: 720px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
-            </div>
-            <div className={styles.body}>
-              <h3>Paint Protection Film</h3>
-              <p>TPU 3rd Generation dengan lapisan Crystal-Shield — melindungi cat dari goresan, benturan kerikil, dan korosi. Self-healing, anti-yellowing, garansi hingga 8 tahun.</p>
-              <div className={styles.chips}>
-                <span className={styles.chip}>Self-healing</span>
-                <span className={styles.chip}>Anti-yellowing</span>
-                <span className={styles.chip}>Garansi 8 tahun</span>
-              </div>
-            </div>
+        <div className={`${styles.prodCard} ${styles.featureCard}`}>
+          <div className={styles.pic}>
+            <Image src="/image/ppf-kaca-film/ppf-hero.webp" alt="Paint Protection Film Ginnva" fill sizes="(max-width: 720px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
           </div>
-          <div className={styles.prodCard}>
-            <div className={styles.pic}>
-              <Image src="/image/ppf-kaca-film/ppf2.jpg" alt="Paint Protection Film Ginnva" fill sizes="(max-width: 720px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
+          <div className={styles.body}>
+            <h3>Paint Protection Film Ginnva</h3>
+            <p>
+              100% TPU 3rd Generation dengan lapisan Crystal-Shield dan adhesive berkinerja tinggi. Melindungi cat
+              dari goresan, benturan kerikil, dan korosi — dilengkapi self-healing, anti-yellowing superior, dan
+              efek Super Hydrophobic yang membuat permukaan selalu bersih.
+            </p>
+            <div className={styles.chips}>
+              <span className={styles.chip}>Self-healing</span>
+              <span className={styles.chip}>Anti-yellowing</span>
+              <span className={styles.chip}>Super hydrophobic</span>
             </div>
-            <div className={styles.body}>
-              <h3>Super Hydrophobic</h3>
-              <p>Adhesive PS berkinerja tinggi — transparansi tinggi, haze rendah, daya rekat kuat namun tetap aman saat dilepas tanpa merusak cat asli kendaraan.</p>
-              <div className={styles.chips}>
-                <span className={styles.chip}>Tidak merusak cat asli</span>
-                <span className={styles.chip}>Anti-noda</span>
-                <span className={styles.chip}>Full body/parsial</span>
-              </div>
+
+            <div style={{ marginTop: '22px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {[
+                { name: 'Black Crystal (M8-M)', finish: 'Matte', warranty: '8 tahun' },
+                { name: 'Orange Crystal (M10 / H10)', finish: 'Gloss', warranty: '8 tahun' },
+                { name: 'Green Crystal (EV7)', finish: 'Gloss · Hydrophilic', warranty: '5 tahun' },
+              ].map((v) => (
+                <div key={v.name} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', padding: '12px 14px', borderRadius: '10px', background: 'var(--alt)', fontSize: '13.5px' }}>
+                  <span style={{ fontWeight: 700, color: 'var(--ink)' }}>{v.name}</span>
+                  <span style={{ color: 'var(--muted)' }}>{v.finish} · Garansi {v.warranty}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
