@@ -207,20 +207,6 @@ export default function KacaFilmPage() {
               <span className={styles.chip}>Tidak ganggu GPS</span>
               <span className={styles.chip}>Kejernihan optik tinggi</span>
             </div>
-
-            <div style={{ marginTop: '22px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {[
-                { name: 'A70', finish: 'Kaca Depan · TSER 61%', warranty: '10 tahun' },
-                { name: 'H70', finish: 'Kaca Depan · TSER 47%', warranty: '8 tahun' },
-                { name: 'H30', finish: 'Samping/Belakang · TSER 56%', warranty: '8 tahun' },
-                { name: 'H15', finish: 'Samping/Belakang · TSER 65%', warranty: '8 tahun' },
-              ].map((v) => (
-                <div key={v.name} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', padding: '12px 14px', borderRadius: '10px', background: 'var(--alt)', fontSize: '13.5px' }}>
-                  <span style={{ fontWeight: 700, color: 'var(--ink)' }}>{v.name}</span>
-                  <span style={{ color: 'var(--muted)' }}>{v.finish} · Garansi {v.warranty}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </Section>

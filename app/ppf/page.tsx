@@ -204,19 +204,6 @@ export default function PpfPage() {
               <span className={styles.chip}>Anti-yellowing</span>
               <span className={styles.chip}>Super hydrophobic</span>
             </div>
-
-            <div style={{ marginTop: '22px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {[
-                { name: 'Black Crystal (M8-M)', finish: 'Matte', warranty: '8 tahun' },
-                { name: 'Orange Crystal (M10 / H10)', finish: 'Gloss', warranty: '8 tahun' },
-                { name: 'Green Crystal (EV7)', finish: 'Gloss · Hydrophilic', warranty: '5 tahun' },
-              ].map((v) => (
-                <div key={v.name} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', padding: '12px 14px', borderRadius: '10px', background: 'var(--alt)', fontSize: '13.5px' }}>
-                  <span style={{ fontWeight: 700, color: 'var(--ink)' }}>{v.name}</span>
-                  <span style={{ color: 'var(--muted)' }}>{v.finish} · Garansi {v.warranty}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </Section>
