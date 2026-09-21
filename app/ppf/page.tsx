@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { seoDefaults, canonical } from '@/config/seo';
 import styles from './page.module.css';
 import ProductSpecs from '@/components/product/ProductSpecs';
+import Gallery from './Gallery';
 
 // Landing page iklan (Meta Ads) khusus Paint Protection Film — pecahan
 // dari halaman gabungan /ppf-kaca-film sebelumnya, atas permintaan user
@@ -242,14 +243,7 @@ export default function PpfPage() {
           <div className={styles.e}>Hasil Nyata</div>
           <h2 className={styles.t}>Kenapa Mereka Percaya Ginnva</h2>
         </div>
-        <div className={styles.galleryScroll}>
-          {GALLERY.map((g) => (
-            <div key={g.cap} className={styles.galleryItem}>
-              <Image src={g.src} alt={g.alt} fill sizes="230px" style={{ objectFit: 'cover' }} />
-              <div className={styles.galleryCap}>{g.cap}</div>
-            </div>
-          ))}
-        </div>
+        <Gallery photos={GALLERY} center />
       </Section>
 
       {/* ================= WITHOUT VS WITH ================= */}
