@@ -3,6 +3,7 @@ import Image from 'next/image';
 import type { Metadata } from 'next';
 import { seoDefaults, canonical } from '@/config/seo';
 import styles from './page.module.css';
+import ProductSpecs from '@/components/product/ProductSpecs';
 
 // Landing page iklan (Meta Ads) khusus Paint Protection Film — pecahan
 // dari halaman gabungan /ppf-kaca-film sebelumnya, atas permintaan user
@@ -71,6 +72,27 @@ const CheckCircle = ({ color }: { color: string }) => (
 const GALLERY = [
   { src: '/image/ppf-kaca-film/ppf1.jpg', alt: 'Range Rover Evoque - PPF Ginnva', cap: 'Range Rover Evoque · PPF' },
   { src: '/image/ppf-kaca-film/ppf2.jpg', alt: 'Tesla Model Y - PPF Ginnva', cap: 'Tesla Model Y · PPF' },
+];
+
+// Sama persis dengan app/product/film-pelindung-cat/page.tsx.
+const SPEC_COLUMNS = [
+  'Series',
+  'Model',
+  'Base\nMaterial',
+  'Coating',
+  'Color',
+  'Thickness\n(mil)',
+  'Cap Sheet',
+  'Linear',
+  'Specification',
+  'Warranty\n(Years)',
+];
+
+const SPEC_ROWS = [
+  { label: 'Black Crystal', values: ['M8-M', 'TPU 3rd Generation', 'Hydrophobic', 'Matte', '7.5 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
+  { label: 'Orange Crystal', values: ['M10', 'TPU 3rd Generation', 'Hydrophobic', 'Gloss', '8.8 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
+  { label: 'Orange Crystal', values: ['H10', 'TPU 3rd Generation', 'Hydrophobic', 'Gloss', '7.8 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
+  { label: 'Green Crystal', values: ['EV7', 'TPU 3rd Generation', 'Hydrophilic', 'Gloss', '7.5 ± 3%', 'HC 50 µm', '75 µm', '1.52 × 15 m', '5'] },
 ];
 
 // Sama persis dengan components/brand/BrandHonor.tsx — caption dibaca
@@ -203,13 +225,19 @@ export default function PpfPage() {
               <span className={styles.chip}>Self-healing</span>
               <span className={styles.chip}>Anti-yellowing</span>
               <span className={styles.chip}>Super hydrophobic</span>
+              <span className={styles.chip}>Tahan goresan</span>
+              <span className={styles.chip}>Anti-noda</span>
+              <span className={styles.chip}>Tidak merusak cat asli</span>
             </div>
           </div>
         </div>
       </Section>
 
+      {/* ================= SPESIFIKASI TEKNIS ================= */}
+      <ProductSpecs columns={SPEC_COLUMNS} rows={SPEC_ROWS} />
+
       {/* ================= KENAPA MEREKA PERCAYA ================= */}
-      <Section alt>
+      <Section>
         <div className={styles.head}>
           <div className={styles.e}>Hasil Nyata</div>
           <h2 className={styles.t}>Kenapa Mereka Percaya Ginnva</h2>
@@ -225,7 +253,7 @@ export default function PpfPage() {
       </Section>
 
       {/* ================= WITHOUT VS WITH ================= */}
-      <Section>
+      <Section alt>
         <div className={styles.head}>
           <div className={styles.e}>Kenapa Melindungi Sejak Hari Pertama</div>
           <h2 className={styles.t}>Your Car Will Never Be This New Again.</h2>
@@ -251,7 +279,7 @@ export default function PpfPage() {
       </Section>
 
       {/* ================= KREDIBILITAS GLOBAL ================= */}
-      <Section alt>
+      <Section>
         <div className={styles.head}>
           <div className={styles.e}>Kredibilitas Global</div>
           <h2 className={styles.t}>Didukung Ginnva China — Tercatat di Bursa Efek Shanghai</h2>

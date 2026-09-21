@@ -3,6 +3,7 @@ import Image from 'next/image';
 import type { Metadata } from 'next';
 import { seoDefaults, canonical } from '@/config/seo';
 import styles from './page.module.css';
+import ProductSpecs from '@/components/product/ProductSpecs';
 
 // Landing page iklan (Meta Ads) khusus Kaca Film Mobil — pecahan dari
 // halaman gabungan /ppf-kaca-film sebelumnya, atas permintaan user
@@ -73,6 +74,25 @@ const GALLERY = [
   { src: '/image/ppf-kaca-film/kf2.jpg', alt: 'Porsche Macan - Kaca Film Ginnva', cap: 'Porsche Macan · Kaca Film' },
   { src: '/image/ppf-kaca-film/kf3.jpg', alt: 'Audi A6 - Kaca Film Ginnva', cap: 'Audi A6 · Kaca Film' },
   { src: '/image/ppf-kaca-film/kf4.jpg', alt: 'GWM Tank 500 - Kaca Film Ginnva', cap: 'GWM Tank 500 · Kaca Film' },
+];
+
+// Sama persis dengan app/product/kaca-film-mobil/page.tsx.
+const SPEC_COLUMNS = [
+  'Series',
+  'Part',
+  'Thickness (mil)',
+  'VLT%\n(Visible Light Transmittance)',
+  'VLR%\n(Visible Light Reflectance)',
+  'UV Block%',
+  'TSER%\n(Total Solar Energy Rejected)',
+  'Warranty\n(Years)',
+];
+
+const SPEC_ROWS = [
+  { label: 'A70', values: ['Depan', '2', '72', '11/11', '99', '61', '10'] },
+  { label: 'H70', values: ['Depan', '2', '72', '8/8', '99', '47', '8'] },
+  { label: 'H30', values: ['Samping/Belakang', '2', '28', '6/6', '99', '56', '8'] },
+  { label: 'H15', values: ['Samping/Belakang', '2', '16', '6/6', '99', '65', '8'] },
 ];
 
 // Sama persis dengan components/brand/BrandHonor.tsx — caption dibaca
@@ -193,7 +213,7 @@ export default function KacaFilmPage() {
         </div>
         <div className={`${styles.prodCard} ${styles.featureCard}`}>
           <div className={styles.pic}>
-            <Image src="/image/product/car-window-film.webp" alt="Kaca Film Mobil Ginnva" fill sizes="(max-width: 720px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
+            <Image src="/image/ppf-kaca-film/kaca-film-hero.webp" alt="Kaca Film Mobil Ginnva" fill sizes="(max-width: 720px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
           </div>
           <div className={styles.body}>
             <h3>Ginnva Premium Car Window Film</h3>
@@ -206,13 +226,19 @@ export default function KacaFilmPage() {
               <span className={styles.chip}>UV block 99%</span>
               <span className={styles.chip}>Tidak ganggu GPS</span>
               <span className={styles.chip}>Kejernihan optik tinggi</span>
+              <span className={styles.chip}>Tolak panas superior</span>
+              <span className={styles.chip}>Tidak ganggu e-Toll</span>
+              <span className={styles.chip}>E-Warranty digital</span>
             </div>
           </div>
         </div>
       </Section>
 
+      {/* ================= SPESIFIKASI TEKNIS ================= */}
+      <ProductSpecs columns={SPEC_COLUMNS} rows={SPEC_ROWS} />
+
       {/* ================= KENAPA MEREKA PERCAYA ================= */}
-      <Section alt>
+      <Section>
         <div className={styles.head}>
           <div className={styles.e}>Hasil Nyata</div>
           <h2 className={styles.t}>Kenapa Mereka Percaya Ginnva</h2>
@@ -228,7 +254,7 @@ export default function KacaFilmPage() {
       </Section>
 
       {/* ================= WITHOUT VS WITH ================= */}
-      <Section>
+      <Section alt>
         <div className={styles.head}>
           <div className={styles.e}>Kenapa Melindungi Sejak Hari Pertama</div>
           <h2 className={styles.t}>Your Cabin Will Never Feel This Cool Again.</h2>
@@ -254,7 +280,7 @@ export default function KacaFilmPage() {
       </Section>
 
       {/* ================= KREDIBILITAS GLOBAL ================= */}
-      <Section alt>
+      <Section>
         <div className={styles.head}>
           <div className={styles.e}>Kredibilitas Global</div>
           <h2 className={styles.t}>Didukung Ginnva China — Tercatat di Bursa Efek Shanghai</h2>
