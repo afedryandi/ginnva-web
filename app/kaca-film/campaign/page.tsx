@@ -1,0 +1,411 @@
+import React from 'react';
+import Image from 'next/image';
+import type { Metadata } from 'next';
+import { seoDefaults, canonical } from '@/config/seo';
+import styles from './page.module.css';
+import Gallery from './Gallery';
+
+// Landing page iklan (Meta Ads) — dibuat dari brief "Landing Page
+// Structure" (Media Plan - Ginnva.xlsx), 2026-09-22. SENGAJA halaman
+// baru terpisah di /kaca-film/campaign (bukan replace /kaca-film yang
+// sudah live) atas keputusan user, supaya bisa di-A/B test tanpa
+// mengganggu halaman yang sudah berjalan. Prefix "/kaca-film" di
+// SiteChrome.tsx sudah otomatis meng-cover path bersarang ini (bare
+// chrome, tanpa Header/Footer/ChatWidget situs utama), jadi tidak
+// perlu ubah konfigurasi apa pun di sana.
+//
+// Foto galeri & lokasi masih PLACEHOLDER (foto asli belum tersedia,
+// keputusan user 2026-09-22) — gampang diganti begitu asetnya ada,
+// tinggal timpa src di GALLERY/LOCATION_IMAGE di bawah.
+const TITLE = 'Ginnva Premium Automotive Window Film';
+const DESC = 'Chinese-engineered window film, resmi didistribusikan di Indonesia oleh Ginnva. E-Warranty digital, dipasang presisi di GINNVA House, PIK 2.';
+
+export const metadata: Metadata = {
+  ...seoDefaults,
+  ...canonical('/kaca-film/campaign'),
+  title: TITLE,
+  description: DESC,
+  openGraph: {
+    ...seoDefaults.openGraph,
+    title: TITLE,
+    description: DESC,
+    url: 'https://ginnva.id/kaca-film/campaign',
+  },
+  twitter: {
+    ...seoDefaults.twitter,
+    title: TITLE,
+    description: DESC,
+  },
+};
+
+const ACCENT = '#ed1651';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://api.ginnva.id';
+const WA_NUMBER = '628118681678';
+const RESERVE_MESSAGE = 'Halo Ginnva, saya ingin Reserve Your Slot untuk pasang Window Film.';
+const waLink = (text: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+
+function Section({
+  children,
+  alt,
+  dark,
+  style,
+}: {
+  children: React.ReactNode;
+  alt?: boolean;
+  dark?: boolean;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <section
+      className={`${styles.psec} ${alt ? styles.psecAlt : ''}`}
+      style={dark ? { background: '#141416', ...style } : style}
+    >
+      <div className="wrap" style={{ maxWidth: '1080px' }}>{children}</div>
+    </section>
+  );
+}
+
+// Ikon inline sederhana (stroke-based), konsisten dengan gaya X/Check
+// circle di app/kaca-film/page.tsx — 1 ikon per kartu USP.
+const IconHeat = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <path d="M12 3v10.5" />
+    <circle cx="12" cy="17" r="3.5" />
+    <path d="M9 8l3-2 3 2" />
+  </svg>
+);
+const IconShield = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round">
+    <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" />
+  </svg>
+);
+const IconEye = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round">
+    <path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z" />
+    <circle cx="12" cy="12" r="2.8" />
+  </svg>
+);
+const IconLock = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round">
+    <rect x="5" y="10.5" width="14" height="9.5" rx="2" />
+    <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" />
+  </svg>
+);
+const IconVerify = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round">
+    <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" />
+    <path d="M9 12.3l2 2 4-4.6" />
+  </svg>
+);
+
+const GALLERY = [
+  { src: '/image/ppf-kaca-film/kf1.jpg', alt: 'BMW Series 7 - Window Film Ginnva', cap: 'BMW Series 7' },
+  { src: '/image/ppf-kaca-film/kf2.jpg', alt: 'Porsche Macan - Window Film Ginnva', cap: 'Porsche Macan' },
+  { src: '/image/ppf-kaca-film/kf3.jpg', alt: 'Audi A6 - Window Film Ginnva', cap: 'Audi A6' },
+  { src: '/image/ppf-kaca-film/kf4.jpg', alt: 'GWM Tank 500 - Window Film Ginnva', cap: 'GWM Tank 500' },
+];
+
+const USP_ITEMS = [
+  {
+    icon: <IconHeat />,
+    title: 'No More Heat Build-Up',
+    desc: 'Mobil yang diparkir di bawah matahari tetap bisa dimasuki tanpa harus menunggu AC mengejar dari nol.',
+  },
+  {
+    icon: <IconShield />,
+    title: 'Interior That Ages Slower',
+    desc: 'Dashboard nggak retak halus, jok nggak kehilangan warna, trim plastik nggak berubah kusam.',
+  },
+  {
+    icon: <IconEye />,
+    title: 'Less Glare, Same Clarity',
+    desc: 'Matahari sore dan lampu jauh dari arah berlawanan nggak lagi memaksa menyipit, termasuk saat berkendara malam.',
+  },
+  {
+    icon: <IconLock />,
+    title: 'Privacy Without Losing Signal',
+    desc: 'Kaca samping bisa segelap yang kamu mau. GPS, e-Toll, dan sinyal HP tetap jalan seperti biasa.',
+  },
+];
+
+const WHO_WE_ARE = [
+  { v: '30 Years', l: 'Pengalaman di bidang adhesive dan top coating' },
+  { v: 'Publicly Listed', l: 'Tercatat di Bursa Efek Shanghai' },
+  { v: 'In-House R&D', l: 'Tim riset dan pengembangan sendiri' },
+  { v: 'Own Factory', l: 'Pabrik milik sendiri di Jiangsu, Tiongkok' },
+];
+
+const SERIES = [
+  {
+    name: 'A70',
+    character: 'Bright and clear, highest heat rejection among windscreen films.',
+    specs: ['VLT 72%', 'TSER 61%', 'UV 99%', '10-year warranty'],
+  },
+  {
+    name: 'H70',
+    character: 'Nano ceramic windscreen film.',
+    specs: ['TSER 47%', 'UV 99%', '8-year warranty'],
+  },
+  {
+    name: 'H30',
+    character: 'Medium tint, privacy without going too dark.',
+    specs: ['VLT 28%', 'TSER 56%', 'UV 99%', '8-year warranty'],
+  },
+  {
+    name: 'H15',
+    character: 'Darkest tint, highest heat rejection in the range.',
+    specs: ['VLT 16%', 'TSER 65%', 'UV 99%', '8-year warranty'],
+  },
+];
+
+export default function KacaFilmCampaignPage() {
+  return (
+    <main data-page="kaca-film-campaign" style={{ backgroundColor: '#fff' }}>
+      {/* ================= ABOVE THE FOLD ================= */}
+      <section
+        style={{
+          position: 'relative',
+          minHeight: '82vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          color: '#fff',
+          overflow: 'hidden',
+          padding: '100px 20px 70px',
+        }}
+      >
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/image/hero-banner.webp"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+        >
+          <source src={`${API_BASE}/video/ginnva-hero.mp4`} type="video/mp4" />
+        </video>
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(8,9,13,.62), rgba(8,9,13,.85))' }} />
+
+        <header
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 5,
+            background: 'rgba(20,21,26,.28)',
+            backdropFilter: 'blur(14px)',
+            WebkitBackdropFilter: 'blur(14px)',
+            borderBottom: '1px solid rgba(255,255,255,.14)',
+          }}
+        >
+          <div className="wrap" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
+            <Image src="/image/ginnva-logo-white.webp" alt="Ginnva Shield Indonesia" width={130} height={26} style={{ height: '26px', width: 'auto' }} />
+            <a className="pill pill--accent" style={{ height: '38px', padding: '0 20px', fontSize: '13px' }} href={waLink(RESERVE_MESSAGE)} target="_blank" rel="noopener">
+              Reserve Your Slot
+            </a>
+          </div>
+        </header>
+
+        <div style={{ maxWidth: '680px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
+          <span
+            style={{
+              display: 'inline-block',
+              fontSize: '13px',
+              fontWeight: 700,
+              letterSpacing: '.06em',
+              color: 'rgba(255,255,255,.85)',
+              border: '1px solid rgba(255,255,255,.35)',
+              borderRadius: '20px',
+              padding: '7px 18px',
+              background: 'rgba(0,0,0,.25)',
+            }}
+          >
+            Chinese-Engineered Window Film. Officially Distributed in Indonesia.
+          </span>
+          <h1 style={{ fontSize: 'clamp(28px, 5vw, 50px)', lineHeight: 1.15, marginTop: '22px' }}>
+            Premium Automotive
+            <br />
+            <span style={{ color: ACCENT }}>Window Film</span>
+          </h1>
+          <p style={{ fontSize: 'clamp(15px, 1.6vw, 18px)', color: 'rgba(255,255,255,.85)', marginTop: '18px', maxWidth: '56ch', marginInline: 'auto' }}>
+            Percayakan perlindungan kaca mobil kamu kepada Ginnva, dikerjakan dealer resmi dengan
+            E-Warranty digital, memastikan setiap posisi kaca dapat seri yang tepat.
+          </p>
+          <a
+            href={waLink(RESERVE_MESSAGE)}
+            target="_blank"
+            rel="noopener"
+            className="pill pill--accent"
+            style={{ marginTop: '32px' }}
+          >
+            Reserve Your Slot
+          </a>
+
+          <div className={styles.trustBar}>
+            {['61% Heat Rejection', '99% UV Blocked', '72% Clarity Retained', '10 Yrs Warranty'].map((t) => (
+              <span key={t} className={styles.trustPill}>{t}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================= BENEFITS ================= */}
+      <Section>
+        <div className={styles.head}>
+          <div className={styles.e}>Benefits</div>
+          <h2 className={styles.t}>Terasa Bedanya Sejak Pemasangan Pertama</h2>
+        </div>
+        <div className={styles.benefitGrid}>
+          <div className={styles.benefitCard}><div className={styles.v}>61%</div><div className={styles.l}>Heat Rejection</div></div>
+          <div className={styles.benefitCard}><div className={styles.v}>99%</div><div className={styles.l}>UV Blocked</div></div>
+          <div className={styles.benefitCard}><div className={styles.v}>72%</div><div className={styles.l}>Clarity Retained</div></div>
+          <div className={styles.benefitCard}><div className={styles.v}>10 Yrs</div><div className={styles.l}>Warranty</div></div>
+        </div>
+      </Section>
+
+      {/* ================= USP ================= */}
+      <Section alt>
+        <div className={styles.head}>
+          <div className={styles.e}>USP</div>
+          <h2 className={styles.t}>What Changes After Installation</h2>
+        </div>
+        <div className={styles.uspGrid}>
+          {USP_ITEMS.map((item) => (
+            <div key={item.title} className={styles.uspCard}>
+              <div className={styles.icon}>{item.icon}</div>
+              <h3>{item.title}</h3>
+              <p>{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* ================= PORTFOLIO ================= */}
+      <Section>
+        <div className={styles.head}>
+          <div className={styles.e}>Portfolio</div>
+          <h2 className={styles.t}>Installed. On Real Cars.</h2>
+        </div>
+        <Gallery photos={GALLERY} />
+      </Section>
+
+      {/* ================= WHO WE ARE ================= */}
+      <Section alt>
+        <div className={styles.head}>
+          <div className={styles.e}>Who We Are</div>
+          <h2 className={styles.t}>Built by the Manufacturer</h2>
+        </div>
+        <div className={styles.whoGrid}>
+          {WHO_WE_ARE.map((item) => (
+            <div key={item.v} className={styles.whoCard}>
+              <div className={styles.v}>{item.v}</div>
+              <div className={styles.l}>{item.l}</div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* ================= OFFER ================= */}
+      <Section>
+        <div className={styles.head}>
+          <div className={styles.e}>Offer</div>
+          <h2 className={styles.t}>Meet the Series</h2>
+        </div>
+        <div className={styles.seriesGrid}>
+          {SERIES.map((s) => (
+            <div key={s.name} className={styles.seriesCard}>
+              <div className={styles.name}>{s.name}</div>
+              <p className={styles.character}>{s.character}</p>
+              <div className={styles.specs}>
+                {s.specs.map((spec) => <div key={spec}>{spec}</div>)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* ================= CERTIFICATE ================= */}
+      <Section alt>
+        <div className={styles.head}>
+          <div className={styles.e}>Certificate</div>
+          <h2 className={styles.t}>Warranty You Can Verify</h2>
+        </div>
+        <div className={styles.certCard}>
+          <div className={styles.icon}><IconVerify /></div>
+          <p>
+            Setiap pemasangan menerbitkan E-Warranty digital berisi data kendaraan, produk yang
+            dipasang, tanggal pemasangan, dan masa berlaku. Bisa diverifikasi kapan aja.
+          </p>
+        </div>
+      </Section>
+
+      {/* ================= LOCATION ================= */}
+      <section className={styles.psec} style={{ background: '#141416' }}>
+        <div className="wrap" style={{ maxWidth: '1080px' }}>
+          <div className={styles.head}>
+            <div className={styles.e} style={{ justifyContent: 'center' }}>Location</div>
+            <h2 className={styles.t} style={{ color: '#fff' }}>Come to Ginnva House</h2>
+          </div>
+          <div className={styles.contactGrid}>
+            <div className={styles.contactCard}>
+              <div className={styles.row}><b>Alamat</b><span>Ginnva House — Tangerang. Thamrin Business Center, Jl. M.H Thamrin Blok 1 No. 52, PIK 2, Kosambi, Selembaran, Tangerang, Banten 15210</span></div>
+              <div className={styles.row}><b>Jam Buka</b><span>Senin–Jumat 08.30–17.00 · Sabtu 09.00–13.00 · Minggu libur</span></div>
+              <div className={styles.row}><b>Telepon</b><span>+62 811-8681-678</span></div>
+              <a className="pill pill--accent" style={{ marginTop: '24px' }} href={waLink(RESERVE_MESSAGE)} target="_blank" rel="noopener">
+                Reserve Your Slot
+              </a>
+            </div>
+            <div className={styles.contactMap} style={{ position: 'relative', minHeight: '320px' }}>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3967.459351816242!2d106.70506227361535!3d-6.068620459549684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6a030025c42b81%3A0xab33d6b0eb2e1130!2sFlagship%20Store%20Ginnva%20Indonesia!5e0!3m2!1sid!2sid!4v1783226085997!5m2!1sid!2sid"
+                width="100%"
+                height="100%"
+                style={{ border: 0, position: 'absolute', top: 0, left: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Lokasi GINNVA House"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= URGENCY ================= */}
+      <div className={styles.urgency}>
+        <div className="wrap" style={{ maxWidth: '620px' }}>
+          <h2>Book Before the Day Fills Up</h2>
+          <p>Tell Us the Car. We&apos;ll Build the Combination.</p>
+          <a
+            href={waLink(RESERVE_MESSAGE)}
+            target="_blank"
+            rel="noopener"
+            className="pill pill--accent"
+            style={{ marginTop: '28px' }}
+          >
+            Reserve Your Slot
+          </a>
+        </div>
+      </div>
+
+      {/* ================= FOOTER ================= */}
+      <footer className={styles.footer}>
+        <div className="wrap" style={{ maxWidth: '1080px', paddingTop: '32px' }}>
+          <Image src="/image/ginnva-logo-white.webp" alt="Ginnva Shield Indonesia" width={110} height={22} style={{ height: '22px', width: 'auto', opacity: 0.9 }} />
+          <div className={styles.footBottom}>
+            <span>© 2026 PT. Ginnva Shield Indonesia. Semua hak dilindungi.</span>
+            <a href={waLink('')}>+62 811-8681-678</a>
+          </div>
+        </div>
+      </footer>
+
+      {/* ================= FLOATING WHATSAPP (brief: CTA sama dgn "Reserve Your Slot") ================= */}
+      <a href={waLink(RESERVE_MESSAGE)} target="_blank" rel="noopener" className={styles.floatingWa} aria-label="Reserve Your Slot via WhatsApp">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.45 1.33 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm0 18.2c-1.5 0-2.96-.4-4.24-1.16l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.37c0-4.53 3.69-8.22 8.23-8.22 2.2 0 4.26.86 5.82 2.42a8.16 8.16 0 0 1 2.41 5.81c0 4.54-3.69 8.23-8.17 8.23zm4.51-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.04-.38-1.99-1.22-.73-.65-1.23-1.46-1.37-1.71-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.16-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.08s.89 2.41 1.02 2.58c.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.11-.23-.17-.48-.29z" /></svg>
+        <span>Reserve Your Slot</span>
+      </a>
+    </main>
+  );
+}
