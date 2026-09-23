@@ -303,17 +303,26 @@ export default function KacaFilmCampaign2Page() {
         <div className={styles.head}>
           <h2 className={styles.t}>Warranty You Can Verify</h2>
         </div>
-        <div className={styles.certRow}>
-          <div className={styles.certCard}>
-            <div className={styles.icon}><IconVerify /></div>
-            <p>
-              Setiap pemasangan menerbitkan E-Warranty digital berisi data kendaraan, produk yang
-              dipasang, tanggal pemasangan, dan masa berlaku. Bisa diverifikasi kapan aja.
-            </p>
-          </div>
-          <div className={styles.certImgWrap}>
-            <Image src="/image/ppf-kaca-film/kf2.jpg" alt="Contoh sertifikat E-Warranty Ginnva" fill sizes="(max-width: 760px) 100vw, 320px" style={{ objectFit: 'cover' }} />
-          </div>
+        <div className={styles.certCard}>
+          <div className={styles.icon}><IconVerify /></div>
+          <p>
+            Setiap pemasangan menerbitkan E-Warranty digital berisi data kendaraan, produk yang
+            dipasang, tanggal pemasangan, dan masa berlaku. Bisa diverifikasi kapan aja.
+          </p>
+        </div>
+        <div className={styles.certGallery}>
+          <figure className={styles.certGalleryItem}>
+            <div className={styles.certImgWrap} style={{ aspectRatio: '688/733' }}>
+              <Image src="/image/ppf-kaca-film/ewarranty-web.png" alt="Tampilan cek E-Warranty di website" fill sizes="(max-width: 760px) 100vw, 460px" style={{ objectFit: 'contain' }} />
+            </div>
+            <figcaption>Tampilan cek di website</figcaption>
+          </figure>
+          <figure className={styles.certGalleryItem}>
+            <div className={styles.certImgWrap} style={{ aspectRatio: '784/753' }}>
+              <Image src="/image/ppf-kaca-film/ewarranty-pdf.png" alt="Tampilan unduhan E-Warranty format PDF (Roll Number disensor)" fill sizes="(max-width: 760px) 100vw, 460px" style={{ objectFit: 'contain' }} />
+            </div>
+            <figcaption>Tampilan download E-Warranty format PDF</figcaption>
+          </figure>
         </div>
       </Section>
 

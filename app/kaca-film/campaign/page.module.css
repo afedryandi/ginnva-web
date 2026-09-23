@@ -259,29 +259,57 @@
 }
 
 /* ---- Certificate + foto pendukung (revisi LP poin 3, 2026-09-23) ---- */
-.certRow {
+/* ---- Certificate: 2 tampilan berdampingan (web + PDF), revisi
+   2026-09-23 setelah user minta dua-duanya ditampilkan sekaligus dgn
+   keterangan, bukan cuma 1 foto contoh. ---- */
+.certGallery {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 28px;
-  align-items: center;
-  max-width: 980px;
-  margin: 0 auto;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 900px;
+  margin: 36px auto 0;
 }
-@media (max-width: 760px) {
-  .certRow {
+@media (max-width: 700px) {
+  .certGallery {
     grid-template-columns: 1fr;
   }
+}
+/* display:flex + height:100% (grid stretch dari .certGallery) supaya
+   kedua figure SAMA TINGGI meski gambarnya beda rasio (688x733 vs
+   784x753) — area gambar jadi flex:1 yang menengahkan gambar pendek
+   secara vertikal, caption otomatis sejajar di bawah keduanya (bukan
+   nempel langsung di bawah gambar masing-masing). Revisi 2026-09-23. */
+.certGalleryItem {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.certGalleryItem .certImgWrap {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.certGalleryItem figcaption {
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--muted);
+  margin-top: 12px;
+  font-weight: 600;
 }
 .certImgWrap {
   position: relative;
   aspect-ratio: 4/3;
   border-radius: 18px;
   overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--line);
 }
 .certCard {
   display: flex;
   align-items: flex-start;
   gap: 20px;
+  max-width: 760px;
+  margin: 0 auto;
   padding: 32px;
   border-radius: 18px;
   background: var(--alt);
