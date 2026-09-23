@@ -1,0 +1,476 @@
+/*
+ * Gaya khusus /kaca-film/campaign — landing page iklan sesuai brief
+ * "Landing Page Structure" (Media Plan - Ginnva.xlsx). Berdiri sendiri
+ * (CSS Module sendiri, bukan reuse app/kaca-film/page.module.css)
+ * mengikuti konvensi repo tiap landing page iklan punya file sendiri,
+ * supaya perubahan campaign ini tidak menyentuh /kaca-film yang sudah
+ * live. Token warna (var(--accent) dkk) tetap dari app/globals.css.
+ */
+
+.psec {
+  padding-block: 76px;
+}
+.psecAlt {
+  background: var(--alt);
+}
+.head {
+  text-align: center;
+  margin-bottom: 44px;
+}
+.head .t {
+  font-size: clamp(24px, 3vw, 36px);
+  color: var(--ink);
+  text-wrap: balance;
+  margin: 0;
+  font-weight: 700;
+}
+.head .e {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.head .e::before,
+.head .e::after {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: rgba(237, 22, 81, .35);
+}
+
+/* ---- Micro trust bar (hero) ---- */
+.trustBar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+.trustPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 100px;
+  padding: 8px 14px;
+}
+
+/* ---- Benefits (icon stat cards) ---- */
+.benefitGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+@media (max-width: 760px) {
+  .benefitGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.benefitCard {
+  text-align: center;
+  padding: 28px 16px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+.benefitCard .v {
+  font-size: clamp(26px, 3.2vw, 34px);
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+.benefitCard .l {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+/* ---- Who We Are: foto gedung pabrik landscape full-width (revisi LP
+   poin 4, 2026-09-23 — awalnya dipasang di USP, dipindah ke sini
+   setelah klarifikasi user, sekaligus diganti dari layout
+   sisi-bersisi ke landscape penuh di atas grid). ---- */
+.whoImgWrap {
+  position: relative;
+  aspect-ratio: 16/9;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+/* ---- USP grid (2x2 change cards) ---- */
+.uspGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 760px) {
+  .uspGrid {
+    grid-template-columns: 1fr;
+  }
+}
+.uspCard {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px;
+  background: #fff;
+}
+.uspCard .icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--accent-soft, rgba(237, 22, 81, .08));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+.uspCard h3 {
+  font-size: 17px;
+  margin: 0;
+  color: var(--ink);
+}
+.uspCard p {
+  font-size: 14.5px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-top: 8px;
+}
+
+/* ---- Who We Are ---- */
+.whoGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+@media (max-width: 760px) {
+  .whoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.whoCard {
+  text-align: center;
+  padding: 26px 16px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+.whoCard .v {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.whoCard .l {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* ---- Offer (disamakan dgn /kaca-film/campaign2, 2026-09-23: headline
+   tunggal + kartu foto banner produk dgn nama seri overlay gradient,
+   bukan lagi kartu teks datar) ---- */
+.offerHeadline {
+  font-size: clamp(20px, 2.6vw, 28px);
+  font-weight: 700;
+  color: var(--ink);
+  text-align: center;
+  margin: 0 auto 48px;
+  text-wrap: balance;
+}
+.seriesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px 20px;
+}
+@media (max-width: 900px) {
+  .seriesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 520px) {
+  .seriesGrid {
+    grid-template-columns: 1fr;
+  }
+}
+.seriesCard {
+  display: flex;
+  flex-direction: column;
+}
+.seriesCard .picWrap {
+  position: relative;
+  aspect-ratio: 3/4;
+  border-radius: 18px;
+  overflow: hidden;
+}
+/* Dua varian latar tergantung warna banner produknya, supaya banner
+   tetap kebaca meski senada dgn warna aslinya (ungu utk A70, merah/pink
+   utk seri H) — sinkron dgn campaign2. */
+.seriesCard .picWrapContainDark {
+  background:
+    radial-gradient(120% 90% at 50% 38%, rgba(168, 130, 255, .22), transparent 62%),
+    linear-gradient(160deg, #2c1a52 0%, #1a0f33 55%, #0d081c 100%);
+}
+.seriesCard .picWrapContainLight {
+  background:
+    radial-gradient(120% 90% at 50% 38%, rgba(255, 255, 255, .9), transparent 62%),
+    linear-gradient(160deg, #fdfdfd 0%, #f2f0f4 55%, #e7e4ea 100%);
+}
+.seriesCard .picContain {
+  padding: 14%;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, .22));
+}
+.seriesCard .picOverlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 28px 18px 16px;
+  background: linear-gradient(to top, rgba(10, 11, 16, .82), transparent);
+}
+.seriesCard .picOverlay .name {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: .01em;
+}
+.seriesCard .character {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin-top: 14px;
+  line-height: 1.7;
+}
+.seriesCard .specs {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--muted-2);
+  line-height: 1.7;
+}
+
+/* ---- Certificate + foto pendukung (revisi LP poin 3, 2026-09-23) ---- */
+/* ---- Certificate: 2 tampilan berdampingan (web + PDF), revisi
+   2026-09-23 setelah user minta dua-duanya ditampilkan sekaligus dgn
+   keterangan, bukan cuma 1 foto contoh. ---- */
+.certGallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 900px;
+  margin: 36px auto 0;
+}
+@media (max-width: 700px) {
+  .certGallery {
+    grid-template-columns: 1fr;
+  }
+}
+/* display:flex + height:100% (grid stretch dari .certGallery) supaya
+   kedua figure SAMA TINGGI meski gambarnya beda rasio (688x733 vs
+   784x753) — area gambar jadi flex:1 yang menengahkan gambar pendek
+   secara vertikal, caption otomatis sejajar di bawah keduanya (bukan
+   nempel langsung di bawah gambar masing-masing). Revisi 2026-09-23. */
+.certGalleryItem {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.certGalleryItem .certImgWrap {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.certGalleryItem figcaption {
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--muted);
+  margin-top: 12px;
+  font-weight: 600;
+}
+.certImgWrap {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+.certCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px;
+  border-radius: 18px;
+  background: var(--alt);
+  border: 1px solid var(--line);
+}
+.certCard .icon {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.certCard p {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin: 8px 0 0;
+}
+
+/* ---- Gallery (reused pattern) ---- */
+.galleryScroll {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 8px 4px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.galleryScroll::-webkit-scrollbar {
+  height: 6px;
+}
+.galleryScroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.galleryScroll::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 3px;
+}
+.galleryScroll::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+.galleryItem {
+  flex-shrink: 0;
+  width: 230px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  aspect-ratio: 4/3;
+}
+.galleryCap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  color: #fff;
+  background: linear-gradient(to top, rgba(10, 11, 16, .82), transparent);
+}
+
+/* ---- Location ---- */
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+@media (max-width: 760px) {
+  .contactGrid {
+    grid-template-columns: 1fr;
+  }
+}
+.contactCard .row {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, .2);
+  font-size: 15px;
+  color: rgba(255, 255, 255, .7);
+}
+.contactCard .row b {
+  color: #fff;
+  font-weight: 500;
+  min-width: 84px;
+  flex-shrink: 0;
+}
+.contactMap {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+/* ---- Urgency (final CTA) ---- */
+.urgency {
+  text-align: center;
+  padding-block: 72px;
+  background: linear-gradient(180deg, #fff, var(--alt));
+}
+.urgency h2 {
+  font-size: clamp(24px, 3.4vw, 38px);
+  color: var(--ink);
+  text-wrap: balance;
+  margin: 0;
+}
+.urgency p {
+  font-size: 15.5px;
+  color: var(--muted);
+  margin-top: 12px;
+}
+
+.footer {
+  background: #1a1a1d;
+  color: rgba(255, 255, 255, .7);
+}
+.footBottom {
+  padding: 24px 0;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+  font-size: 13px;
+  color: rgba(255, 255, 255, .45);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  /* Reservasi ruang di kanan supaya nomor telepon tidak ketutup
+     .floatingWa yang fixed di pojok kanan-bawah, 2026-09-23. */
+  padding-right: 200px;
+}
+@media (max-width: 480px) {
+  .footBottom {
+    padding-right: 76px;
+  }
+}
+
+/* ---- Floating WhatsApp CTA (brief: "cta yang sama untuk floating whatsApp") ---- */
+.floatingWa {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13.5px;
+  padding: 13px 20px;
+  border-radius: 100px;
+  box-shadow: 0 10px 28px -6px rgba(237, 22, 81, .55);
+  text-decoration: none;
+}
+@media (max-width: 480px) {
+  .floatingWa span {
+    display: none;
+  }
+  .floatingWa {
+    padding: 14px;
+  }
+}
