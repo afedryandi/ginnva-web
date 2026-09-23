@@ -96,6 +96,18 @@
   font-weight: 600;
 }
 
+/* ---- Who We Are: foto gedung pabrik landscape full-width (revisi LP
+   poin 4, 2026-09-23 — awalnya dipasang di USP, dipindah ke sini
+   setelah klarifikasi user, sekaligus diganti dari layout
+   sisi-bersisi ke landscape penuh di atas grid). ---- */
+.whoImgWrap {
+  position: relative;
+  aspect-ratio: 16/9;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
 /* ---- USP grid (2x2 change cards) ---- */
 .uspGrid {
   display: grid;
@@ -246,13 +258,30 @@
   line-height: 1.7;
 }
 
-/* ---- Certificate ---- */
+/* ---- Certificate + foto pendukung (revisi LP poin 3, 2026-09-23) ---- */
+.certRow {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 28px;
+  align-items: center;
+  max-width: 980px;
+  margin: 0 auto;
+}
+@media (max-width: 760px) {
+  .certRow {
+    grid-template-columns: 1fr;
+  }
+}
+.certImgWrap {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: 18px;
+  overflow: hidden;
+}
 .certCard {
   display: flex;
   align-items: flex-start;
   gap: 20px;
-  max-width: 760px;
-  margin: 0 auto;
   padding: 32px;
   border-radius: 18px;
   background: var(--alt);

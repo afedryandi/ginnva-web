@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 const ACCENT = '#ed1651';
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://api.ginnva.id';
 const WA_NUMBER = '628118681678';
-const RESERVE_MESSAGE = 'Halo Ginnva, saya ingin Reserve Your Slot untuk pasang Window Film.';
+const RESERVE_MESSAGE = 'Hallo Ginnva, saya ingin Reserve Slot untuk pasang Window Film.';
 const waLink = (text: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
 
 function Section({
@@ -267,24 +267,11 @@ export default function KacaFilmCampaignPage() {
         </div>
       </section>
 
-      {/* ================= BENEFITS ================= */}
-      <Section>
-        <div className={styles.head}>
-          <div className={styles.e}>Benefits</div>
-          <h2 className={styles.t}>Terasa Bedanya Sejak Pemasangan Pertama</h2>
-        </div>
-        <div className={styles.benefitGrid}>
-          <div className={styles.benefitCard}><div className={styles.v}>61%</div><div className={styles.l}>Heat Rejection</div></div>
-          <div className={styles.benefitCard}><div className={styles.v}>99%</div><div className={styles.l}>UV Blocked</div></div>
-          <div className={styles.benefitCard}><div className={styles.v}>72%</div><div className={styles.l}>Clarity Retained</div></div>
-          <div className={styles.benefitCard}><div className={styles.v}>10 Yrs</div><div className={styles.l}>Warranty</div></div>
-        </div>
-      </Section>
-
-      {/* ================= USP ================= */}
+      {/* ================= USP (revisi LP 2026-09-23: eyebrow "USP"
+           dihapus, section "Benefits" yang dulu ada di sini dihapus
+           total krn angkanya duplikat persis dgn trust-bar di Hero) ================= */}
       <Section alt>
         <div className={styles.head}>
-          <div className={styles.e}>USP</div>
           <h2 className={styles.t}>What Changes After Installation</h2>
         </div>
         <div className={styles.uspGrid}>
@@ -301,17 +288,22 @@ export default function KacaFilmCampaignPage() {
       {/* ================= PORTFOLIO ================= */}
       <Section>
         <div className={styles.head}>
-          <div className={styles.e}>Portfolio</div>
           <h2 className={styles.t}>Installed. On Real Cars.</h2>
         </div>
         <Gallery photos={GALLERY} />
       </Section>
 
-      {/* ================= WHO WE ARE ================= */}
+      {/* ================= WHO WE ARE (foto pendukung ditambahkan
+           2026-09-23, revisi LP poin 4 — klarifikasi user: bukan USP,
+           tapi section ini yang dimaksud. Foto gedung pabrik Ginnva asli
+           (bukan placeholder), ditampilkan landscape full-width di atas
+           grid, sesuai permintaan user 2026-09-23.) ================= */}
       <Section alt>
         <div className={styles.head}>
-          <div className={styles.e}>Who We Are</div>
           <h2 className={styles.t}>Built by the Manufacturer</h2>
+        </div>
+        <div className={styles.whoImgWrap}>
+          <Image src="/image/ppf-kaca-film/ginnva-factory.png" alt="Gedung pabrik Ginnva" fill sizes="1080px" style={{ objectFit: 'cover' }} />
         </div>
         <div className={styles.whoGrid}>
           {WHO_WE_ARE.map((item) => (
@@ -344,18 +336,24 @@ export default function KacaFilmCampaignPage() {
         </div>
       </Section>
 
-      {/* ================= CERTIFICATE ================= */}
+      {/* ================= CERTIFICATE (foto pendukung ditambahkan
+           2026-09-23, revisi LP poin 3 — masih PLACEHOLDER, ganti begitu
+           ada contoh tampilan E-Warranty/sertifikat asli) ================= */}
       <Section alt>
         <div className={styles.head}>
-          <div className={styles.e}>Certificate</div>
           <h2 className={styles.t}>Warranty You Can Verify</h2>
         </div>
-        <div className={styles.certCard}>
-          <div className={styles.icon}><IconVerify /></div>
-          <p>
-            Setiap pemasangan menerbitkan E-Warranty digital berisi data kendaraan, produk yang
-            dipasang, tanggal pemasangan, dan masa berlaku. Bisa diverifikasi kapan aja.
-          </p>
+        <div className={styles.certRow}>
+          <div className={styles.certCard}>
+            <div className={styles.icon}><IconVerify /></div>
+            <p>
+              Setiap pemasangan menerbitkan E-Warranty digital berisi data kendaraan, produk yang
+              dipasang, tanggal pemasangan, dan masa berlaku. Bisa diverifikasi kapan aja.
+            </p>
+          </div>
+          <div className={styles.certImgWrap}>
+            <Image src="/image/ppf-kaca-film/kf2.jpg" alt="Contoh sertifikat E-Warranty Ginnva" fill sizes="(max-width: 760px) 100vw, 320px" style={{ objectFit: 'cover' }} />
+          </div>
         </div>
       </Section>
 
@@ -363,7 +361,6 @@ export default function KacaFilmCampaignPage() {
       <section className={styles.psec} style={{ background: '#141416' }}>
         <div className="wrap" style={{ maxWidth: '1080px' }}>
           <div className={styles.head}>
-            <div className={styles.e} style={{ justifyContent: 'center' }}>Location</div>
             <h2 className={styles.t} style={{ color: '#fff' }}>Come to Ginnva House</h2>
           </div>
           <div className={styles.contactGrid}>
