@@ -5,31 +5,31 @@ import { seoDefaults, canonical } from '@/config/seo';
 import styles from './page.module.css';
 import Gallery from './Gallery';
 
-// Landing page iklan (Meta Ads) — dibuat dari brief "Landing Page
-// Structure" (Media Plan - Ginnva.xlsx), 2026-09-22. SENGAJA halaman
-// baru terpisah di /kaca-film/campaign (bukan replace /kaca-film yang
-// sudah live) atas keputusan user, supaya bisa di-A/B test tanpa
-// mengganggu halaman yang sudah berjalan. Prefix "/kaca-film" di
-// SiteChrome.tsx sudah otomatis meng-cover path bersarang ini (bare
-// chrome, tanpa Header/Footer/ChatWidget situs utama), jadi tidak
-// perlu ubah konfigurasi apa pun di sana.
+// Landing page iklan (Meta Ads) — varian dari /kaca-film/campaign
+// dengan Above The Fold di-desain ulang mengikuti design reference
+// terpisah (layout terang split teks/foto + bar statistik, referensi
+// ALSOK Indonesia yang diberikan user 2026-09-22) — bukan hero video
+// gelap seperti /kaca-film/campaign. Sisa section (Benefits, USP,
+// Portfolio, dst) SAMA PERSIS dengan /kaca-film/campaign, cuma
+// di-duplikasi di sini (bukan di-share) mengikuti konvensi repo tiap
+// landing page iklan berdiri sendiri.
 //
-// Foto galeri & lokasi masih PLACEHOLDER (foto asli belum tersedia,
-// keputusan user 2026-09-22) — gampang diganti begitu asetnya ada,
-// tinggal timpa src di GALLERY/LOCATION_IMAGE di bawah.
+// Foto hero & galeri masih PLACEHOLDER (foto asli belum tersedia,
+// keputusan user 2026-09-22) — tinggal timpa src di HERO_IMAGE/GALLERY
+// begitu asetnya ada.
 const TITLE = 'Ginnva Premium Automotive Window Film';
 const DESC = 'Chinese-engineered window film, resmi didistribusikan di Indonesia oleh Ginnva. E-Warranty digital, dipasang presisi di GINNVA House, PIK 2.';
 
 export const metadata: Metadata = {
   ...seoDefaults,
-  ...canonical('/kaca-film/campaign'),
+  ...canonical('/kaca-film/campaign2'),
   title: TITLE,
   description: DESC,
   openGraph: {
     ...seoDefaults.openGraph,
     title: TITLE,
     description: DESC,
-    url: 'https://ginnva.id/kaca-film/campaign',
+    url: 'https://ginnva.id/kaca-film/campaign2',
   },
   twitter: {
     ...seoDefaults.twitter,
@@ -38,8 +38,6 @@ export const metadata: Metadata = {
   },
 };
 
-const ACCENT = '#ed1651';
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://api.ginnva.id';
 const WA_NUMBER = '628118681678';
 const RESERVE_MESSAGE = 'Halo Ginnva, saya ingin Reserve Your Slot untuk pasang Window Film.';
 const waLink = (text: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
@@ -96,6 +94,12 @@ const IconVerify = () => (
     <path d="M9 12.3l2 2 4-4.6" />
   </svg>
 );
+const HERO_STATS = [
+  { v: '61%', l: 'Heat Rejection' },
+  { v: '99%', l: 'UV Blocked' },
+  { v: '72%', l: 'Clarity Retained' },
+  { v: '10 Yrs', l: 'Warranty' },
+];
 
 const GALLERY = [
   { src: '/image/ppf-kaca-film/kf1.jpg', alt: 'BMW Series 7 - Window Film Ginnva', cap: 'BMW Series 7' },
@@ -134,11 +138,9 @@ const WHO_WE_ARE = [
   { v: 'Own Factory', l: 'Pabrik milik sendiri di Jiangsu, Tiongkok' },
 ];
 
-// Foto banner tiap seri (sinkron dgn /kaca-film/campaign2, 2026-09-23):
-// A70 pakai banner produk "紫微之光 AiLux" (ungu) dgn photoFit contain
-// di atas gradient ungu; H70/H30/H15 pakai banner Ginnva (merah/pink)
-// yang sama dgn photoFit contain di atas gradient putih — supaya
-// banner tetap kebaca meski warnanya senada dgn latar aslinya.
+// Foto per seri masih PLACEHOLDER (reuse foto galeri instalasi yang
+// sudah ada, bukan studio shot per-seri sungguhan) — keputusan user
+// 2026-09-22, tinggal timpa src begitu asetnya ada.
 const SERIES = [
   {
     name: 'A70',
@@ -174,98 +176,56 @@ const SERIES = [
   },
 ];
 
-export default function KacaFilmCampaignPage() {
+export default function KacaFilmCampaign2Page() {
   return (
-    <main data-page="kaca-film-campaign" style={{ backgroundColor: '#fff' }}>
-      {/* ================= ABOVE THE FOLD ================= */}
-      <section
-        style={{
-          position: 'relative',
-          minHeight: '82vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-          color: '#fff',
-          overflow: 'hidden',
-          padding: '100px 20px 70px',
-        }}
-      >
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="/image/hero-banner.webp"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-        >
-          <source src={`${API_BASE}/video/ginnva-hero.mp4`} type="video/mp4" />
-        </video>
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(8,9,13,.62), rgba(8,9,13,.85))' }} />
-
-        <header
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 5,
-            background: 'rgba(20,21,26,.28)',
-            backdropFilter: 'blur(14px)',
-            WebkitBackdropFilter: 'blur(14px)',
-            borderBottom: '1px solid rgba(255,255,255,.14)',
-          }}
-        >
-          <div className="wrap" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
-            <Image src="/image/ginnva-logo-white.webp" alt="Ginnva Shield Indonesia" width={130} height={26} style={{ height: '26px', width: 'auto' }} />
+    <main data-page="kaca-film-campaign2" style={{ backgroundColor: '#fff' }}>
+      {/* ================= ABOVE THE FOLD (light split hero) ================= */}
+      <div className={styles.heroLight}>
+        <header style={{ borderBottom: '1px solid var(--line)' }}>
+          <div className="wrap" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px', maxWidth: '1080px' }}>
+            <Image src="/image/ginnva-logo-red.webp" alt="Ginnva Shield Indonesia" width={130} height={26} style={{ height: '26px', width: 'auto' }} />
             <a className="pill pill--accent" style={{ height: '38px', padding: '0 20px', fontSize: '13px' }} href={waLink(RESERVE_MESSAGE)} target="_blank" rel="noopener">
               Reserve Your Slot
             </a>
           </div>
         </header>
 
-        <div style={{ maxWidth: '680px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
-          <span
-            style={{
-              display: 'inline-block',
-              fontSize: '13px',
-              fontWeight: 700,
-              letterSpacing: '.06em',
-              color: 'rgba(255,255,255,.85)',
-              border: '1px solid rgba(255,255,255,.35)',
-              borderRadius: '20px',
-              padding: '7px 18px',
-              background: 'rgba(0,0,0,.25)',
-            }}
-          >
-            Chinese-Engineered Window Film. Officially Distributed in Indonesia.
-          </span>
-          <h1 style={{ fontSize: 'clamp(28px, 5vw, 50px)', lineHeight: 1.15, marginTop: '22px' }}>
-            Premium Automotive
-            <br />
-            <span style={{ color: ACCENT }}>Window Film</span>
-          </h1>
-          <p style={{ fontSize: 'clamp(15px, 1.6vw, 18px)', color: 'rgba(255,255,255,.85)', marginTop: '18px', maxWidth: '56ch', marginInline: 'auto' }}>
-            Percayakan perlindungan kaca mobil kamu kepada Ginnva, dikerjakan dealer resmi dengan
-            E-Warranty digital, memastikan setiap posisi kaca dapat seri yang tepat.
-          </p>
-          <a
-            href={waLink(RESERVE_MESSAGE)}
-            target="_blank"
-            rel="noopener"
-            className="pill pill--accent"
-            style={{ marginTop: '32px' }}
-          >
-            Reserve Your Slot
-          </a>
+        <div className="wrap" style={{ maxWidth: '1080px', paddingTop: '48px' }}>
+          <div className={styles.heroTop}>
+            <div>
+              <div className={styles.heroEyebrow}>
+                Chinese-Engineered Window Film. Officially Distributed in Indonesia (Ginnva Shield Indonesia).
+              </div>
+              <h1 className={styles.heroTitle}>Premium Automotive Window Film</h1>
+              <p className={styles.heroLead}>
+                Percayakan perlindungan kaca mobil kamu kepada Ginnva, dikerjakan dealer resmi dengan
+                E-Warranty digital, memastikan setiap posisi kaca dapat seri yang tepat.
+              </p>
+              <a
+                href={waLink(RESERVE_MESSAGE)}
+                target="_blank"
+                rel="noopener"
+                className="pill pill--accent"
+                style={{ marginTop: '28px' }}
+              >
+                Reserve Your Slot
+              </a>
+            </div>
+            <div className={styles.heroPic}>
+              <Image src="/image/ppf-kaca-film/kaca-film-hero.webp" alt="Pemasangan Window Film Ginnva" fill sizes="(max-width: 760px) 100vw, 45vw" style={{ objectFit: 'cover' }} />
+            </div>
+          </div>
 
-          <div className={styles.trustBar}>
-            {['61% Heat Rejection', '99% UV Blocked', '72% Clarity Retained', '10 Yrs Warranty'].map((t) => (
-              <span key={t} className={styles.trustPill}>{t}</span>
+          <div className={styles.heroStatBar}>
+            {HERO_STATS.map((s) => (
+              <div key={s.l}>
+                <div className={styles.v}>{s.v}</div>
+                <div className={styles.l}>{s.l}</div>
+              </div>
             ))}
           </div>
         </div>
-      </section>
+      </div>
 
       {/* ================= BENEFITS ================= */}
       <Section>
@@ -281,12 +241,10 @@ export default function KacaFilmCampaignPage() {
         </div>
       </Section>
 
-      {/* ================= USP ================= */}
+      {/* ================= USP (design reference ALSOK, 2026-09-23:
+           headline tunggal tanpa eyebrow, grid 4-across) ================= */}
       <Section alt>
-        <div className={styles.head}>
-          <div className={styles.e}>USP</div>
-          <h2 className={styles.t}>What Changes After Installation</h2>
-        </div>
+        <h2 className={styles.uspHeadline}>What Changes After Installation</h2>
         <div className={styles.uspGrid}>
           {USP_ITEMS.map((item) => (
             <div key={item.title} className={styles.uspCard}>
@@ -323,16 +281,16 @@ export default function KacaFilmCampaignPage() {
         </div>
       </Section>
 
-      {/* ================= OFFER (disamakan dgn /kaca-film/campaign2,
-           2026-09-23: headline tunggal + kartu foto banner produk dgn
-           nama seri overlay gradient, bukan lagi kartu teks datar) ================= */}
+      {/* ================= OFFER (design reference Jakarta Aesthetic
+           Clinic, 2026-09-23; nama seri diganti dari badge pill
+           mengambang jadi overlay gradient di dalam foto, 2026-09-23) ================= */}
       <Section>
         <h2 className={styles.offerHeadline}>Meet the Series</h2>
         <div className={styles.seriesGrid}>
           {SERIES.map((s) => (
             <div key={s.name} className={styles.seriesCard}>
-              <div className={`${styles.picWrap} ${s.photoBg === 'white' ? styles.picWrapContainLight : styles.picWrapContainDark}`}>
-                <Image src={s.photo} alt={`Ginnva Window Film ${s.name}`} fill sizes="(max-width: 900px) 45vw, 22vw" className={styles.picContain} style={{ objectFit: s.photoFit }} />
+              <div className={`${styles.picWrap} ${'photoBg' in s ? (s.photoBg === 'white' ? styles.picWrapContainLight : styles.picWrapContainDark) : ''}`}>
+                <Image src={s.photo} alt={`Ginnva Window Film ${s.name}`} fill sizes="(max-width: 900px) 45vw, 22vw" className={'photoFit' in s ? styles.picContain : undefined} style={{ objectFit: 'photoFit' in s ? s.photoFit : 'cover' }} />
                 <div className={styles.picOverlay}>
                   <span className={styles.name}>{s.name}</span>
                 </div>
@@ -359,37 +317,38 @@ export default function KacaFilmCampaignPage() {
         </div>
       </Section>
 
-      {/* ================= LOCATION ================= */}
-      <section className={styles.psec} style={{ background: '#141416' }}>
-        <div className="wrap" style={{ maxWidth: '1080px' }}>
-          <div className={styles.head}>
-            <div className={styles.e} style={{ justifyContent: 'center' }}>Location</div>
-            <h2 className={styles.t} style={{ color: '#fff' }}>Come to Ginnva House</h2>
-          </div>
-          <div className={styles.contactGrid}>
-            <div className={styles.contactCard}>
-              <div className={styles.row}><b>Alamat</b><span>Ginnva House — Tangerang. Thamrin Business Center, Jl. M.H Thamrin Blok 1 No. 52, PIK 2, Kosambi, Selembaran, Tangerang, Banten 15210</span></div>
-              <div className={styles.row}><b>Jam Buka</b><span>Senin–Jumat 08.30–17.00 · Sabtu 09.00–13.00 · Minggu libur</span></div>
-              <div className={styles.row}><b>Telepon</b><span>+62 811-8681-678</span></div>
-              <a className="pill pill--accent" style={{ marginTop: '24px' }} href={waLink(RESERVE_MESSAGE)} target="_blank" rel="noopener">
-                Reserve Your Slot
-              </a>
-            </div>
-            <div className={styles.contactMap} style={{ position: 'relative', minHeight: '320px' }}>
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3967.459351816242!2d106.70506227361535!3d-6.068620459549684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6a030025c42b81%3A0xab33d6b0eb2e1130!2sFlagship%20Store%20Ginnva%20Indonesia!5e0!3m2!1sid!2sid!4v1783226085997!5m2!1sid!2sid"
-                width="100%"
-                height="100%"
-                style={{ border: 0, position: 'absolute', top: 0, left: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Lokasi GINNVA House"
-              />
-            </div>
-          </div>
+      {/* ================= LOCATION (design reference Jakarta Aesthetic
+           Clinic; diubah 2026-09-23 dari foto full-bleed + kartu overlay
+           jadi side-by-side — kartu alamat statis di kiri, foto gedung
+           Ginnva House mengisi sisa lebar di kanan, supaya foto persis
+           mulai dari sebelah kartu, bukan dari tepi kiri browser). ================= */}
+      <div className={styles.locationPhoto}>
+        <div className={styles.locationCard}>
+          <span className={styles.pin}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round">
+              <path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" />
+              <circle cx="12" cy="9" r="2.5" />
+            </svg>
+          </span>
+          <h2>Booking Jadwal Instalasi</h2>
+          <p className={styles.addr}>
+            Thamrin Business Center, Jl. M.H Thamrin Blok 1 No. 52, PIK 2, Kosambi,
+            Selembaran, Tangerang, Banten 15210
+          </p>
+          <a className="pill pill--accent" style={{ marginTop: '24px', alignSelf: 'flex-start' }} href={waLink(RESERVE_MESSAGE)} target="_blank" rel="noopener">
+            Reserve Your Slot
+          </a>
         </div>
-      </section>
+        <div className={styles.locationImgWrap}>
+          <Image
+            src="/image/ppf-kaca-film/ginnva-house.webp"
+            alt="Ginnva House"
+            fill
+            sizes="(max-width: 760px) 100vw, 60vw"
+            style={{ objectFit: 'cover', objectPosition: 'center top', transform: 'scale(1.12)' }}
+          />
+        </div>
+      </div>
 
       {/* ================= URGENCY ================= */}
       <div className={styles.urgency}>

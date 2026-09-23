@@ -1,11 +1,96 @@
 /*
- * Gaya khusus /kaca-film/campaign — landing page iklan sesuai brief
- * "Landing Page Structure" (Media Plan - Ginnva.xlsx). Berdiri sendiri
- * (CSS Module sendiri, bukan reuse app/kaca-film/page.module.css)
- * mengikuti konvensi repo tiap landing page iklan punya file sendiri,
- * supaya perubahan campaign ini tidak menyentuh /kaca-film yang sudah
- * live. Token warna (var(--accent) dkk) tetap dari app/globals.css.
+ * Gaya khusus /kaca-film/campaign2 — varian dari /kaca-film/campaign
+ * dengan Above The Fold di-desain ulang mengikuti design reference
+ * terpisah (layout terang split teks/foto + bar statistik, ala
+ * referensi ALSOK Indonesia yang diberikan user 2026-09-22) — BUKAN
+ * hero video gelap seperti /kaca-film/campaign. Sisa section (Benefits
+ * dst) tetap sama. Berdiri sendiri (CSS Module sendiri) mengikuti
+ * konvensi tiap landing page iklan punya file sendiri.
  */
+
+/* ---- Above The Fold (light split hero) ---- */
+.heroLight {
+  background: #fff;
+}
+.heroTop {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: center;
+  padding-bottom: 56px;
+}
+@media (max-width: 760px) {
+  .heroTop {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
+  }
+}
+.heroEyebrow {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.5;
+  max-width: 46ch;
+}
+@media (max-width: 760px) {
+  .heroEyebrow {
+    max-width: none;
+    margin-inline: auto;
+  }
+}
+.heroTitle {
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.18;
+  color: var(--ink);
+  margin-top: 14px;
+  text-wrap: balance;
+}
+.heroLead {
+  font-size: 15.5px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-top: 16px;
+  max-width: 52ch;
+}
+@media (max-width: 760px) {
+  .heroLead {
+    max-width: none;
+    margin-inline: auto;
+  }
+}
+.heroPic {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--alt);
+}
+.heroStatBar {
+  border-top: 1px solid var(--line);
+  padding: 32px 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  text-align: center;
+}
+@media (max-width: 760px) {
+  .heroStatBar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.heroStatBar .v {
+  font-size: clamp(20px, 2.4vw, 26px);
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1;
+}
+.heroStatBar .l {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 8px;
+  line-height: 1.5;
+}
 
 .psec {
   padding-block: 76px;
@@ -96,41 +181,60 @@
   font-weight: 600;
 }
 
-/* ---- USP grid (2x2 change cards) ---- */
+/* ---- USP grid (4-across, ala design reference ALSOK 2026-09-23:
+   headline tunggal tanpa eyebrow, kartu outline kiri-rata dgn kotak
+   ikon bergaris, bukan lagi 2x2 dgn ikon latar warna) ---- */
+.uspHeadline {
+  font-size: clamp(20px, 2.6vw, 28px);
+  font-weight: 700;
+  color: var(--ink);
+  text-align: center;
+  max-width: 62ch;
+  margin: 0 auto 40px;
+  text-wrap: balance;
+}
 .uspGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
-@media (max-width: 760px) {
+@media (max-width: 900px) {
+  .uspGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 520px) {
   .uspGrid {
     grid-template-columns: 1fr;
   }
 }
 .uspCard {
   border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 28px;
+  border-radius: 12px;
+  padding: 24px;
   background: #fff;
+  text-align: left;
 }
 .uspCard .icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: var(--accent-soft, rgba(237, 22, 81, .08));
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent);
-  margin-bottom: 16px;
+  color: var(--ink);
+  margin-bottom: 18px;
 }
 .uspCard h3 {
-  font-size: 17px;
+  font-size: 15.5px;
+  font-weight: 700;
   margin: 0;
   color: var(--ink);
+  line-height: 1.4;
 }
 .uspCard p {
-  font-size: 14.5px;
+  font-size: 13.5px;
   color: var(--muted);
   line-height: 1.7;
   margin-top: 8px;
@@ -166,9 +270,9 @@
   line-height: 1.5;
 }
 
-/* ---- Offer (disamakan dgn /kaca-film/campaign2, 2026-09-23: headline
-   tunggal + kartu foto banner produk dgn nama seri overlay gradient,
-   bukan lagi kartu teks datar) ---- */
+/* ---- Offer (design reference Jakarta Aesthetic Clinic, 2026-09-23:
+   headline tunggal + kartu foto dgn badge mengambang, bukan lagi
+   kartu teks datar) ---- */
 .offerHeadline {
   font-size: clamp(20px, 2.6vw, 28px);
   font-weight: 700;
@@ -202,9 +306,12 @@
   border-radius: 18px;
   overflow: hidden;
 }
-/* Dua varian latar tergantung warna banner produknya, supaya banner
-   tetap kebaca meski senada dgn warna aslinya (ungu utk A70, merah/pink
-   utk seri H) — sinkron dgn campaign2. */
+/* ---- Kartu berisi banner produk (bukan foto mobil) — dibuat "premium"
+   dgn gradient, bukan latar polos, supaya ada kedalaman tapi warna
+   banner produknya tetap kebaca (drop-shadow + sedikit padding
+   memberi jarak kontras). Dua varian dipisah warna banner:
+   .picWrapContainDark untuk banner A70 (ungu) dan .picWrapContainLight
+   untuk banner seri H (merah/pink), 2026-09-23. ---- */
 .seriesCard .picWrapContainDark {
   background:
     radial-gradient(120% 90% at 50% 38%, rgba(168, 130, 255, .22), transparent 62%),
@@ -318,7 +425,65 @@
   background: linear-gradient(to top, rgba(10, 11, 16, .82), transparent);
 }
 
-/* ---- Location ---- */
+/* ---- Location (design reference Jakarta Aesthetic Clinic, 2026-09-23:
+   awalnya foto full-bleed + kartu overlay ala Jakarta Aesthetic Clinic;
+   diubah 2026-09-23 jadi side-by-side — kartu alamat statis di kiri,
+   foto gedung mengisi sisa lebar di kanan — supaya foto tidak dimulai
+   dari tepi kiri browser / ketiban kartu). ---- */
+.locationPhoto {
+  display: flex;
+  min-height: 460px;
+  overflow: hidden;
+}
+@media (max-width: 760px) {
+  .locationPhoto {
+    flex-direction: column;
+    min-height: 0;
+  }
+}
+.locationCard {
+  flex: 0 0 min(420px, 40%);
+  background: #fff;
+  padding: 44px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@media (max-width: 760px) {
+  .locationCard {
+    flex-basis: auto;
+  }
+}
+.locationImgWrap {
+  position: relative;
+  flex: 1;
+  min-height: 320px;
+}
+.locationCard .pin {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--accent-soft, rgba(237, 22, 81, .08));
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.locationCard h2 {
+  font-size: clamp(24px, 3vw, 32px);
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.25;
+}
+.locationCard .addr {
+  font-size: 14.5px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-top: 14px;
+  max-width: 34ch;
+}
+
 .contactGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
