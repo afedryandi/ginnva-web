@@ -46,7 +46,7 @@ const nextConfig = {
     return [
       {
         source: '/pricelist-kacafilm',
-        destination: 'https://script.google.com/macros/s/AKfycbzw6axjWKlNaF_oFmpJfTFlYYTzTqZ4LiB4CeFAqXRXIDdFhHoX6_aULF8you5PhMSy/exec',
+        destination: 'https://script.google.com/macros/s/AKfycbzezopxEquua3y1VupJh-0XbJX0WHjOWwRGyahBOj0ENBLhWjh8S_25tItZjbh5PX3H/exec',
         permanent: false,
       },
     ];
