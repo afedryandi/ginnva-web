@@ -37,6 +37,21 @@ const nextConfig = {
   // Compress output
   compress: true,
 
+  // Link pendek ber-domain Ginnva ke Google Apps Script Web App (kalkulator
+  // price list kaca film internal, dipakai sales) -- redirect (bukan
+  // permanent) supaya kalau URL deployment Apps Script-nya suatu saat
+  // benar-benar ganti (bukan sekadar "New Version" di deployment yang
+  // sama), browser tidak keburu cache 301 selamanya ke URL lama.
+  async redirects() {
+    return [
+      {
+        source: '/pricelist-kacafilm',
+        destination: 'https://script.google.com/macros/s/AKfycbzw6axjWKlNaF_oFmpJfTFlYYTzTqZ4LiB4CeFAqXRXIDdFhHoX6_aULF8you5PhMSy/exec',
+        permanent: false,
+      },
+    ];
+  },
+
   // Security header dasar — sebelumnya tidak ada sama sekali (semua
   // request Next.js cuma pakai default bawaan framework, tanpa CSP/
   // clickjacking protection/dll). 'unsafe-inline' di script-src/style-src
