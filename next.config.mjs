@@ -37,21 +37,6 @@ const nextConfig = {
   // Compress output
   compress: true,
 
-  // Link pendek ber-domain Ginnva ke Google Apps Script Web App (kalkulator
-  // price list kaca film internal, dipakai sales) -- redirect (bukan
-  // permanent) supaya kalau URL deployment Apps Script-nya suatu saat
-  // benar-benar ganti (bukan sekadar "New Version" di deployment yang
-  // sama), browser tidak keburu cache 301 selamanya ke URL lama.
-  async redirects() {
-    return [
-      {
-        source: '/pricelist-kacafilm',
-        destination: 'https://script.google.com/macros/s/AKfycbzezopxEquua3y1VupJh-0XbJX0WHjOWwRGyahBOj0ENBLhWjh8S_25tItZjbh5PX3H/exec',
-        permanent: false,
-      },
-    ];
-  },
-
   // Security header dasar — sebelumnya tidak ada sama sekali (semua
   // request Next.js cuma pakai default bawaan framework, tanpa CSP/
   // clickjacking protection/dll). 'unsafe-inline' di script-src/style-src
@@ -68,8 +53,13 @@ const nextConfig = {
     const isDev = process.env.NODE_ENV !== 'production';
     const csp = [
       "default-src 'self'",
-      `script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval' " : ''}https://www.googletagmanager.com`,
-      "style-src 'self' 'unsafe-inline'",
+      // accounts.google.com/gsi/client dipakai halaman kalkulator Price
+      // List Kaca Film (app/pricelist-kacafilm) untuk tombol "Sign in with
+      // Google" (Google Identity Services).
+      `script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval' " : ''}https://www.googletagmanager.com https://accounts.google.com/gsi/client`,
+      // accounts.google.com/gsi/style -- CSS inline yang disuntik Google
+      // Identity Services buat tombol "Sign in with Google".
+      "style-src 'self' 'unsafe-inline' https://accounts.google.com/gsi/style",
       "img-src 'self' data: https://api.ginnva.id https://www.ginnvafilm.com https://www.googletagmanager.com",
       "media-src 'self' https://api.ginnva.id",
       "font-src 'self' data:",
@@ -77,8 +67,11 @@ const nextConfig = {
       // (app/giias/GiiasForm.tsx) buat submit lead ke Google Sheet lewat
       // Apps Script Web App — googleusercontent.com adalah domain redirect
       // tempat Apps Script benar-benar mengembalikan response-nya.
-      "connect-src 'self' https://api.ginnva.id https://www.google-analytics.com https://analytics.google.com https://*.sentry.io https://*.ingest.sentry.io https://script.google.com https://script.googleusercontent.com",
-      "frame-src https://www.google.com",
+      // api-dev.ginnva.id -- khusus dipakai app/pricelist-kacafilm (backend
+      // sementara masih di server dev, BUKAN NEXT_PUBLIC_API_URL yang
+      // dipakai halaman lain di situs ini).
+      "connect-src 'self' https://api.ginnva.id https://api-dev.ginnva.id https://www.google-analytics.com https://analytics.google.com https://*.sentry.io https://*.ingest.sentry.io https://script.google.com https://script.googleusercontent.com https://accounts.google.com https://oauth2.googleapis.com",
+      "frame-src https://www.google.com https://accounts.google.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
