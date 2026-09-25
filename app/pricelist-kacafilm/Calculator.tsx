@@ -136,7 +136,20 @@ export default function Calculator() {
       const body = await res.json().catch(() => null);
 
       if (!res.ok || !body?.success) {
-        setAuthError(body?.message || 'Login gagal, coba lagi.');
+        if (res.status === 403) {
+          // Backend PricelistController::login() balas 403 khusus utk
+          // email yang login sah (verifikasi Google berhasil) tapi tidak
+          // ada di sheet "Akses" -- pesan body.message sudah jelas,
+          // tampilkan apa adanya.
+          setAuthError(body?.message || 'Email ini belum terdaftar untuk akses kalkulator ini. Hubungi admin Ginnva.');
+        } else if (res.status === 422) {
+          setAuthError('Login Google tidak valid atau sudah kedaluwarsa. Coba klik tombol login lagi.');
+        } else {
+          // Status lain (404/500/dll) berarti ada masalah di server, BUKAN
+          // soal email -- jangan tampilkan teks mentah dari server (mis.
+          // pesan routing Laravel), itu membingungkan utk sales.
+          setAuthError('Server sedang bermasalah, coba beberapa saat lagi. Kalau masih gagal, hubungi admin Ginnva.');
+        }
         return;
       }
 
