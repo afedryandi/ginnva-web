@@ -1,13 +1,11 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 
 // Backend sementara masih di server DEV (bukan NEXT_PUBLIC_API_URL yang
 // dipakai halaman lain di situs ini) -- ganti ke https://api.ginnva.id
 // begitu fitur ini sudah dipindah ke production.
 const API_BASE = 'https://api-dev.ginnva.id/api/pricelist';
-
-const GOOGLE_CLIENT_ID = '57970143794-r8eq5l809f3ait3d67ra3iqsunjdag04.apps.googleusercontent.com';
 
 const TOKEN_STORAGE_KEY = 'pricelist_kacafilm_token';
 
@@ -35,22 +33,6 @@ const POSISI_LABEL: Record<Posisi, string> = {
   belakang: 'Belakang',
   sunroof: 'Sun Roof',
 };
-
-declare global {
-  interface Window {
-    google?: {
-      accounts: {
-        id: {
-          initialize: (config: {
-            client_id: string;
-            callback: (response: { credential: string }) => void;
-          }) => void;
-          renderButton: (parent: HTMLElement, options: Record<string, unknown>) => void;
-        };
-      };
-    };
-  }
-}
 
 function rupiah(n: number): string {
   return 'Rp' + Math.round(n).toLocaleString('id-ID');
@@ -82,7 +64,8 @@ export default function Calculator() {
   const [token, setToken] = useState<string | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
-  const googleButtonRef = useRef<HTMLDivElement>(null);
+  const [loginForm, setLoginForm] = useState({ username: '', password: '' });
+  const [loggingIn, setLoggingIn] = useState(false);
 
   const [brands, setBrands] = useState<string[]>([]);
   const [hargaMap, setHargaMap] = useState<Record<string, number>>({});
@@ -125,82 +108,49 @@ export default function Calculator() {
     }
   }, []);
 
-  const handleCredentialResponse = useCallback(async (response: { credential: string }) => {
-    setAuthError(null);
-    try {
-      const res = await fetch(`${API_BASE}/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ credential: response.credential }),
-      });
-      const body = await res.json().catch(() => null);
-
-      if (!res.ok || !body?.success) {
-        if (res.status === 403) {
-          // Backend PricelistController::login() balas 403 khusus utk
-          // email yang login sah (verifikasi Google berhasil) tapi tidak
-          // ada di sheet "Akses" -- pesan body.message sudah jelas,
-          // tampilkan apa adanya.
-          setAuthError(body?.message || 'Email ini belum terdaftar untuk akses kalkulator ini. Hubungi admin Ginnva.');
-        } else if (res.status === 422) {
-          setAuthError('Login Google tidak valid atau sudah kedaluwarsa. Coba klik tombol login lagi.');
-        } else {
-          // Status lain (404/500/dll) berarti ada masalah di server, BUKAN
-          // soal email -- jangan tampilkan teks mentah dari server (mis.
-          // pesan routing Laravel), itu membingungkan utk sales.
-          setAuthError('Server sedang bermasalah, coba beberapa saat lagi. Kalau masih gagal, hubungi admin Ginnva.');
-        }
-        return;
-      }
-
-      setToken(body.token);
+  const handleLoginSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setAuthError(null);
+      setLoggingIn(true);
       try {
-        window.localStorage.setItem(TOKEN_STORAGE_KEY, body.token);
+        const res = await fetch(`${API_BASE}/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(loginForm),
+        });
+        const body = await res.json().catch(() => null);
+
+        if (!res.ok || !body?.success) {
+          if (res.status === 401) {
+            // Backend PricelistController::login() balas 401 kalau
+            // username/password tidak cocok dgn akun bersama di .env.
+            setAuthError(body?.message || 'Username atau password salah.');
+          } else if (res.status === 422) {
+            setAuthError('Username dan password wajib diisi.');
+          } else {
+            // Status lain (404/500/dll) berarti ada masalah di server --
+            // jangan tampilkan teks mentah dari server (mis. pesan
+            // routing Laravel), itu membingungkan utk sales.
+            setAuthError('Server sedang bermasalah, coba beberapa saat lagi. Kalau masih gagal, hubungi admin Ginnva.');
+          }
+          return;
+        }
+
+        setToken(body.token);
+        try {
+          window.localStorage.setItem(TOKEN_STORAGE_KEY, body.token);
+        } catch {
+          // sesi tetap jalan di memori walau tidak bisa disimpan
+        }
       } catch {
-        // sesi tetap jalan di memori walau tidak bisa disimpan
+        setAuthError('Tidak bisa terhubung ke server. Coba lagi.');
+      } finally {
+        setLoggingIn(false);
       }
-    } catch {
-      setAuthError('Tidak bisa terhubung ke server. Coba lagi.');
-    }
-  }, []);
-
-  // ---- Muat script Google Identity Services & render tombol saat belum login ----
-  useEffect(() => {
-    if (!authChecked || token) return;
-
-    const scriptId = 'google-identity-services';
-    const renderButton = () => {
-      if (!window.google || !googleButtonRef.current) return;
-      window.google.accounts.id.initialize({
-        client_id: GOOGLE_CLIENT_ID,
-        callback: handleCredentialResponse,
-      });
-      window.google.accounts.id.renderButton(googleButtonRef.current, {
-        type: 'standard',
-        theme: 'outline',
-        size: 'large',
-        text: 'signin_with',
-        locale: 'id',
-      });
-    };
-
-    if (window.google) {
-      renderButton();
-      return;
-    }
-
-    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
-    if (!script) {
-      script = document.createElement('script');
-      script.id = scriptId;
-      script.src = 'https://accounts.google.com/gsi/client';
-      script.async = true;
-      script.defer = true;
-      document.head.appendChild(script);
-    }
-    script.addEventListener('load', renderButton);
-    return () => script?.removeEventListener('load', renderButton);
-  }, [authChecked, token, handleCredentialResponse]);
+    },
+    [loginForm],
+  );
 
   // ---- Muat data awal (merek + harga) begitu sudah login ----
   useEffect(() => {
@@ -356,8 +306,34 @@ export default function Calculator() {
     return (
       <Shell>
         <h1 style={styles.h1}>PRICE LIST KACA FILM</h1>
-        <p style={styles.muted}>Login dengan akun Google yang terdaftar untuk tim sales.</p>
-        <div ref={googleButtonRef} style={{ marginTop: 16 }} />
+        <p style={styles.muted}>Login untuk tim sales &amp; dealer.</p>
+
+        <form onSubmit={handleLoginSubmit}>
+          <label style={styles.label}>Username</label>
+          <input
+            type="text"
+            autoComplete="username"
+            required
+            style={styles.select}
+            value={loginForm.username}
+            onChange={(e) => setLoginForm((prev) => ({ ...prev, username: e.target.value }))}
+          />
+
+          <label style={styles.label}>Password</label>
+          <input
+            type="password"
+            autoComplete="current-password"
+            required
+            style={styles.select}
+            value={loginForm.password}
+            onChange={(e) => setLoginForm((prev) => ({ ...prev, password: e.target.value }))}
+          />
+
+          <button type="submit" disabled={loggingIn} style={styles.loginButton}>
+            {loggingIn ? 'Memproses...' : 'Login'}
+          </button>
+        </form>
+
         {authError && <div style={styles.error}>{authError}</div>}
       </Shell>
     );
@@ -530,6 +506,18 @@ const styles: Record<string, React.CSSProperties> = {
     marginTop: 20,
     padding: 12,
     background: '#6b7280',
+    color: '#fff',
+    border: 'none',
+    borderRadius: 8,
+    fontSize: 15,
+    fontWeight: 600,
+    cursor: 'pointer',
+  },
+  loginButton: {
+    width: '100%',
+    marginTop: 20,
+    padding: 12,
+    background: '#16a34a',
     color: '#fff',
     border: 'none',
     borderRadius: 8,
