@@ -53,13 +53,8 @@ const nextConfig = {
     const isDev = process.env.NODE_ENV !== 'production';
     const csp = [
       "default-src 'self'",
-      // accounts.google.com/gsi/client dipakai halaman kalkulator Price
-      // List Kaca Film (app/pricelist-kacafilm) untuk tombol "Sign in with
-      // Google" (Google Identity Services).
-      `script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval' " : ''}https://www.googletagmanager.com https://accounts.google.com/gsi/client`,
-      // accounts.google.com/gsi/style -- CSS inline yang disuntik Google
-      // Identity Services buat tombol "Sign in with Google".
-      "style-src 'self' 'unsafe-inline' https://accounts.google.com/gsi/style",
+      `script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval' " : ''}https://www.googletagmanager.com`,
+      "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https://api.ginnva.id https://www.ginnvafilm.com https://www.googletagmanager.com",
       "media-src 'self' https://api.ginnva.id",
       "font-src 'self' data:",
@@ -69,9 +64,10 @@ const nextConfig = {
       // tempat Apps Script benar-benar mengembalikan response-nya.
       // api-dev.ginnva.id -- khusus dipakai app/pricelist-kacafilm (backend
       // sementara masih di server dev, BUKAN NEXT_PUBLIC_API_URL yang
-      // dipakai halaman lain di situs ini).
-      "connect-src 'self' https://api.ginnva.id https://api-dev.ginnva.id https://www.google-analytics.com https://analytics.google.com https://*.sentry.io https://*.ingest.sentry.io https://script.google.com https://script.googleusercontent.com https://accounts.google.com https://oauth2.googleapis.com",
-      "frame-src https://www.google.com https://accounts.google.com",
+      // dipakai halaman lain di situs ini; login halaman itu sendiri pakai
+      // username/password 1 akun bersama, BUKAN Google OAuth lagi).
+      "connect-src 'self' https://api.ginnva.id https://api-dev.ginnva.id https://www.google-analytics.com https://analytics.google.com https://*.sentry.io https://*.ingest.sentry.io https://script.google.com https://script.googleusercontent.com",
+      "frame-src https://www.google.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
