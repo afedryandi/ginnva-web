@@ -306,8 +306,6 @@ export default function Calculator() {
     return (
       <Shell>
         <h1 style={styles.h1}>PRICE LIST KACA FILM</h1>
-        <p style={styles.muted}>Login untuk tim sales &amp; dealer.</p>
-
         <form onSubmit={handleLoginSubmit}>
           <label style={styles.label}>Username</label>
           <input
