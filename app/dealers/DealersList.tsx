@@ -40,8 +40,18 @@ export default function DealersList() {
           throw new Error(json.message || 'Gagal memuat data dealer.');
         }
         if (!cancelled) {
-          setStores(json.data as Store[]);
-          if (json.data.length > 0) setSelectedId(json.data[0].id);
+          // Ginnva House ditaruh paling atas (jadi lokasi default halaman
+          // & peta) — diminta user 2026-09-25. Sisa urutan dari API tetap
+          // dipertahankan (stable sort), cuma toko ini yang dipindah ke
+          // depan.
+          const sorted = [...(json.data as Store[])].sort((a, b) => {
+            const aIsDefault = a.name === 'Ginnva House';
+            const bIsDefault = b.name === 'Ginnva House';
+            if (aIsDefault === bIsDefault) return 0;
+            return aIsDefault ? -1 : 1;
+          });
+          setStores(sorted);
+          if (sorted.length > 0) setSelectedId(sorted[0].id);
         }
       })
       .catch((err: Error) => {
