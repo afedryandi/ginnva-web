@@ -194,7 +194,14 @@ export default function Calculator() {
     setCarSqm(null);
     setProduk({ depan: '', samping: '', belakang: '', sunroof: '' });
 
-    if (!merek || !token) return;
+    // Fitur search (diminta user) -- Merek sekarang input teks dengan
+    // datalist, bukan <select> polos, supaya sales bisa CARI merek dari
+    // ratusan opsi tanpa scroll manual. Guard exact-match ini mencegah
+    // fetch /models terpicu tiap ketikan huruf saat mengetik (yang belum
+    // tentu cocok merek manapun) -- cuma jalan begitu teksnya benar-benar
+    // sama persis dengan salah satu opsi di `brands` (baik dipilih dari
+    // datalist maupun diketik lengkap manual).
+    if (!merek || !token || !brands.includes(merek)) return;
 
     let cancelled = false;
     setTipeLoading(true);
@@ -219,14 +226,14 @@ export default function Calculator() {
     return () => {
       cancelled = true;
     };
-  }, [merek, token, handleLogout]);
+  }, [merek, token, handleLogout, brands]);
 
   // ---- Muat SQM mobil begitu tipe berganti ----
   useEffect(() => {
     setCarSqm(null);
     setProduk({ depan: '', samping: '', belakang: '', sunroof: '' });
 
-    if (!merek || !tipe || !token) return;
+    if (!merek || !tipe || !token || !tipeList.includes(tipe)) return;
 
     let cancelled = false;
     setCarLoading(true);
@@ -251,7 +258,7 @@ export default function Calculator() {
     return () => {
       cancelled = true;
     };
-  }, [merek, tipe, token, handleLogout]);
+  }, [merek, tipe, token, handleLogout, tipeList]);
 
   const sqmFor = useCallback(
     (posisi: Posisi): number => {
@@ -350,25 +357,35 @@ export default function Calculator() {
       {!dataLoading && (
         <>
           <label style={styles.label}>Merek Mobil</label>
-          <select style={styles.select} value={merek} onChange={(e) => setMerek(e.target.value)}>
-            <option value="">Pilih merek</option>
+          <input
+            type="text"
+            list="merek-datalist"
+            style={styles.select}
+            value={merek}
+            placeholder="Ketik atau pilih merek"
+            onChange={(e) => setMerek(e.target.value)}
+          />
+          <datalist id="merek-datalist">
             {brands.map((b) => (
-              <option key={b} value={b}>{b}</option>
+              <option key={b} value={b} />
             ))}
-          </select>
+          </datalist>
 
           <label style={styles.label}>Tipe Mobil</label>
-          <select
+          <input
+            type="text"
+            list="tipe-datalist"
             style={styles.select}
             value={tipe}
             disabled={!merek || tipeLoading}
+            placeholder={tipeLoading ? 'Memuat...' : merek ? 'Ketik atau pilih tipe' : 'Pilih merek dulu'}
             onChange={(e) => setTipe(e.target.value)}
-          >
-            <option value="">{tipeLoading ? 'Memuat...' : merek ? 'Pilih tipe' : 'Pilih merek dulu'}</option>
+          />
+          <datalist id="tipe-datalist">
             {tipeList.map((t) => (
-              <option key={t} value={t}>{t}</option>
+              <option key={t} value={t} />
             ))}
-          </select>
+          </datalist>
 
           {carLoading && <p style={styles.muted}>Memuat ukuran...</p>}
 
