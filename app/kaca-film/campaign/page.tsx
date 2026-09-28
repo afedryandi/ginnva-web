@@ -42,7 +42,9 @@ const ACCENT = '#ed1651';
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://api.ginnva.id';
 const WA_NUMBER = '628118681678';
 const RESERVE_MESSAGE = 'Hallo Ginnva, saya ingin Reserve Slot untuk pasang Window Film.';
-const waLink = (text: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+// Semua CTA WhatsApp di halaman ini memakai link api.whatsapp.com tanpa teks awal (permintaan 2026-09-29).
+// Parameter `_text` dipertahankan supaya pemanggil yang sudah ada tidak perlu diubah.
+const waLink = (_text?: string) => `https://api.whatsapp.com/send?phone=${WA_NUMBER}`;
 
 function Section({
   children,
