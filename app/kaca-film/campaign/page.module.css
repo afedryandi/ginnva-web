@@ -467,20 +467,25 @@
 }
 
 /* ---- Urgency (final CTA) ---- */
+/* Background foto gedung Ginnva (revisi LP 2026-09-28) -- overlay gelap
+   supaya heading & subteks tetap terbaca di atas foto. */
 .urgency {
   text-align: center;
-  padding-block: 72px;
-  background: linear-gradient(180deg, #fff, var(--alt));
+  padding-block: 96px;
+  background:
+    linear-gradient(180deg, rgba(10, 12, 20, .72) 0%, rgba(10, 12, 20, .58) 100%),
+    url('/image/building-image.webp') center 40% / cover no-repeat;
+  background-color: #1a1a1d;
 }
 .urgency h2 {
   font-size: clamp(24px, 3.4vw, 38px);
-  color: var(--ink);
+  color: #fff;
   text-wrap: balance;
   margin: 0;
 }
 .urgency p {
   font-size: 15.5px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, .82);
   margin-top: 12px;
 }
 
