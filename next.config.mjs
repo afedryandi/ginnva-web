@@ -60,6 +60,10 @@ const nextConfig = {
       `script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval' " : ''}https://*.googletagmanager.com https://*.google-analytics.com`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https://api.ginnva.id https://www.ginnvafilm.com https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.g.doubleclick.net https://*.google.com",
+      // Sentry (Replay/compression) membuat Web Worker dari blob: --
+      // tanpa worker-src, browser jatuh ke script-src yang tidak
+      // mengizinkan blob:, jadi worker diblokir.
+      "worker-src 'self' blob:",
       "media-src 'self' https://api.ginnva.id",
       "font-src 'self' data:",
       // script.google.com + script.googleusercontent.com dipakai form GIIAS
