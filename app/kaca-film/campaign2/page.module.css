@@ -230,81 +230,56 @@
     box-shadow: 0 14px 30px rgba(20, 24, 38, .10);
   }
 }
-/* Panel visual di atas kartu -- gradien per benefit + ikon besar +
-   chip angka (angkanya dari HERO_STATS yang sudah ada di halaman, bukan
-   klaim baru). Bukan foto: belum ada foto yang mewakili panas/silau/
-   privasi di public/image. */
+/* Foto pendukung per benefit (revisi LP 2026-09-28: menggantikan panel
+   gradien). Rasio 16:9 sesuai foto asli; chip angka di kiri atas dan
+   ikon kecil di kiri bawah menumpang di atas foto. */
 .uspVisual {
   position: relative;
-  height: 148px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  color: #fff;
+  background: var(--alt, #eef1f6);
 }
-.uspVisual::before,
+.uspVisual img {
+  object-fit: cover;
+}
 .uspVisual::after {
   content: '';
   position: absolute;
-  border-radius: 50%;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10, 12, 20, .35) 0%, rgba(10, 12, 20, 0) 45%);
   pointer-events: none;
 }
-.uspVisual::before {
-  width: 220px;
-  height: 220px;
-  right: -60px;
-  top: -90px;
-  background: rgba(255, 255, 255, .16);
-}
-.uspVisual::after {
-  width: 140px;
-  height: 140px;
-  left: -40px;
-  bottom: -70px;
-  background: rgba(255, 255, 255, .10);
-}
 .uspIconBig {
-  position: relative;
-  z-index: 1;
-  width: 68px;
-  height: 68px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, .20);
-  border: 1px solid rgba(255, 255, 255, .35);
-  backdrop-filter: blur(4px);
+  position: absolute;
+  z-index: 2;
+  left: 16px;
+  bottom: 14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 14px rgba(10, 12, 20, .22);
 }
 .uspIconBig svg {
-  width: 34px;
-  height: 34px;
+  width: 22px;
+  height: 22px;
 }
 .uspChip {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   left: 16px;
   top: 14px;
   padding: 5px 11px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, .92);
+  background: rgba(255, 255, 255, .94);
   color: #1a1d26;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .01em;
-}
-.tone_heat .uspVisual {
-  background: linear-gradient(135deg, #ff9a4d 0%, #ed1651 100%);
-}
-.tone_interior .uspVisual {
-  background: linear-gradient(135deg, #1f2430 0%, #4a5166 100%);
-}
-.tone_glare .uspVisual {
-  background: linear-gradient(135deg, #ffc857 0%, #ff7a3d 100%);
-}
-.tone_privacy .uspVisual {
-  background: linear-gradient(135deg, #2b2340 0%, #7a3b6e 100%);
 }
 .uspBody {
   padding: 22px 24px 26px;

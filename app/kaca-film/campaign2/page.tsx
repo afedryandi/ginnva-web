@@ -111,28 +111,28 @@ const GALLERY = [
 const USP_ITEMS = [
   {
     icon: <IconHeat />,
-    tone: 'heat',
+    image: '/image/ppf-kaca-film/benefit-heat.webp',
     chip: '61% Heat Rejection',
     title: 'No More Heat Build-Up',
     desc: 'Mobil yang diparkir di bawah matahari tetap bisa dimasuki tanpa harus menunggu AC mengejar dari nol.',
   },
   {
     icon: <IconShield />,
-    tone: 'interior',
+    image: '/image/ppf-kaca-film/benefit-interior.webp',
     chip: '99% UV Blocked',
     title: 'Interior That Ages Slower',
     desc: 'Dashboard nggak retak halus, jok nggak kehilangan warna, trim plastik nggak berubah kusam.',
   },
   {
     icon: <IconEye />,
-    tone: 'glare',
+    image: '/image/ppf-kaca-film/benefit-glare.webp',
     chip: '72% Clarity Retained',
     title: 'Less Glare, Same Clarity',
     desc: 'Matahari sore dan lampu jauh dari arah berlawanan nggak lagi memaksa menyipit, termasuk saat berkendara malam.',
   },
   {
     icon: <IconLock />,
-    tone: 'privacy',
+    image: '/image/ppf-kaca-film/benefit-privacy.webp',
     chip: 'GPS & Sinyal Tetap Jalan',
     title: 'Privacy Without Losing Signal',
     desc: 'Kaca samping bisa segelap yang kamu mau. GPS, e-Toll, dan sinyal HP tetap jalan seperti biasa.',
@@ -244,10 +244,16 @@ export default function KacaFilmCampaign2Page() {
         <h2 className={styles.uspHeadline}>What Changes After Installation</h2>
         <div className={styles.uspGrid}>
           {USP_ITEMS.map((item) => (
-            <div key={item.title} className={`${styles.uspCard} ${styles[`tone_${item.tone}`]}`}>
-              <div className={styles.uspVisual} aria-hidden="true">
+            <div key={item.title} className={styles.uspCard}>
+              <div className={styles.uspVisual}>
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  sizes="(max-width: 760px) 100vw, 50vw"
+                />
                 <span className={styles.uspChip}>{item.chip}</span>
-                <span className={styles.uspIconBig}>{item.icon}</span>
+                <span className={styles.uspIconBig} aria-hidden="true">{item.icon}</span>
               </div>
               <div className={styles.uspBody}>
                 <h3>{item.title}</h3>
