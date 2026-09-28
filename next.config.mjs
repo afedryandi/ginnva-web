@@ -53,9 +53,13 @@ const nextConfig = {
     const isDev = process.env.NODE_ENV !== 'production';
     const csp = [
       "default-src 'self'",
-      `script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval' " : ''}https://www.googletagmanager.com`,
+      // Domain Google Tag/GA4 mengikuti daftar resmi Google (wildcard
+      // subdomain, karena GA4 mengirim data ke endpoint regional seperti
+      // region1.google-analytics.com, bukan cuma www.). script-src-elem
+      // sengaja tidak diset -- otomatis mengikuti script-src.
+      `script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval' " : ''}https://*.googletagmanager.com https://*.google-analytics.com`,
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https://api.ginnva.id https://www.ginnvafilm.com https://www.googletagmanager.com",
+      "img-src 'self' data: https://api.ginnva.id https://www.ginnvafilm.com https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.g.doubleclick.net https://*.google.com",
       "media-src 'self' https://api.ginnva.id",
       "font-src 'self' data:",
       // script.google.com + script.googleusercontent.com dipakai form GIIAS
@@ -66,7 +70,7 @@ const nextConfig = {
       // sementara masih di server dev, BUKAN NEXT_PUBLIC_API_URL yang
       // dipakai halaman lain di situs ini; login halaman itu sendiri pakai
       // username/password 1 akun bersama, BUKAN Google OAuth lagi).
-      "connect-src 'self' https://api.ginnva.id https://api-dev.ginnva.id https://www.google-analytics.com https://analytics.google.com https://*.sentry.io https://*.ingest.sentry.io https://script.google.com https://script.googleusercontent.com",
+      "connect-src 'self' https://api.ginnva.id https://api-dev.ginnva.id https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com https://*.sentry.io https://*.ingest.sentry.io https://script.google.com https://script.googleusercontent.com",
       "frame-src https://www.google.com",
       "object-src 'none'",
       "base-uri 'self'",
