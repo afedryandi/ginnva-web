@@ -3,6 +3,7 @@ import './globals.css';
 import SiteChrome from '@/components/layout/SiteChrome';
 import { seoDefaults, SITE_NAME, SITE_DESCRIPTION, SITE_URL, canonical } from '@/config/seo';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
+import { GoogleTagManager, GoogleTagManagerNoScript } from '@/components/analytics/GoogleTagManager';
 import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
@@ -36,6 +37,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id" suppressHydrationWarning>
       <body style={{ margin: 0, padding: 0, height: '100%' }} className="antialiased">
+        {/* Google Tag Manager (noscript) -- harus tepat setelah <body> dibuka */}
+        <GoogleTagManagerNoScript />
         {/* Schema markup Organization */}
         <script
           type="application/ld+json"
@@ -61,6 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
         <GoogleAnalytics />
+        <GoogleTagManager />
         <Analytics />
         <SiteChrome>{children}</SiteChrome>
       </body>

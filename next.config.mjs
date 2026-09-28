@@ -75,7 +75,8 @@ const nextConfig = {
       // dipakai halaman lain di situs ini; login halaman itu sendiri pakai
       // username/password 1 akun bersama, BUKAN Google OAuth lagi).
       "connect-src 'self' https://api.ginnva.id https://api-dev.ginnva.id https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com https://*.sentry.io https://*.ingest.sentry.io https://script.google.com https://script.googleusercontent.com",
-      "frame-src https://www.google.com",
+      // www.googletagmanager.com: iframe <noscript> GTM & mode preview/debug GTM.
+      "frame-src https://www.google.com https://www.googletagmanager.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
