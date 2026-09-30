@@ -11,17 +11,19 @@ export const metadata: Metadata = {
   ...seoDefaults,
   ...canonical('/'),
   title: 'Ginnva Shield Indonesia — PPF & Kaca Film Otomotif Premium',
-  description: 'Distributor resmi Paint Protection Film (PPF) dan Kaca Film Otomotif Ginnva di Indonesia. Lindungi kendaraan Anda dengan teknologi film premium bergaransi hingga 10 tahun.',
+  // Dipersingkat (audit 2026-09-30) -- versi sebelumnya 1086px, melebihi batas
+  // 1000px Google SERP (terpotong "..." di hasil pencarian).
+  description: 'Distributor resmi PPF & Kaca Film Otomotif Ginnva di Indonesia. Lindungi kendaraan Anda dengan teknologi film premium, garansi hingga 10 tahun.',
   openGraph: {
     ...seoDefaults.openGraph,
     title: 'Ginnva Shield Indonesia — PPF & Kaca Film Otomotif Premium',
-    description: 'Distributor resmi Paint Protection Film (PPF) dan Kaca Film Otomotif Ginnva di Indonesia. Lindungi kendaraan Anda dengan teknologi film premium bergaransi hingga 10 tahun.',
+    description: 'Distributor resmi PPF & Kaca Film Otomotif Ginnva di Indonesia. Lindungi kendaraan Anda dengan teknologi film premium, garansi hingga 10 tahun.',
     url: 'https://ginnva.id',
   },
   twitter: {
     ...seoDefaults.twitter,
     title: 'Ginnva Shield Indonesia — PPF & Kaca Film Otomotif Premium',
-    description: 'Distributor resmi Paint Protection Film (PPF) dan Kaca Film Otomotif Ginnva di Indonesia. Lindungi kendaraan Anda dengan teknologi film premium bergaransi hingga 10 tahun.',
+    description: 'Distributor resmi PPF & Kaca Film Otomotif Ginnva di Indonesia. Lindungi kendaraan Anda dengan teknologi film premium, garansi hingga 10 tahun.',
   },
 };
 
