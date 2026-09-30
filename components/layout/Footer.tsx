@@ -46,10 +46,11 @@ export default function Footer() {
           <div className="foot-hot">
             <div className="l">Hotline Layanan:</div>
             <div className="n">
-              <a href="https://wa.me/628118681678" target="_blank" rel="noopener noreferrer" className="whatsapp-link">
-                <Image src="/image/contact/whatsapp.png" alt="WhatsApp" width={32} height={32} loading="lazy" /> 
+              {/* api.whatsapp.com (bukan wa.me, audit 2026-09-30) -- lihat catatan di ChatWidget.tsx. */}
+              <a href="https://api.whatsapp.com/send?phone=628118681678" target="_blank" rel="noopener noreferrer" className="whatsapp-link">
+                <Image src="/image/contact/whatsapp.png" alt="WhatsApp" width={32} height={32} loading="lazy" />
               </a>
-              <a href="https://wa.me/628118681678" target="_blank" rel="noopener noreferrer" className="phone-link">
+              <a href="https://api.whatsapp.com/send?phone=628118681678" target="_blank" rel="noopener noreferrer" className="phone-link">
                 0811 8681 678
               </a>
             </div>

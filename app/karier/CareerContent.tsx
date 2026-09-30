@@ -52,8 +52,9 @@ export default function CareerContent() {
     };
   }, []);
 
+  // api.whatsapp.com (bukan wa.me, audit 2026-09-30) -- lihat catatan di ChatWidget.tsx.
   const waFor = (position: string) =>
-    `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+    `https://api.whatsapp.com/send?phone=${WA_NUMBER}&text=${encodeURIComponent(
       `Halo, saya ingin melamar posisi ${position} di Ginnva Indonesia.`
     )}`;
 
