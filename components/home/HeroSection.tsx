@@ -8,6 +8,20 @@ import React from 'react';
 // terbukti stabil untuk seluruh trafik API, jadi dipakai juga untuk ini.
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://api.ginnva.id';
 
+// Sembunyi-visual (bukan display:none, supaya tetap terbaca screen reader
+// & crawler) -- pola umum "visually-hidden"/"sr-only".
+const visuallyHidden: React.CSSProperties = {
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  padding: 0,
+  margin: '-1px',
+  overflow: 'hidden',
+  clip: 'rect(0, 0, 0, 0)',
+  whiteSpace: 'nowrap',
+  border: 0,
+};
+
 export default function HeroSection() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -18,6 +32,10 @@ export default function HeroSection() {
 
   return (
     <section className="banner">
+      {/* Gap SEO (audit 2026-09-30): hero sebelumnya cuma video, tidak ada
+          heading sama sekali -- H1 di sini murni sinyal SEO, konten
+          identik dengan metadata.title halaman ini. */}
+      <h1 style={visuallyHidden}>Ginnva Shield Indonesia — PPF & Kaca Film Otomotif Premium</h1>
       <video
         autoPlay
         muted
