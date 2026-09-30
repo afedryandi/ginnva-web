@@ -4,7 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { GINNVA_PRODUCTS } from '@/config/site';
 
-const WA_URL = `https://wa.me/628118681678?text=${encodeURIComponent('Halo, saya ingin bertanya lebih lanjut tentang produk Ginnva.')}`;
+// api.whatsapp.com (bukan wa.me, audit 2026-09-30) -- lihat catatan di ChatWidget.tsx.
+const WA_URL = `https://api.whatsapp.com/send?phone=628118681678&text=${encodeURIComponent('Halo, saya ingin bertanya lebih lanjut tentang produk Ginnva.')}`;
 
 // Tilt 3D halus mengikuti posisi kursor — dibaca dari mouse position
 // relatif ke kartu, dikonversi jadi rotateX/rotateY kecil (maks ~8deg)

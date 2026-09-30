@@ -57,9 +57,15 @@ const nextConfig = {
       // subdomain, karena GA4 mengirim data ke endpoint regional seperti
       // region1.google-analytics.com, bukan cuma www.). script-src-elem
       // sengaja tidak diset -- otomatis mengikuti script-src.
-      `script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval' " : ''}https://*.googletagmanager.com https://*.google-analytics.com`,
+      // connect.facebook.net (audit 2026-09-30) -- tag "Meta Ginnva - Page View"
+      // di GTM me-load Meta Pixel (fbevents.js) dari domain ini; sebelumnya
+      // tidak diizinkan, jadi tag itu selalu gagal ("Failed") di GTM Preview.
+      `script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval' " : ''}https://*.googletagmanager.com https://*.google-analytics.com https://connect.facebook.net`,
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https://api.ginnva.id https://www.ginnvafilm.com https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.g.doubleclick.net https://*.google.com",
+      // https://*.facebook.com & https://*.facebook.net (audit 2026-09-30) --
+      // Meta Pixel juga mengirim gambar tracking (fallback <img> pixel, mis.
+      // www.facebook.com/tr?id=...) selain lewat fetch/beacon di connect-src.
+      "img-src 'self' data: https://api.ginnva.id https://www.ginnvafilm.com https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.g.doubleclick.net https://*.google.com https://*.facebook.com https://*.facebook.net",
       // Sentry (Replay/compression) membuat Web Worker dari blob: --
       // tanpa worker-src, browser jatuh ke script-src yang tidak
       // mengizinkan blob:, jadi worker diblokir.
@@ -74,7 +80,10 @@ const nextConfig = {
       // sementara masih di server dev, BUKAN NEXT_PUBLIC_API_URL yang
       // dipakai halaman lain di situs ini; login halaman itu sendiri pakai
       // username/password 1 akun bersama, BUKAN Google OAuth lagi).
-      "connect-src 'self' https://api.ginnva.id https://api-dev.ginnva.id https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com https://*.sentry.io https://*.ingest.sentry.io https://script.google.com https://script.googleusercontent.com",
+      // https://*.facebook.com & https://*.facebook.net (audit 2026-09-30) --
+      // Meta Pixel mengirim event tracking lewat fetch/beacon ke
+      // www.facebook.com/tr, diblokir sebelum ini ditambahkan.
+      "connect-src 'self' https://api.ginnva.id https://api-dev.ginnva.id https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com https://*.sentry.io https://*.ingest.sentry.io https://script.google.com https://script.googleusercontent.com https://*.facebook.com https://*.facebook.net",
       // www.googletagmanager.com: iframe <noscript> GTM & mode preview/debug GTM.
       "frame-src https://www.google.com https://www.googletagmanager.com",
       "object-src 'none'",

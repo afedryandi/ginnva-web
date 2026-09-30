@@ -38,7 +38,8 @@ export const metadata: Metadata = {
 const ACCENT = '#ed1651';
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://api.ginnva.id';
 const WA_NUMBER = '628118681678';
-const waLink = (text: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+// api.whatsapp.com (bukan wa.me, audit 2026-09-30) -- lihat catatan di ChatWidget.tsx.
+const waLink = (text: string) => `https://api.whatsapp.com/send?phone=${WA_NUMBER}&text=${encodeURIComponent(text)}`;
 
 function Section({
   children,

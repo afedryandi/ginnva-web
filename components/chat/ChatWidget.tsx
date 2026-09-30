@@ -17,7 +17,9 @@ interface Message {
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 const WA_NUMBER = '628118681678';
-const WA_URL = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo, saya ingin bertanya lebih lanjut tentang produk Ginnva.')}`;
+// api.whatsapp.com (bukan wa.me, audit 2026-09-30) -- Meta Pixel butuh domain
+// ini spesifik supaya klik tombol WA bisa dilacak sebagai event konversi.
+const WA_URL = `https://api.whatsapp.com/send?phone=${WA_NUMBER}&text=${encodeURIComponent('Halo, saya ingin bertanya lebih lanjut tentang produk Ginnva.')}`;
 
 const DISCLAIMER: Message = {
   id: 'disclaimer',

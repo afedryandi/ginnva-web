@@ -40,7 +40,8 @@ export const metadata: Metadata = {
 
 const WA_NUMBER = '628118681678';
 const RESERVE_MESSAGE = 'Hallo Ginnva, saya ingin Reserve Slot untuk pasang Window Film.';
-const waLink = (text: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+// api.whatsapp.com (bukan wa.me, audit 2026-09-30) -- lihat catatan di ChatWidget.tsx.
+const waLink = (text: string) => `https://api.whatsapp.com/send?phone=${WA_NUMBER}&text=${encodeURIComponent(text)}`;
 
 function Section({
   children,

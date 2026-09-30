@@ -62,7 +62,8 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
       </nav>
 
       <div className="mm-footer"> 
-        <a href="https://wa.me/628118681678" target="_blank" rel="noopener noreferrer" className="mm-hotline">
+        {/* api.whatsapp.com (bukan wa.me, audit 2026-09-30) -- lihat catatan di ChatWidget.tsx. */}
+        <a href="https://api.whatsapp.com/send?phone=628118681678" target="_blank" rel="noopener noreferrer" className="mm-hotline">
           <Image src="/image/contact/whatsapp.png" alt="WhatsApp" className="mm-hotline-icon" width={24} height={24} />
           {' '}0811 8681 678
         </a>
