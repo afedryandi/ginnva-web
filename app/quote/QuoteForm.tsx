@@ -29,7 +29,20 @@ interface FilmProductOption {
 // ketik manual "(Depan)"/"(Samping/Belakang)" di nama -- bukan jaminan
 // sistematis. Tambahkan label posisi otomatis dari field position kalau
 // belum ada di nama produknya. Ditemukan lewat testing manual 2026-09-01.
+// Ketebalan PPF (mil) dari tabel spesifikasi di app/ppf/page.tsx; mikron
+// = mil x 25.4 (konversi, bukan angka datasheet terpisah).
+const PPF_THICKNESS: { match: RegExp; label: string }[] = [
+  { match: /M8-M/i, label: '7.5 mil / ±190 µm' },
+  { match: /M10/i, label: '8.8 mil / ±224 µm' },
+  { match: /H10/i, label: '7.8 mil / ±198 µm' },
+  { match: /EV7/i, label: '7.5 mil / ±190 µm' },
+];
+
 function productOptionLabel(p: FilmProductOption): string {
+  if (p.product_type === 'ppf') {
+    const t = PPF_THICKNESS.find((x) => x.match.test(p.name));
+    return t ? `${p.name} — ${t.label}` : p.name;
+  }
   if (p.product_type !== 'window_film' || !p.position) return p.name;
 
   const positionLabel = p.position === 'front' ? 'Kaca Depan' : 'Kaca Samping & Belakang';
@@ -194,7 +207,6 @@ function QuotationFormPanel({
   const [customerName, setCustomerName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
-  const [licensePlate, setLicensePlate] = useState('');
   const [message, setMessage] = useState('');
 
   const [submitting, setSubmitting] = useState(false);
@@ -265,9 +277,8 @@ function QuotationFormPanel({
         body: JSON.stringify({
           vehicle_id: Number(vehicleId),
           customer_name: customerName,
-          customer_email: customerEmail,
+          customer_email: customerEmail.trim() || undefined,
           customer_phone: customerPhone,
-          license_plate: licensePlate || undefined,
           message: message || undefined,
           items: [{ film_product_id: Number(filmProductId) }],
         }),
@@ -408,11 +419,10 @@ function QuotationFormPanel({
           </div>
 
           <div className="fld">
-            <label htmlFor="customer-email">Email *</label>
+            <label htmlFor="customer-email">Email (opsional)</label>
             <input
               id="customer-email"
               type="email"
-              required
               value={customerEmail}
               onChange={(e) => setCustomerEmail(e.target.value)}
               placeholder="nama@email.com"
@@ -428,17 +438,6 @@ function QuotationFormPanel({
               value={customerPhone}
               onChange={(e) => setCustomerPhone(e.target.value)}
               placeholder="08xxxxxxxxxx"
-            />
-          </div>
-
-          <div className="fld">
-            <label htmlFor="license-plate">Plat Nomor (opsional)</label>
-            <input
-              id="license-plate"
-              type="text"
-              value={licensePlate}
-              onChange={(e) => setLicensePlate(e.target.value)}
-              placeholder="B 1234 ABC"
             />
           </div>
 
