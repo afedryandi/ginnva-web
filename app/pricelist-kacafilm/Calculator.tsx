@@ -13,8 +13,8 @@ const TOKEN_STORAGE_KEY = 'pricelist_kacafilm_token';
 // tab "Harga" Google Sheets. Sesuaikan di sini kalau daftar berubah.
 const PRODUCT_OPTIONS: Record<'depan' | 'samping' | 'belakang' | 'sunroof', string[]> = {
   depan: ['A70', 'H70', 'H30', 'H15'],
-  samping: ['H30', 'H15', 'H08'],
-  belakang: ['H30', 'H15', 'H08'],
+  samping: ['H70', 'H30', 'H15', 'H08'],
+  belakang: ['H70', 'H30', 'H15', 'H08'],
   sunroof: ['A70', 'H30', 'H15', 'H08'],
 };
 
