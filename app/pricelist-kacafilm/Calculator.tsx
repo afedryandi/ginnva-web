@@ -357,35 +357,21 @@ export default function Calculator() {
       {!dataLoading && (
         <>
           <label style={styles.label}>Merek Mobil</label>
-          <input
-            type="text"
-            list="merek-datalist"
-            style={styles.select}
+          <Combobox
             value={merek}
+            options={brands}
             placeholder="Ketik atau pilih merek"
-            onChange={(e) => setMerek(e.target.value)}
+            onChange={setMerek}
           />
-          <datalist id="merek-datalist">
-            {brands.map((b) => (
-              <option key={b} value={b} />
-            ))}
-          </datalist>
 
           <label style={styles.label}>Tipe Mobil</label>
-          <input
-            type="text"
-            list="tipe-datalist"
-            style={styles.select}
+          <Combobox
             value={tipe}
+            options={tipeList}
             disabled={!merek || tipeLoading}
             placeholder={tipeLoading ? 'Memuat...' : merek ? 'Ketik atau pilih tipe' : 'Pilih merek dulu'}
-            onChange={(e) => setTipe(e.target.value)}
+            onChange={setTipe}
           />
-          <datalist id="tipe-datalist">
-            {tipeList.map((t) => (
-              <option key={t} value={t} />
-            ))}
-          </datalist>
 
           {carLoading && <p style={styles.muted}>Memuat ukuran...</p>}
 
@@ -453,6 +439,102 @@ function Row({ label, value, muted, total }: { label: string; value: string; mut
     >
       <span>{label}</span>
       <span style={{ fontVariantNumeric: 'tabular-nums' }}>{value}</span>
+    </div>
+  );
+}
+
+// Combobox (input ketik-cari + dropdown) menggantikan <input list=datalist> --
+// datalist di iOS Safari tidak menampilkan panah/daftar saat diketuk (cuma
+// saran sempit setelah mengetik), jadi merek/tipe tidak kelihatan bisa
+// dipilih. Ini tampil seperti <select> (panah, daftar tap-able) tapi tetap
+// bisa difilter dengan mengetik. Font input 16px supaya iOS tidak auto-zoom.
+function Combobox({
+  value,
+  options,
+  onChange,
+  placeholder,
+  disabled,
+}: {
+  value: string;
+  options: string[];
+  onChange: (v: string) => void;
+  placeholder?: string;
+  disabled?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const wrapRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: Event) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', close);
+    document.addEventListener('touchstart', close);
+    return () => {
+      document.removeEventListener('mousedown', close);
+      document.removeEventListener('touchstart', close);
+    };
+  }, [open]);
+
+  const q = query.trim().toLowerCase();
+  const filtered = q ? options.filter((o) => o.toLowerCase().includes(q)) : options;
+
+  return (
+    <div ref={wrapRef} style={{ position: 'relative' }}>
+      <input
+        type="text"
+        style={{ ...styles.select, fontSize: 16, paddingRight: 34, opacity: disabled ? 0.6 : 1 }}
+        value={open ? query : value}
+        placeholder={placeholder}
+        disabled={disabled}
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        onFocus={() => { setQuery(''); setOpen(true); }}
+        onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
+      />
+      <span
+        aria-hidden
+        style={{
+          position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
+          pointerEvents: 'none', color: '#6b7280', fontSize: 12,
+        }}
+      >
+        ▼
+      </span>
+      {open && !disabled && (
+        <ul
+          style={{
+            position: 'absolute', zIndex: 20, left: 0, right: 0, top: '100%', marginTop: 4,
+            maxHeight: 240, overflowY: 'auto', background: '#fff', border: '1px solid #d1d5db',
+            borderRadius: 8, boxShadow: '0 4px 14px rgba(0,0,0,.12)', padding: 0, listStyle: 'none',
+            WebkitOverflowScrolling: 'touch',
+          }}
+        >
+          {filtered.length === 0 && (
+            <li style={{ padding: '10px 12px', fontSize: 14, color: '#6b7280' }}>Tidak ditemukan</li>
+          )}
+          {filtered.map((o) => (
+            <li
+              key={o}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                onChange(o);
+                setOpen(false);
+              }}
+              style={{
+                padding: '11px 12px', fontSize: 15, cursor: 'pointer',
+                background: o === value ? '#f0fdf4' : '#fff',
+                color: '#1f2937', borderBottom: '1px solid #f3f4f6',
+              }}
+            >
+              {o}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
