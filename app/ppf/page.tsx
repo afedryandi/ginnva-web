@@ -76,24 +76,24 @@ const GALLERY = [
   { src: '/image/ppf-kaca-film/ppf2.jpg', alt: 'Tesla Model Y - PPF Ginnva', cap: 'Tesla Model Y · PPF' },
 ];
 
-// Mengikuti app/product/film-pelindung-cat/page.tsx, KECUALI kolom Coating yang dihapus di halaman /ppf (2026-10-12).
+// Spesifikasi Teknis halaman /ppf (diganti 2026-10-12 sesuai lembar spesifikasi produk): 8 kolom per tipe. Tabel di
+// app/product/film-pelindung-cat/page.tsx masih memakai format lama, jadi kedua halaman sekarang berbeda.
 const SPEC_COLUMNS = [
-  'Series',
-  'Model',
-  'Base\nMaterial',
-  'Color',
-  'Thickness\n(mil)',
-  'Cap Sheet',
-  'Linear',
-  'Specification',
-  'Warranty\n(Years)',
+  'Tipe',
+  'Warna',
+  'Ketebalan\n(±3%)',
+  'Masa\nGaransi',
+  'Performa\nKilauan (GU)',
+  'Penolakan\nTerhadap Sinar UV',
+  'Kekuatan Daya Tarikan\nGB/T1040.3',
+  'Kelenturan\nGB/T1040.3',
 ];
 
 const SPEC_ROWS = [
-  { label: 'Black Crystal', values: ['M8-M', 'TPU 3rd Generation', 'Matte', '7.5 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
-  { label: 'Orange Crystal', values: ['M10', 'TPU 3rd Generation', 'Gloss', '8.8 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
-  { label: 'Orange Crystal', values: ['H10', 'TPU 3rd Generation', 'Gloss', '7.8 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
-  { label: 'Green Crystal', values: ['EV7', 'TPU 3rd Generation', 'Gloss', '7.5 ± 3%', 'HC 50 µm', '75 µm', '1.52 × 15 m', '5'] },
+  { label: 'M8-M', values: ['Matte / Doff', '7.5mil', '8 Tahun', 'Matte Surface', '≥95%', '25Mpa', '> 300%'] },
+  { label: 'M10', values: ['High Gloss / Glossy', '8.8mil', '8 Tahun', '≥97', '≥98%', '26Mpa', '> 300%'] },
+  { label: 'H10', values: ['High Gloss / Glossy', '7.8mil', '8 Tahun', '≥96', '≥98%', '24Mpa', '> 300%'] },
+  { label: 'EV7', values: ['High Gloss / Glossy', '7.5mil', '5 Tahun', '≥93', '≥95%', '22Mpa', '> 300%'] },
 ];
 
 // Sama persis dengan components/brand/BrandHonor.tsx — caption dibaca
