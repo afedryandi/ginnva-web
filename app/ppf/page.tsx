@@ -76,9 +76,10 @@ const GALLERY = [
   { src: '/image/ppf-kaca-film/ppf2.jpg', alt: 'Tesla Model Y - PPF Ginnva', cap: 'Tesla Model Y · PPF' },
 ];
 
-// Spesifikasi Teknis halaman /ppf (diganti 2026-10-12 sesuai lembar spesifikasi produk): 8 kolom per tipe. Tabel di
+// Spesifikasi Teknis halaman /ppf (diganti 2026-10-12 sesuai lembar spesifikasi produk): 9 kolom per tipe (Series + 8 kolom spesifikasi). Tabel di
 // app/product/film-pelindung-cat/page.tsx masih memakai format lama, jadi kedua halaman sekarang berbeda.
 const SPEC_COLUMNS = [
+  'Series',
   'Tipe',
   'Warna',
   'Ketebalan\n(±3%)',
@@ -90,10 +91,10 @@ const SPEC_COLUMNS = [
 ];
 
 const SPEC_ROWS = [
-  { label: 'M8-M', values: ['Matte / Doff', '7.5mil', '8 Tahun', 'Matte Surface', '≥95%', '25Mpa', '> 300%'] },
-  { label: 'M10', values: ['High Gloss / Glossy', '8.8mil', '8 Tahun', '≥97', '≥98%', '26Mpa', '> 300%'] },
-  { label: 'H10', values: ['High Gloss / Glossy', '7.8mil', '8 Tahun', '≥96', '≥98%', '24Mpa', '> 300%'] },
-  { label: 'EV7', values: ['High Gloss / Glossy', '7.5mil', '5 Tahun', '≥93', '≥95%', '22Mpa', '> 300%'] },
+  { label: 'Black Crystal', values: ['M8-M', 'Matte / Doff', '7.5mil', '8 Tahun', 'Matte Surface', '≥95%', '25Mpa', '> 300%'] },
+  { label: 'Orange Crystal', values: ['M10', 'High Gloss / Glossy', '8.8mil', '8 Tahun', '≥97', '≥98%', '26Mpa', '> 300%'] },
+  { label: 'Orange Crystal', values: ['H10', 'High Gloss / Glossy', '7.8mil', '8 Tahun', '≥96', '≥98%', '24Mpa', '> 300%'] },
+  { label: 'Green Crystal', values: ['EV7', 'High Gloss / Glossy', '7.5mil', '5 Tahun', '≥93', '≥95%', '22Mpa', '> 300%'] },
 ];
 
 // Sama persis dengan components/brand/BrandHonor.tsx — caption dibaca
