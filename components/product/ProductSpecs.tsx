@@ -8,9 +8,15 @@ interface SpecRow {
 interface SpecsProps {
   columns: string[];
   rows: SpecRow[];
+  // Tabel lebar dengan banyak kolom (mis. /ppf): sel lebih rapat dan teks tidak dipotong ke baris baru, jadi tabel tidak
+  // menjadi terlalu tinggi. Halaman lain memakai tampilan standar.
+  compact?: boolean;
 }
 
-export default function ProductSpecs({ columns, rows }: SpecsProps) {
+export default function ProductSpecs({ columns, rows, compact = false }: SpecsProps) {
+  const pad = compact ? '8px 10px' : '12px';
+  const nowrap = compact ? 'nowrap' : undefined;
+
   return (
     <section className="psec psec--alt">
       <div className="wrap">
@@ -20,11 +26,11 @@ export default function ProductSpecs({ columns, rows }: SpecsProps) {
         </div>
         
         <div style={{ overflowX: 'auto', marginTop: '24px' }}>
-          <table className="specs-table" style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
+          <table className="specs-table" style={{ width: '100%', borderCollapse: 'collapse', minWidth: compact ? '900px' : '600px' }}>
             <thead>
               <tr style={{ backgroundColor: '#111', color: '#fff', textAlign: 'left' }}>
                 {columns.map((col, idx) => (
-                  <th key={idx} style={{ padding: '12px', whiteSpace: 'pre-line', textAlign: 'center', verticalAlign: 'middle', lineHeight: '1.4' }}>
+                  <th key={idx} style={{ padding: pad, whiteSpace: nowrap ?? 'pre-line', textAlign: 'center', verticalAlign: 'middle', lineHeight: '1.4' }}>
                     {col.split('\n').map((line, i) => (
                       <span key={i} style={{ display: 'block' }}>{line}</span>
                     ))}
@@ -35,10 +41,10 @@ export default function ProductSpecs({ columns, rows }: SpecsProps) {
             <tbody>
               {rows.map((row, idx) => (
                 <tr key={idx} style={{ borderBottom: '1px solid #eee' }}>
-                  <td style={{ padding: '12px', fontWeight: 'bold' }}>{row.label}</td>
+                  <td style={{ padding: pad, fontWeight: 'bold', whiteSpace: nowrap }}>{row.label}</td>
                   {/* Perbaikan: Map nilai di dalam array values secara dinamis */}
                   {row.values?.map((val, vIdx) => (
-                    <td key={vIdx} style={{ padding: '12px', textAlign: 'center', verticalAlign: 'middle', lineHeight: '1.4' }}>
+                    <td key={vIdx} style={{ padding: pad, textAlign: 'center', verticalAlign: 'middle', lineHeight: '1.4', whiteSpace: nowrap }}>
                       {val.split('\n').map((line: string, i: number) => (
                         <span key={i} style={{ display: 'block' }}>{line}</span>
                       ))}

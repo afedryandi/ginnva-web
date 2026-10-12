@@ -92,9 +92,9 @@ const SPEC_COLUMNS = [
 
 const SPEC_ROWS = [
   { label: 'Black Crystal', values: ['M8-M', 'Matte / Doff', '7.5mil', '8 Tahun', 'Matte Surface', '≥95%', '25Mpa', '> 300%'] },
-  { label: 'Orange Crystal', values: ['M10', 'High Gloss / Glossy', '8.8mil', '8 Tahun', '≥97', '≥98%', '26Mpa', '> 300%'] },
-  { label: 'Orange Crystal', values: ['H10', 'High Gloss / Glossy', '7.8mil', '8 Tahun', '≥96', '≥98%', '24Mpa', '> 300%'] },
-  { label: 'Green Crystal', values: ['EV7', 'High Gloss / Glossy', '7.5mil', '5 Tahun', '≥93', '≥95%', '22Mpa', '> 300%'] },
+  { label: 'Orange Crystal', values: ['M10', 'High Gloss', '8.8mil', '8 Tahun', '≥97', '≥98%', '26Mpa', '> 300%'] },
+  { label: 'Orange Crystal', values: ['H10', 'High Gloss', '7.8mil', '8 Tahun', '≥96', '≥98%', '24Mpa', '> 300%'] },
+  { label: 'Green Crystal', values: ['EV7', 'High Gloss', '7.5mil', '5 Tahun', '≥93', '≥95%', '22Mpa', '> 300%'] },
 ];
 
 // Sama persis dengan components/brand/BrandHonor.tsx — caption dibaca
@@ -236,7 +236,7 @@ export default function PpfPage() {
       </Section>
 
       {/* ================= SPESIFIKASI TEKNIS ================= */}
-      <ProductSpecs columns={SPEC_COLUMNS} rows={SPEC_ROWS} />
+      <ProductSpecs columns={SPEC_COLUMNS} rows={SPEC_ROWS} compact />
 
       {/* ================= KENAPA MEREKA PERCAYA ================= */}
       <Section>
