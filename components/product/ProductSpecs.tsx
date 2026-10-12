@@ -8,13 +8,13 @@ interface SpecRow {
 interface SpecsProps {
   columns: string[];
   rows: SpecRow[];
-  // Tabel lebar dengan banyak kolom (mis. /ppf): sel lebih rapat dan teks tidak dipotong ke baris baru, jadi tabel tidak
-  // menjadi terlalu tinggi. Halaman lain memakai tampilan standar.
+  // Tabel lebar dengan banyak kolom (mis. /ppf): teks sel tidak dipotong ke baris baru, jadi tabel tidak menjadi terlalu
+  // tinggi. Jarak dalam sel tetap sama dengan tampilan standar. Halaman lain memakai tampilan standar.
   compact?: boolean;
 }
 
 export default function ProductSpecs({ columns, rows, compact = false }: SpecsProps) {
-  const pad = compact ? '8px 10px' : '12px';
+  const pad = '12px';
   const nowrap = compact ? 'nowrap' : undefined;
 
   return (
