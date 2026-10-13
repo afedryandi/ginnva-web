@@ -30,7 +30,6 @@ const columnsData = [
   'Series',
   'Model',
   'Base\nMaterial',
-  'Coating',
   'Color',
   'Thickness\n(mil)',
   'Cap Sheet',
@@ -40,10 +39,10 @@ const columnsData = [
 ];
 
 const specsRows = [
-  { label: 'Black Crystal', values: ['M8-M', 'TPU 3rd Generation', 'Hydrophobic', 'Matte', '7.5 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
-  { label: 'Orange Crystal', values: ['M10', 'TPU 3rd Generation', 'Hydrophobic', 'Gloss', '8.8 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
-  { label: 'Orange Crystal', values: ['H10', 'TPU 3rd Generation', 'Hydrophobic', 'Gloss', '7.8 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
-  { label: 'Green Crystal', values: ['EV7', 'TPU 3rd Generation', 'Hydrophilic', 'Gloss', '7.5 ± 3%', 'HC 50 µm', '75 µm', '1.52 × 15 m', '5'] },
+  { label: 'Black Crystal', values: ['M8-M', 'TPU 3rd Generation', 'Matte', '7.5 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
+  { label: 'Orange Crystal', values: ['M10', 'TPU 3rd Generation', 'Gloss', '8.8 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
+  { label: 'Orange Crystal', values: ['H10', 'TPU 3rd Generation', 'Gloss', '7.8 ± 3%', 'HC 50 µm', '92 µm', '1.52 × 15 m', '8'] },
+  { label: 'Green Crystal', values: ['EV7', 'TPU 3rd Generation', 'Gloss', '7.5 ± 3%', 'HC 50 µm', '75 µm', '1.52 × 15 m', '5'] },
 ];
 
 const faqItems = [
