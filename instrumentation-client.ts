@@ -12,6 +12,8 @@ Sentry.init({
   // Bukan kode kita, tidak bisa diperbaiki dari sisi kita.
   ignoreErrors: [
     /evaluating 'e\.contentWindow\.postMessage'/,
+    // iOS: skrip Instagram (sendDataToNative/sendPageShowMessage) memanggil jembatan native WebKit yang tidak ada di luar aplikasinya.
+    /evaluating 'window\.webkit\.messageHandlers'/,
     /Error invoking postMessage: Java exception was raised during method invocation/,
   ],
   // Session Replay dimatikan default (biaya kuota Sentry free tier terbatas)
