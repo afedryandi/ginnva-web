@@ -104,12 +104,18 @@ export function getAttribution(): Attribution | undefined {
   return undefined;
 }
 
-type GtagWindow = Window & { gtag?: (...args: unknown[]) => void };
+type GtagWindow = Window & { gtag?: (...args: unknown[]) => void; dataLayer?: unknown[] };
 
 export function trackEvent(name: string, params: Record<string, string | number | boolean | undefined> = {}): void {
   try {
-    const gtag = (window as GtagWindow).gtag;
-    if (typeof gtag === 'function') gtag('event', name, params);
+    const w = window as GtagWindow;
+    if (typeof w.gtag === 'function') w.gtag('event', name, params);
+
+    // Event kustom juga didorong ke dataLayer agar container GTM bisa memasang pemicu "Custom Event" (mis. tag Meta `Lead` pada
+    // `generate_lead`). Container sekarang belum punya pemicu untuk nama ini, jadi dorongan ini tidak mengubah apa pun sampai
+    // tag/pemicunya dibuat di GTM.
+    w.dataLayer = w.dataLayer || [];
+    w.dataLayer.push({ event: name, ...params });
   } catch {
     // diabaikan
   }
