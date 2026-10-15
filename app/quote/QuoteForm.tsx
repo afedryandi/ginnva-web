@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { GINNVA_PRODUCTS, ProductItem } from '@/config/site';
+import { getAttribution, trackEvent } from '@/lib/tracking';
 
 // ------------------------------------------------------------------
 // Tipe data dari backend (GET /api/quotation/options)
@@ -281,6 +282,7 @@ function QuotationFormPanel({
           customer_phone: customerPhone,
           message: message || undefined,
           items: [{ film_product_id: Number(filmProductId) }],
+          attribution: getAttribution(),
         }),
       });
       const json = await res.json();
@@ -288,6 +290,7 @@ function QuotationFormPanel({
         throw new Error(json.message || 'Gagal mengirim permintaan penawaran.');
       }
       setQuotationNumber(json.data?.quotation_number ?? null);
+      trackEvent('generate_lead', { lead_type: 'quotation', currency: 'IDR' });
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : 'Terjadi kesalahan koneksi.');
     } finally {
@@ -496,6 +499,7 @@ function AvailabilityInquiryPanel({ product, onDone }: { product: ProductItem; o
           // Jenis produk disisipkan di awal catatan supaya tim sales tahu
           // produk apa yang ditanyakan, tanpa perlu kolom product_type khusus.
           message: `[${product.name}] ${message}`.trim(),
+          attribution: getAttribution(),
         }),
       });
       const json = await res.json();
@@ -503,6 +507,7 @@ function AvailabilityInquiryPanel({ product, onDone }: { product: ProductItem; o
         throw new Error(json.message || 'Gagal mengirim pertanyaan.');
       }
       setInquiryNumber(json.data?.inquiry_number ?? null);
+      trackEvent('generate_lead', { lead_type: 'product_inquiry', currency: 'IDR' });
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : 'Terjadi kesalahan koneksi.');
     } finally {

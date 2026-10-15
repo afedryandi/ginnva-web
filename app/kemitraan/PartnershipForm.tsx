@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { getAttribution, trackEvent } from '@/lib/tracking';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -29,7 +30,7 @@ export default function PartnershipForm() {
       const res = await fetch(`${baseUrl}/api/partnership/submit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, attribution: getAttribution() }),
       });
       const json = await res.json();
       if (!res.ok) {
@@ -39,6 +40,7 @@ export default function PartnershipForm() {
         throw new Error(firstError || 'Gagal mengirim pengajuan.');
       }
       setSuccess(true);
+      trackEvent('generate_lead', { lead_type: 'partnership', currency: 'IDR' });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Terjadi kesalahan koneksi.');
     } finally {
