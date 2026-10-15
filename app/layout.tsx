@@ -3,6 +3,7 @@ import './globals.css';
 import SiteChrome from '@/components/layout/SiteChrome';
 import { seoDefaults, SITE_NAME, SITE_DESCRIPTION, SITE_URL, canonical } from '@/config/seo';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
+import TrackingInit from '@/components/analytics/TrackingInit';
 import { GoogleTagManager, GoogleTagManagerNoScript } from '@/components/analytics/GoogleTagManager';
 import { Analytics } from '@vercel/analytics/next';
 
@@ -65,6 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <GoogleAnalytics />
         <GoogleTagManager />
+        <TrackingInit />
         <Analytics />
         <SiteChrome>{children}</SiteChrome>
       </body>
