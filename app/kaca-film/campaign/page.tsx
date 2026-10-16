@@ -4,7 +4,6 @@ import type { Metadata } from 'next';
 import { seoDefaults, canonical } from '@/config/seo';
 import styles from './page.module.css';
 import Gallery from './Gallery';
-import { getApprovedClaims, headlineClaims, seriesSpecs } from '@/lib/product-claims';
 
 // Landing page iklan (Meta Ads) — dibuat dari brief "Landing Page
 // Structure" (Media Plan - Ginnva.xlsx), 2026-09-22. SENGAJA halaman
@@ -185,22 +184,7 @@ const SERIES = [
   },
 ];
 
-export default async function KacaFilmCampaignPage() {
-  // Angka klaim dibaca dari klaim yang disetujui di panel (Marketing/Konten Fase 2); teks bawaan di atas hanya dipakai bila belum ada.
-  const claims = await getApprovedClaims();
-  const head = headlineClaims(claims);
-  const series = SERIES.map((s) => ({ ...s, specs: seriesSpecs(claims, s.name, s.specs) }));
-  const usp = USP_ITEMS.map((item, i) => {
-    const chips = [head.heat && `${head.heat} Heat Rejection`, head.uv && `${head.uv} UV Blocked`, head.clarity && `${head.clarity} Clarity Retained`];
-    return i < 3 && chips[i] ? { ...item, chip: chips[i] as string } : item;
-  });
-  const trustPills = [
-    head.heat ? `${head.heat} Heat Rejection` : '61% Heat Rejection',
-    head.uv ? `${head.uv} UV Blocked` : '99% UV Blocked',
-    head.clarity ? `${head.clarity} Clarity Retained` : '72% Clarity Retained',
-    head.warrantyYears ? `${head.warrantyYears} Yrs Warranty` : '10 Yrs Warranty',
-  ];
-
+export default function KacaFilmCampaignPage() {
   return (
     <main data-page="kaca-film-campaign" style={{ backgroundColor: '#fff' }}>
       {/* ================= ABOVE THE FOLD ================= */}
@@ -286,7 +270,7 @@ export default async function KacaFilmCampaignPage() {
           </a>
 
           <div className={styles.trustBar}>
-            {trustPills.map((t) => (
+            {['61% Heat Rejection', '99% UV Blocked', '72% Clarity Retained', '10 Yrs Warranty'].map((t) => (
               <span key={t} className={styles.trustPill}>{t}</span>
             ))}
           </div>
@@ -301,7 +285,7 @@ export default async function KacaFilmCampaignPage() {
           <h2 className={styles.t}>What Changes After Installation</h2>
         </div>
         <div className={styles.uspGrid}>
-          {usp.map((item) => (
+          {USP_ITEMS.map((item) => (
             <div key={item.title} className={styles.uspCard}>
               <div className={styles.uspVisual}>
                 <Image
@@ -358,7 +342,7 @@ export default async function KacaFilmCampaignPage() {
       <Section>
         <h2 className={styles.offerHeadline}>Meet the Series</h2>
         <div className={styles.seriesGrid}>
-          {series.map((s) => (
+          {SERIES.map((s) => (
             <div key={s.name} className={styles.seriesCard}>
               <div className={`${styles.picWrap} ${s.photoBg === 'white' ? styles.picWrapContainLight : styles.picWrapContainDark}`}>
                 <Image src={s.photo} alt={`Ginnva Window Film ${s.name}`} fill sizes="(max-width: 900px) 45vw, 22vw" className={styles.picContain} style={{ objectFit: s.photoFit }} />

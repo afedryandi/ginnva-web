@@ -4,7 +4,6 @@ import type { Metadata } from 'next';
 import { seoDefaults, canonical } from '@/config/seo';
 import styles from './page.module.css';
 import Gallery from './Gallery';
-import { getApprovedClaims, headlineClaims, seriesSpecs } from '@/lib/product-claims';
 
 // Landing page iklan (Meta Ads) — varian dari /kaca-film/campaign
 // dengan Above The Fold di-desain ulang mengikuti design reference
@@ -186,22 +185,7 @@ const SERIES = [
   },
 ];
 
-export default async function KacaFilmCampaign2Page() {
-  // Angka klaim dibaca dari klaim yang disetujui di panel (Marketing/Konten Fase 2); teks bawaan di atas hanya dipakai bila belum ada.
-  const claims = await getApprovedClaims();
-  const head = headlineClaims(claims);
-  const series = SERIES.map((s) => ({ ...s, specs: seriesSpecs(claims, s.name, s.specs) }));
-  const heroStats = [
-    { v: head.heat ?? HERO_STATS[0].v, l: HERO_STATS[0].l },
-    { v: head.uv ?? HERO_STATS[1].v, l: HERO_STATS[1].l },
-    { v: head.clarity ?? HERO_STATS[2].v, l: HERO_STATS[2].l },
-    { v: head.warrantyYears ? `${head.warrantyYears} Yrs` : HERO_STATS[3].v, l: HERO_STATS[3].l },
-  ];
-  const usp = USP_ITEMS.map((item, i) => {
-    const chips = [head.heat && `${head.heat} Heat Rejection`, head.uv && `${head.uv} UV Blocked`, head.clarity && `${head.clarity} Clarity Retained`];
-    return i < 3 && chips[i] ? { ...item, chip: chips[i] as string } : item;
-  });
-
+export default function KacaFilmCampaign2Page() {
   return (
     <main data-page="kaca-film-campaign2" style={{ backgroundColor: '#fff' }}>
       {/* ================= ABOVE THE FOLD (light split hero) ================= */}
@@ -242,7 +226,7 @@ export default async function KacaFilmCampaign2Page() {
           </div>
 
           <div className={styles.heroStatBar}>
-            {heroStats.map((s) => (
+            {HERO_STATS.map((s) => (
               <div key={s.l}>
                 <div className={styles.v}>{s.v}</div>
                 <div className={styles.l}>{s.l}</div>
@@ -260,7 +244,7 @@ export default async function KacaFilmCampaign2Page() {
       <Section alt>
         <h2 className={styles.uspHeadline}>What Changes After Installation</h2>
         <div className={styles.uspGrid}>
-          {usp.map((item) => (
+          {USP_ITEMS.map((item) => (
             <div key={item.title} className={styles.uspCard}>
               <div className={styles.uspVisual}>
                 <Image
@@ -317,7 +301,7 @@ export default async function KacaFilmCampaign2Page() {
       <Section>
         <h2 className={styles.offerHeadline}>Meet the Series</h2>
         <div className={styles.seriesGrid}>
-          {series.map((s) => (
+          {SERIES.map((s) => (
             <div key={s.name} className={styles.seriesCard}>
               <div className={`${styles.picWrap} ${'photoBg' in s ? (s.photoBg === 'white' ? styles.picWrapContainLight : styles.picWrapContainDark) : ''}`}>
                 <Image src={s.photo} alt={`Ginnva Window Film ${s.name}`} fill sizes="(max-width: 900px) 45vw, 22vw" className={'photoFit' in s ? styles.picContain : undefined} style={{ objectFit: 'photoFit' in s ? s.photoFit : 'cover' }} />
