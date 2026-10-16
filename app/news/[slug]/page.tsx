@@ -11,8 +11,12 @@ interface NewsDetail {
   title: string;
   slug: string;
   excerpt: string | null;
+  meta_title?: string | null;
+  meta_description?: string | null;
+  category?: string | null;
   content: string | null;
   cover_image: string | null;
+  cover_alt?: string | null;
   source_url: string | null;
   published_at: string | null;
 }
@@ -63,24 +67,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const url = `${SITE_URL}/news/${slug}`;
   const image = news.cover_image || undefined;
-  const description = news.excerpt || news.title;
+  const title = news.meta_title || news.title;
+  const description = news.meta_description || news.excerpt || news.title;
 
   return {
     ...seoDefaults,
-    title: news.title,
+    title,
     description,
     openGraph: {
       ...seoDefaults.openGraph,
       type: 'article',
-      title: news.title,
+      title,
       description,
       url,
-      ...(image && { images: [{ url: image, width: 1200, height: 630, alt: news.title }] }),
+      ...(image && { images: [{ url: image, width: 1200, height: 630, alt: news.cover_alt || news.title }] }),
       ...(news.published_at && { publishedTime: news.published_at }),
     },
     twitter: {
       ...seoDefaults.twitter,
-      title: news.title,
+      title,
       description,
       ...(image && { images: [image] }),
     },
