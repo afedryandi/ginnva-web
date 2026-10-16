@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import NewsDetailBanner from '@/components/news/NewsDetailBanner';
 import NewsDetailContent from '@/components/news/NewsDetailContent';
+import JsonLd from '@/components/seo/JsonLd';
 
 interface NewsDetail {
   id: number;
@@ -110,8 +111,27 @@ export default async function NewsDetailPage({ params }: PageProps) {
     redirect(news.source_url);
   }
 
+  // Data terstruktur Article (Marketing/Konten Fase 4): judul, ringkasan, gambar, dan tanggal terbit dari data berita.
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: (news.meta_title || news.title).slice(0, 110),
+    description: news.meta_description || news.excerpt || news.title,
+    mainEntityOfPage: `${SITE_URL}/news/${slug}`,
+    ...(news.cover_image && { image: [news.cover_image] }),
+    ...(news.published_at && { datePublished: news.published_at }),
+    ...(news.category && { articleSection: news.category }),
+    author: { '@type': 'Organization', name: 'PT Ginnva Shield Indonesia', url: SITE_URL },
+    publisher: {
+      '@type': 'Organization',
+      name: 'PT Ginnva Shield Indonesia',
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/image/ginnva-logo-red.webp` },
+    },
+  };
+
   return (
     <main data-page="news-detail" data-nav="brand">
+      <JsonLd data={articleSchema} />
       <NewsDetailBanner title={news.title} coverImage={news.cover_image} />
 
       <div className="crumb-bar">
