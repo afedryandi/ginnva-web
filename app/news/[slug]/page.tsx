@@ -5,14 +5,19 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import NewsDetailBanner from '@/components/news/NewsDetailBanner';
 import NewsDetailContent from '@/components/news/NewsDetailContent';
+import JsonLd from '@/components/seo/JsonLd';
 
 interface NewsDetail {
   id: number;
   title: string;
   slug: string;
   excerpt: string | null;
+  meta_title?: string | null;
+  meta_description?: string | null;
+  category?: string | null;
   content: string | null;
   cover_image: string | null;
+  cover_alt?: string | null;
   source_url: string | null;
   published_at: string | null;
 }
@@ -63,24 +68,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const url = `${SITE_URL}/news/${slug}`;
   const image = news.cover_image || undefined;
-  const description = news.excerpt || news.title;
+  const title = news.meta_title || news.title;
+  const description = news.meta_description || news.excerpt || news.title;
 
   return {
     ...seoDefaults,
-    title: news.title,
+    title,
     description,
     openGraph: {
       ...seoDefaults.openGraph,
       type: 'article',
-      title: news.title,
+      title,
       description,
       url,
-      ...(image && { images: [{ url: image, width: 1200, height: 630, alt: news.title }] }),
+      ...(image && { images: [{ url: image, width: 1200, height: 630, alt: news.cover_alt || news.title }] }),
       ...(news.published_at && { publishedTime: news.published_at }),
     },
     twitter: {
       ...seoDefaults.twitter,
-      title: news.title,
+      title,
       description,
       ...(image && { images: [image] }),
     },
@@ -105,8 +111,27 @@ export default async function NewsDetailPage({ params }: PageProps) {
     redirect(news.source_url);
   }
 
+  // Data terstruktur Article (Marketing/Konten Fase 4): judul, ringkasan, gambar, dan tanggal terbit dari data berita.
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: (news.meta_title || news.title).slice(0, 110),
+    description: news.meta_description || news.excerpt || news.title,
+    mainEntityOfPage: `${SITE_URL}/news/${slug}`,
+    ...(news.cover_image && { image: [news.cover_image] }),
+    ...(news.published_at && { datePublished: news.published_at }),
+    ...(news.category && { articleSection: news.category }),
+    author: { '@type': 'Organization', name: 'PT Ginnva Shield Indonesia', url: SITE_URL },
+    publisher: {
+      '@type': 'Organization',
+      name: 'PT Ginnva Shield Indonesia',
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/image/ginnva-logo-red.webp` },
+    },
+  };
+
   return (
     <main data-page="news-detail" data-nav="brand">
+      <JsonLd data={articleSchema} />
       <NewsDetailBanner title={news.title} coverImage={news.cover_image} />
 
       <div className="crumb-bar">
