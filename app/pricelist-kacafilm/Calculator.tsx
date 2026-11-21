@@ -2,10 +2,9 @@
 
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 
-// Backend sementara masih di server DEV (bukan NEXT_PUBLIC_API_URL yang
-// dipakai halaman lain di situs ini) -- ganti ke https://api.ginnva.id
-// begitu fitur ini sudah dipindah ke production.
-const API_BASE = 'https://api-dev.ginnva.id/api/pricelist';
+// Backend production (api.ginnva.id), sama seperti halaman lain di situs ini.
+// Sebelumnya menunjuk ke server DEV (api-dev.ginnva.id), yang ikut mati saat server lama berhenti (2026-11-21).
+const API_BASE = `${process.env.NEXT_PUBLIC_API_URL || 'https://api.ginnva.id'}/api/pricelist`;
 
 const TOKEN_STORAGE_KEY = 'pricelist_kacafilm_token';
 
