@@ -11,19 +11,38 @@ const WA_URL = `https://api.whatsapp.com/send?phone=628118681678&text=${encodeUR
 // Tilt 3D halus mengikuti posisi kursor — dibaca dari mouse position
 // relatif ke kartu, dikonversi jadi rotateX/rotateY kecil (maks ~8deg)
 // supaya terasa "hidup" tanpa berlebihan. Direset ke 0 saat mouse keluar.
+// Pembaruan digabung per frame (requestAnimationFrame): mouse bisa mengirim ratusan event per detik, dan tiap event yang menulis 4 variabel CSS
+// memaksa hitung ulang gaya + gambar ulang kartu ber-clip-path. Cukup satu pembaruan per frame layar.
+const pendingTilt = new WeakMap<HTMLElement, number>();
+
 function handleTilt(e: React.MouseEvent<HTMLAnchorElement>) {
   const card = e.currentTarget;
-  const rect = card.getBoundingClientRect();
-  const x = (e.clientX - rect.left) / rect.width - 0.5;
-  const y = (e.clientY - rect.top) / rect.height - 0.5;
-  card.style.setProperty('--rx', `${(-y * 10).toFixed(2)}deg`);
-  card.style.setProperty('--ry', `${(x * 10).toFixed(2)}deg`);
-  card.style.setProperty('--mx', `${((x + 0.5) * 100).toFixed(1)}%`);
-  card.style.setProperty('--my', `${((y + 0.5) * 100).toFixed(1)}%`);
+  const clientX = e.clientX;
+  const clientY = e.clientY;
+  if (pendingTilt.has(card)) return;
+
+  pendingTilt.set(
+    card,
+    requestAnimationFrame(() => {
+      pendingTilt.delete(card);
+      const rect = card.getBoundingClientRect();
+      const x = (clientX - rect.left) / rect.width - 0.5;
+      const y = (clientY - rect.top) / rect.height - 0.5;
+      card.style.setProperty('--rx', `${(-y * 10).toFixed(2)}deg`);
+      card.style.setProperty('--ry', `${(x * 10).toFixed(2)}deg`);
+      card.style.setProperty('--mx', `${((x + 0.5) * 100).toFixed(1)}%`);
+      card.style.setProperty('--my', `${((y + 0.5) * 100).toFixed(1)}%`);
+    }),
+  );
 }
 
 function resetTilt(e: React.MouseEvent<HTMLAnchorElement>) {
   const card = e.currentTarget;
+  const pending = pendingTilt.get(card);
+  if (pending !== undefined) {
+    cancelAnimationFrame(pending);
+    pendingTilt.delete(card);
+  }
   card.style.setProperty('--rx', '0deg');
   card.style.setProperty('--ry', '0deg');
 }

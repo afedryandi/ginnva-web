@@ -824,17 +824,14 @@ h4 {
   min-width: 0;
   background: #0d0d0f;
   clip-path: polygon(var(--slant) 0, 100% 0, calc(100% - var(--slant)) 100%, 0 100%);
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, .2));
   transform: rotateX(var(--rx)) rotateY(var(--ry));
-  transition: transform .35s cubic-bezier(.2, .8, .2, 1), filter .35s ease;
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1);
+  /* Naikkan ke layer sendiri: miring 3D tidak menggambar ulang kartu di sekitarnya. */
+  will-change: transform;
 }
 
 .product-grid-item:not(:first-child) {
   margin-left: calc(var(--slant) * -1);
-}
-
-.product-grid-item:hover {
-  filter: drop-shadow(0 20px 34px rgba(237, 22, 81, .4));
 }
 
 .product-grid-item .thumb {
@@ -845,12 +842,11 @@ h4 {
 
 .product-grid-item .thumb-img {
   object-fit: cover;
-  transition: transform .6s cubic-bezier(.2, .8, .2, 1), filter .45s ease;
+  transition: transform .6s cubic-bezier(.2, .8, .2, 1);
 }
 
 .product-grid-item:hover .thumb-img {
   transform: scale(1.08);
-  filter: saturate(1.1);
 }
 
 /* "Glow" yang mengikuti posisi kursor di dalam kartu (dari --mx/--my
@@ -930,7 +926,6 @@ h4 {
   color: #fff;
   background: rgba(255, 255, 255, .16);
   border: 1px solid rgba(255, 255, 255, .3);
-  backdrop-filter: blur(6px);
   opacity: 0;
   transform: scale(.6) rotate(-35deg);
   transition: opacity .3s ease, transform .35s cubic-bezier(.34, 1.56, .64, 1), background .3s ease;
@@ -4169,7 +4164,6 @@ html.js-motion .reveal[data-in] {
 html.js-motion .product-grid-item.reveal {
   transition:
     transform .35s cubic-bezier(.2, .8, .2, 1),
-    filter .35s ease,
     opacity .5s cubic-bezier(.22, .61, .36, 1) var(--reveal-delay, 0ms),
     translate .5s cubic-bezier(.22, .61, .36, 1) var(--reveal-delay, 0ms);
 }
@@ -4199,19 +4193,7 @@ html.lenis body {
   overflow: clip;
 }
 
-/* Pengguna meminta kurangi gerakan: matikan semua animasi dan transisi
-   dekoratif, gulir kembali ke bawaan browser. */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
+/* Pengguna meminta kurangi gerakan: animasi baru (muncul-saat-digulir,
+   smooth scroll Lenis) tidak dinyalakan sama sekali, lihat <Script id="motion-init">
+   di app/layout.tsx dan SmoothScroll.tsx. Animasi dan transisi lama situs
+   (ikon gulir, hover) sengaja dibiarkan: kecil, dan sebelumnya memang selalu aktif. */
