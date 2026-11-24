@@ -4153,10 +4153,10 @@ h4 {
    transform sendiri, mis. tilt 3D kartu produk. */
 html.js-motion .reveal {
   opacity: 0;
-  translate: 0 28px;
+  translate: 0 16px;
   transition:
-    opacity .75s cubic-bezier(.22, .61, .36, 1) var(--reveal-delay, 0ms),
-    translate .75s cubic-bezier(.22, .61, .36, 1) var(--reveal-delay, 0ms);
+    opacity .5s cubic-bezier(.22, .61, .36, 1) var(--reveal-delay, 0ms),
+    translate .5s cubic-bezier(.22, .61, .36, 1) var(--reveal-delay, 0ms);
 }
 
 html.js-motion .reveal[data-in] {
@@ -4170,8 +4170,8 @@ html.js-motion .product-grid-item.reveal {
   transition:
     transform .35s cubic-bezier(.2, .8, .2, 1),
     filter .35s ease,
-    opacity .75s cubic-bezier(.22, .61, .36, 1) var(--reveal-delay, 0ms),
-    translate .75s cubic-bezier(.22, .61, .36, 1) var(--reveal-delay, 0ms);
+    opacity .5s cubic-bezier(.22, .61, .36, 1) var(--reveal-delay, 0ms),
+    translate .5s cubic-bezier(.22, .61, .36, 1) var(--reveal-delay, 0ms);
 }
 
 /* Tombol: terasa ditekan. */
@@ -4197,47 +4197,6 @@ html.lenis body {
 
 .lenis.lenis-stopped {
   overflow: clip;
-}
-
-/* Parallax berbasis scroll (CSS murni, tanpa JS). Browser yang belum
-   mendukung `animation-timeline` melewati blok ini dan tetap menampilkan
-   halaman statis seperti biasa. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    /* Latar gedung bergeser lebih lambat dari teks: kesan kedalaman. */
-    .brand-sec .bg {
-      inset: -10% 0;
-      animation: parallax-y linear both;
-      animation-timeline: view();
-    }
-
-    /* Video hero perlahan membesar saat halaman digulir turun. */
-    .banner video {
-      animation: hero-drift linear both;
-      animation-timeline: scroll(root block);
-      animation-range: 0 100vh;
-    }
-  }
-}
-
-@keyframes parallax-y {
-  from {
-    transform: translateY(-6%) scale(1.05);
-  }
-
-  to {
-    transform: translateY(6%) scale(1.05);
-  }
-}
-
-@keyframes hero-drift {
-  from {
-    transform: scale(1);
-  }
-
-  to {
-    transform: scale(1.1);
-  }
 }
 
 /* Pengguna meminta kurangi gerakan: matikan semua animasi dan transisi

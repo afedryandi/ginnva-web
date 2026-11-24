@@ -19,7 +19,7 @@ export default function SmoothScroll() {
     const touch = window.matchMedia('(pointer: coarse)').matches;
     if (reduce || touch) return;
 
-    const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1 });
+    const lenis = new Lenis({ lerp: 0.2, wheelMultiplier: 1.1 });
     window.__lenis = lenis;
 
     let frame = 0;

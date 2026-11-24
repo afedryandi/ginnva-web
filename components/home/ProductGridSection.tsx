@@ -41,7 +41,7 @@ export default function ProductGridSection() {
           <Reveal
             as={Link}
             key={p.id}
-            delay={i * 90}
+            delay={i * 60}
             href={`/product/${p.slug}`}
             className="product-grid-item"
             onMouseMove={handleTilt}
