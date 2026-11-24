@@ -1,4 +1,5 @@
 import React from 'react';
+import Reveal from '@/components/motion/Reveal';
 
 interface SpecRow {
   label: string;
@@ -20,12 +21,12 @@ export default function ProductSpecs({ columns, rows, compact = false }: SpecsPr
   return (
     <section className="psec psec--alt">
       <div className="wrap">
-        <div className="head">
+        <Reveal className="head">
           <div className="t">Spesifikasi Teknis</div>
           <div className="e">Technical Specifications</div>
-        </div>
+        </Reveal>
         
-        <div style={{ overflowX: 'auto', marginTop: '24px' }}>
+        <Reveal style={{ overflowX: 'auto', marginTop: '24px' }} delay={100}>
           <table className="specs-table" style={{ width: '100%', borderCollapse: 'collapse', minWidth: compact ? '900px' : '600px' }}>
             <thead>
               <tr style={{ backgroundColor: '#111', color: '#fff', textAlign: 'left' }}>
@@ -54,7 +55,7 @@ export default function ProductSpecs({ columns, rows, compact = false }: SpecsPr
               ))}
             </tbody>
           </table>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

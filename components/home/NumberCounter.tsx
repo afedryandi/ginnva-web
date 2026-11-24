@@ -8,6 +8,11 @@ interface NumberCounterProps {
   hasPlus?: boolean;
 }
 
+const DURATION_MS = 1600;
+
+// Melambat di akhir supaya angka terasa "mendarat", bukan berhenti mendadak.
+const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
 export default function NumberCounter({ value, label, hasPlus = false }: NumberCounterProps) {
   const counterRef = useRef<HTMLDivElement>(null);
   const [displayValue, setDisplayValue] = useState(0);
@@ -33,29 +38,34 @@ export default function NumberCounter({ value, label, hasPlus = false }: NumberC
     return () => observer.disconnect();
   }, []);
 
-  // Animate counter when visible
+  // Animasi dengan requestAnimationFrame (mulus mengikuti refresh layar). Bila pengguna meminta kurangi gerakan, langsung tampil angka akhir.
   useEffect(() => {
     if (!isVisible) return;
 
-    let currentValue = 0;
-    const increment = Math.ceil(value / 30); // 30 frames for animation
-    const interval = setInterval(() => {
-      currentValue += increment;
-      if (currentValue >= value) {
-        setDisplayValue(value);
-        clearInterval(interval);
-      } else {
-        setDisplayValue(currentValue);
-      }
-    }, 50); // ~1.5s total animation
+    let frame = 0;
 
-    return () => clearInterval(interval);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      frame = requestAnimationFrame(() => setDisplayValue(value));
+      return () => cancelAnimationFrame(frame);
+    }
+
+    let start: number | null = null;
+
+    const tick = (now: number) => {
+      if (start === null) start = now;
+      const progress = Math.min((now - start) / DURATION_MS, 1);
+      setDisplayValue(Math.round(value * easeOutCubic(progress)));
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(frame);
   }, [isVisible, value]);
 
   return (
     <div ref={counterRef} className="num">
       <div className="v">
-        <span className="counter-display">{displayValue}</span>
+        <span className="counter-display" style={{ fontVariantNumeric: 'tabular-nums' }}>{displayValue}</span>
         {hasPlus && <small>+</small>}
       </div>
       <div className="l">{label}</div>

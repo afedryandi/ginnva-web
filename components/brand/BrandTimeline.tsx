@@ -1,4 +1,5 @@
 import React from 'react';
+import Reveal from '@/components/motion/Reveal';
 
 const TIMELINE_DATA = [
   { year: '1989', body: 'Pendiri Ginnva memulai bisnis di Shantou, China.' },
@@ -20,17 +21,17 @@ export default function BrandTimeline() {
   return (
       <section className="psec psec--alt">
         <div className="wrap">
-          <div className="head">
+          <Reveal className="head">
             <div className="t">Perjalanan Pertumbuhan Berbasis Inovasi</div>
             <div className="e">Innovation-Driven Growth</div>
-          </div>
+          </Reveal>
           <div className="timeline">
             {TIMELINE_DATA.map((item, index) => (
-              <div className="tl-item" key={index}>
+              <Reveal className="tl-item" key={index} delay={(index % 4) * 60}>
                 <div className="tl-year">{item.year}</div>
                 <div className="tl-dot"></div>
                 <div className="tl-body">{item.body}</div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>

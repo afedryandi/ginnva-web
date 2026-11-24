@@ -25,9 +25,11 @@ const visuallyHidden: React.CSSProperties = {
 export default function HeroSection() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (!element) return;
+    // Lenis (bila aktif, hanya di perangkat dengan mouse) memegang gulir halaman; tanpa itu pakai gulir bawaan browser.
+    const lenis = (window as Window & { __lenis?: { scrollTo: (target: HTMLElement) => void } }).__lenis;
+    if (lenis) lenis.scrollTo(element);
+    else element.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (

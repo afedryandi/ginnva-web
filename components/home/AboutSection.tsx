@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import Reveal from '@/components/motion/Reveal';
 
 export default function AboutSection() {
   // "Baca Selengkapnya" collapsible (audit SEO 2026-09-30) -- konten
@@ -22,20 +23,22 @@ export default function AboutSection() {
           style={{ backgroundImage: `url('/image/building-image.webp')` }}
         />
         <div className="wrap">
-          <div className="sec-title">Profil Perusahaan</div>
-          <div className="sec-sub">Enterprise Introduction</div>
-          <p className="text">
+          <Reveal>
+            <div className="sec-title">Profil Perusahaan</div>
+            <div className="sec-sub">Enterprise Introduction</div>
+          </Reveal>
+          <Reveal as="p" className="text" delay={90}>
             <strong>PT. Ginnva Shield Indonesia</strong> adalah distributor resmi dan perwakilan eksklusif brand Ginnva di Indonesia. Kami menghadirkan solusi <strong>Paint Protection Film (PPF)</strong> dan <strong>Kaca Film Mobil</strong> premium berstandar internasional yang dirancang khusus untuk menghadapi tantangan iklim tropis Indonesia.
-          </p>
-          <p className="text">
+          </Reveal>
+          <Reveal as="p" className="text" delay={180}>
             Menggabungkan material canggih, manufaktur presisi, dan pemahaman mendalam akan pasar lokal, kami berkomitmen menjaga estetika, kenyamanan, serta nilai investasi kendaraan premium Anda.
-          </p>
+          </Reveal>
           {/* Konten SEO (audit 2026-09-30) -- kata "otomotif" & "premium" (dari H1
               tersembunyi HeroSection.tsx) disisipkan di sini supaya SELALU
               terlihat, tidak bergantung status expanded di bawah. */}
-          <p className="text">
+          <Reveal as="p" className="text" delay={270}>
             Paint Protection Film Ginnva menggunakan TPU self-healing generasi ketiga yang memulihkan goresan halus dengan sendirinya, sementara kaca film otomotif Bi-silver Sputtering &amp; Nano-Ceramic kami menolak hingga 61% panas matahari dan memblokir 99% sinar UV — dipasang langsung oleh installer bersertifikasi di GINNVA House, PIK 2, dengan garansi resmi <strong>E-Warranty</strong> hingga 10 tahun untuk seluruh lini produk premium kami.
-          </p>
+          </Reveal>
 
           {/* "Baca Selengkapnya" collapsible -- teks di bawah ini TETAP ada di
               HTML awal (lihat catatan di useState di atas), cuma dilipat
@@ -83,11 +86,11 @@ export default function AboutSection() {
         style={{ backgroundImage: `url('/image/partners-background.webp')` }}
       >
         <div className="wrap">
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <Reveal style={{ textAlign: 'center', marginBottom: '48px' }}>
             <div className="sec-title">Mitra</div>
             <div className="sec-sub">Partners</div>
-          </div>
-          <div className="partners-wrapper">
+          </Reveal>
+          <Reveal className="partners-wrapper" delay={120}>
             <Image 
               className="partners" 
               src="/image/partners.webp"
@@ -96,7 +99,7 @@ export default function AboutSection() {
               height={300}
               style={{ width: '100%', height: 'auto' }}
             />
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { GINNVA_PRODUCTS } from '@/config/site';
+import Reveal from '@/components/motion/Reveal';
 
 // api.whatsapp.com (bukan wa.me, audit 2026-09-30) -- lihat catatan di ChatWidget.tsx.
 const WA_URL = `https://api.whatsapp.com/send?phone=628118681678&text=${encodeURIComponent('Halo, saya ingin bertanya lebih lanjut tentang produk Ginnva.')}`;
@@ -30,15 +31,17 @@ function resetTilt(e: React.MouseEvent<HTMLAnchorElement>) {
 export default function ProductGridSection() {
   return (
     <section className="product-grid-sec" id="product-grid">
-      <div className="product-grid-head">
+      <Reveal className="product-grid-head">
         <div className="sec-title sec-title--no-bar">Produk Kami</div>
         <div className="sec-sub">Our Products — 2026 Series</div>
-      </div>
+      </Reveal>
 
       <div className="product-grid">
-        {GINNVA_PRODUCTS.map((p) => (
-          <Link
+        {GINNVA_PRODUCTS.map((p, i) => (
+          <Reveal
+            as={Link}
             key={p.id}
+            delay={i * 90}
             href={`/product/${p.slug}`}
             className="product-grid-item"
             onMouseMove={handleTilt}
@@ -66,18 +69,18 @@ export default function ProductGridSection() {
                 </svg>
               </span>
             </div>
-          </Link>
+          </Reveal>
         ))}
       </div>
 
-      <div className="product-grid-cta">
+      <Reveal className="product-grid-cta" delay={200}>
         <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="pill pill--accent">
           <span>Selengkapnya</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
             <path d="M5 12h14M13 6l6 6-6 6" />
           </svg>
         </a>
-      </div>
+      </Reveal>
     </section>
   );
 }

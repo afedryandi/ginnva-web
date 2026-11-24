@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
+import SmoothScroll from '@/components/motion/SmoothScroll';
 import './globals.css';
 import SiteChrome from '@/components/layout/SiteChrome';
 import { seoDefaults, SITE_NAME, SITE_DESCRIPTION, SITE_URL, canonical } from '@/config/seo';
@@ -38,6 +40,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id" suppressHydrationWarning>
       <body style={{ margin: 0, padding: 0, height: '100%' }} className="antialiased">
+        {/* Gerak: kelas js-motion di <html> menyalakan keadaan awal animasi muncul-saat-digulir (lihat bagian "Gerak" di globals.css). Tidak dipasang
+            bila pengguna meminta kurangi gerakan, jadi konten langsung tampil penuh. */}
+        <Script id="motion-init" strategy="beforeInteractive">
+          {`try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-motion')}}catch(e){}`}
+        </Script>
+        <SmoothScroll />
         {/* Google Tag Manager (noscript) -- harus tepat setelah <body> dibuka */}
         <GoogleTagManagerNoScript />
         {/* Schema markup Organization */}
